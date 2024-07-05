@@ -26,7 +26,7 @@ class PublicSpeakHome extends StatelessWidget {
   const PublicSpeakHome({super.key});
 
   Stack userInfo() {
-    double size = 130;
+    double size = 125;
     return Stack(
       alignment: Alignment.topCenter,
       children: [
@@ -55,8 +55,8 @@ class PublicSpeakHome extends StatelessWidget {
               )),
         ),
         Container(
-          margin: const EdgeInsets.only(right: 260),
-          padding: const EdgeInsets.all(2),
+          margin: const EdgeInsets.only(right: 255),
+          padding: const EdgeInsets.all(5),
           height: size,
           width: size,
           decoration: BoxDecoration(
@@ -69,6 +69,11 @@ class PublicSpeakHome extends StatelessWidget {
                 blurRadius: 7,
               ),
             ],
+          ),
+          child: const CircleAvatar(
+            backgroundColor: Colors.white,
+            backgroundImage: NetworkImage(
+                "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"),
           ),
         ),
       ],
