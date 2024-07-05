@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const PublicSpeak());
@@ -14,7 +16,7 @@ class PublicSpeak extends StatelessWidget {
       title: 'Public Speak',
       theme: ThemeData(
         colorScheme: const ColorScheme.light(),
-        useMaterial3: false,
+        useMaterial3: true,
       ),
       home:
           const PublicSpeakHome(), // We will change this to the login page, for now its just home
@@ -33,16 +35,16 @@ class PublicSpeakHome extends StatelessWidget {
         Container(
           height: 85,
           width: 350,
-          padding: const EdgeInsets.only(top: 20, right: 30),
+          padding: const EdgeInsets.only(top: 15, right: 30),
           margin: const EdgeInsets.only(top: 20),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
+                color: Colors.black.withOpacity(0.5),
+                spreadRadius: .01,
+                blurRadius: 6,
               ),
             ],
           ),
@@ -64,9 +66,9 @@ class PublicSpeakHome extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
+                color: Colors.black.withOpacity(0.5),
+                spreadRadius: .01,
+                blurRadius: 6,
               ),
             ],
           ),
@@ -83,25 +85,61 @@ class PublicSpeakHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: Container(
+          height: 60,
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(color: Colors.grey, spreadRadius: -1, blurRadius: 5)
+              ]),
+        ),
         body: Stack(
-      children: [
-        SizedBox(
-            height: 130,
-            child: Container(
+          children: [
+            Container(
+                height: 130,
                 decoration: const BoxDecoration(
                     // we can add an image later
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                            "https://img.freepik.com/free-vector/abstract-blue-tone-memphis-patterned-social-template-vector_53876-140327.jpg")),
                     shape: BoxShape.rectangle,
                     color: Color(0xffFFC8B7),
-                    borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(20)),
+                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
                     boxShadow: [
-                  BoxShadow(color: Colors.grey, spreadRadius: -1, blurRadius: 5)
-                ]))),
-        Container(
-          padding: const EdgeInsets.only(left: 20, top: 70),
-          child: userInfo(),
-        )
-      ],
-    ));
+                      BoxShadow(
+                          color: Colors.grey, spreadRadius: -1, blurRadius: 5)
+                    ])),
+            Container(
+              padding: const EdgeInsets.only(left: 20, top: 70),
+              margin: const EdgeInsets.only(bottom: 13),
+              child: userInfo(),
+            ),
+            Container(
+              margin: const EdgeInsets.only(
+                  top: 230, left: 35, right: 35, bottom: 30),
+              child: Column(
+                // Content
+                children: [
+                  // this is not a button, just a idea of what it could look like
+                  Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              spreadRadius: 0,
+                              blurRadius: 2.5)
+                        ]),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }
