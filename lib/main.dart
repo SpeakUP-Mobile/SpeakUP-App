@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const PublicSpeak());
@@ -28,15 +26,14 @@ class PublicSpeakHome extends StatelessWidget {
   const PublicSpeakHome({super.key});
 
   Stack userInfo() {
-    double size = 125;
     return Stack(
       alignment: Alignment.topCenter,
       children: [
         Container(
-          height: 85,
+          height: 100,
           width: 350,
-          padding: const EdgeInsets.only(top: 15, right: 30),
-          margin: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 22, right: 30),
+          margin: const EdgeInsets.only(top: 27, left: 6),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
@@ -51,28 +48,22 @@ class PublicSpeakHome extends StatelessWidget {
           child: Container(
               padding: const EdgeInsets.only(left: 150),
               child: const Text(
-                'Good afternoon, [Name]',
+                'Good afternoon, [NameNameName]',
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.right,
               )),
         ),
         Container(
-          margin: const EdgeInsets.only(right: 255),
-          padding: const EdgeInsets.all(5),
-          height: size,
-          width: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.5),
-                spreadRadius: .01,
-                blurRadius: 6,
-              ),
-            ],
-          ),
+          margin: const EdgeInsets.only(right: 210),
+          padding: const EdgeInsets.all(8),
+          decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(color: Colors.grey, spreadRadius: .01, blurRadius: 6)
+              ]),
           child: const CircleAvatar(
+            radius: 70,
             backgroundColor: Colors.white,
             backgroundImage: NetworkImage(
                 "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"),
@@ -112,19 +103,20 @@ class PublicSpeakHome extends StatelessWidget {
                           color: Colors.grey, spreadRadius: -1, blurRadius: 5)
                     ])),
             Container(
-              padding: const EdgeInsets.only(left: 20, top: 70),
+              padding: const EdgeInsets.only(left: 20, top: 70, right: 20),
+              alignment: AlignmentDirectional.topCenter,
               margin: const EdgeInsets.only(bottom: 13),
               child: userInfo(),
             ),
             Container(
               margin: const EdgeInsets.only(
-                  top: 230, left: 35, right: 35, bottom: 30),
+                  top: 250, left: 35, right: 35, bottom: 30),
               child: Column(
                 // Content
                 children: [
                   // this is not a button, just a idea of what it could look like
                   Container(
-                    height: 150,
+                    height: 165,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                         color: Colors.white,
