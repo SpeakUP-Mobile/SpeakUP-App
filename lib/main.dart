@@ -30,18 +30,18 @@ class PublicSpeakHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: Container(
-          height: 60,
+          height: 75,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               color: Colors.white,
               boxShadow: [
-                BoxShadow(color: Colors.grey, spreadRadius: -1, blurRadius: 5)
+                BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 10)
               ]),
         ),
         body: Stack(
           children: [
             Container(
-                height: 130,
+                height: 150,
                 decoration: const BoxDecoration(
                     // we can add an image later
                     image: DecorationImage(
