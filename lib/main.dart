@@ -19,7 +19,8 @@ class PublicSpeak extends StatelessWidget {
         useMaterial3: true,
       ),
       home:
-          const PublicSpeakLogin(), // We will change this to the login page, for now its just home
+          //const PublicSpeakHome(),
+          const PublicSpeakLogin(),
     );
   }
 }
