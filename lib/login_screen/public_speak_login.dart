@@ -12,16 +12,28 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
-        //TODO: Add an image to the top instead of just a sqare
-        Container(
-            height: 150,
+        Stack(children: [
+          Container(
+            height: 100,
             decoration: const BoxDecoration(
               shape: BoxShape.rectangle,
-              color: Color(0xffFFC8B7),
-              boxShadow: [
-                BoxShadow(color: Colors.grey, spreadRadius: -1, blurRadius: 5),
-              ],
-            )),
+              color: Color(0xffFFBEB0),
+            ),
+          ),
+          Container(
+              height: 150,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/login_screen_top.png'),
+                ),
+                shape: BoxShape.rectangle,
+                //color: Color(0xffFFC8B7),
+                // boxShadow: [
+                //   BoxShadow(color: Colors.grey, spreadRadius: -1, blurRadius: 5),
+                // ],
+              )),
+        ]),
         const SizedBox(height: 150),
         const Text(
           'Login + [APP NAME]',
@@ -32,7 +44,7 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
         ),
         const SizedBox(height: 150),
         Container(
-          height: 50,
+          height: 35,
           width: 250,
           decoration: const BoxDecoration(
               color: Colors.white,
@@ -40,10 +52,32 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
               boxShadow: [
                 BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
               ]),
-          child: const Text(
-            'Login',
+          child: const Center(
+            child: Text(
+              'Login',
+            ),
           ),
         ),
+        const SizedBox(
+          height: 30,
+        ),
+        Container(
+          height: 35,
+          width: 250,
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              boxShadow: [
+                BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
+              ]),
+          child: const Center(
+            child: Text('Register'),
+          ),
+        ),
+        const SizedBox(
+          height: 135,
+        ),
+        const Image(image: AssetImage("assets/login_screen_bottom.png"))
       ]),
     );
   }
