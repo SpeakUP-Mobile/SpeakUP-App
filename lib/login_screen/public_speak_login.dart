@@ -21,17 +21,13 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
             ),
           ),
           Container(
-              height: 150,
+              height: 200,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage('assets/login_screen_top.png'),
                 ),
                 shape: BoxShape.rectangle,
-                //color: Color(0xffFFC8B7),
-                // boxShadow: [
-                //   BoxShadow(color: Colors.grey, spreadRadius: -1, blurRadius: 5),
-                // ],
               )),
         ]),
         const SizedBox(height: 150),
@@ -74,11 +70,15 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
             child: Text('Register'),
           ),
         ),
-        const SizedBox(
-          height: 135,
-        ),
-        const Image(image: AssetImage("assets/login_screen_bottom.png"))
       ]),
+      bottomNavigationBar: Container(
+          height: 75,
+          decoration: const BoxDecoration(
+              shape: BoxShape.rectangle,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage('assets/login_screen_bottom.png'),
+              ))),
     );
   }
 }
