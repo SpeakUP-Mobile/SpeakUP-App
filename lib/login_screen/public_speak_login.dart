@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'third_party_login_buttons.dart';
+import 'custom_login_button.dart';
 
 class PublicSpeakLogin extends StatefulWidget {
   const PublicSpeakLogin({super.key});
@@ -12,64 +14,23 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
-        Stack(children: [
-          Container(
-            height: 100,
-            decoration: const BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color(0xffFFBEB0),
-            ),
-          ),
-          Container(
-              height: 200,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage('assets/login_screen_top.png'),
-                ),
-                shape: BoxShape.rectangle,
-              )),
+        topBanner(),
+        const SizedBox(height: 150),
+        logoAndText(),
+        const SizedBox(height: 150),
+        const CustomLoginButton(text: 'Login'),
+        const SizedBox(height: 20),
+        const CustomLoginButton(text: 'Register'),
+        const SizedBox(height: 40),
+        const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Spacer(flex: 8),
+          ThirdPartyLoginButton(image: 'assets/login_screen/google_icon.png'),
+          Spacer(),
+          ThirdPartyLoginButton(image: 'assets/login_screen/facebook_icon.png'),
+          Spacer(),
+          ThirdPartyLoginButton(image: 'assets/login_screen/apple_icon.png'),
+          Spacer(flex: 8),
         ]),
-        const SizedBox(height: 150),
-        const Text(
-          'Login + [APP NAME]',
-          style: TextStyle(
-            fontSize: 35,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 150),
-        Container(
-          height: 35,
-          width: 250,
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              boxShadow: [
-                BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
-              ]),
-          child: const Center(
-            child: Text(
-              'Login',
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        Container(
-          height: 35,
-          width: 250,
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              boxShadow: [
-                BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
-              ]),
-          child: const Center(
-            child: Text('Register'),
-          ),
-        ),
       ]),
       bottomNavigationBar: Container(
           height: 75,
@@ -77,8 +38,39 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
               shape: BoxShape.rectangle,
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/login_screen_bottom.png'),
+                image: AssetImage('assets/login_screen/bottom_banner.png'),
               ))),
     );
+  }
+
+  Text logoAndText() {
+    return const Text(
+      'Logo + [APP NAME]',
+      style: TextStyle(
+        fontSize: 35,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Stack topBanner() {
+    return Stack(children: [
+      Container(
+        height: 100,
+        decoration: const BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: Color(0xffFFBEB0),
+        ),
+      ),
+      Container(
+          height: 200,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage('assets/login_screen/top_banner.png'),
+            ),
+            shape: BoxShape.rectangle,
+          )),
+    ]);
   }
 }
