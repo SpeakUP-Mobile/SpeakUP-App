@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:public_speak_cac_2024/common_widgets.dart';
 import 'third_party_login_buttons.dart';
 import 'custom_login_button.dart';
 
@@ -38,11 +39,18 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
 
   Container bottomBanner() {
     return Container(
-      height: 100,
+      height: 110,
       decoration: const BoxDecoration(
           image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage("assets/login_screen/bottom_banner.png"))),
+            fit: BoxFit.cover,
+            image: NetworkImage(CommonWidgets.motifImageURI),
+          ),
+          color: Color(0xffffc8b7),
+          boxShadow: [
+            BoxShadow(color: Colors.grey, blurRadius: 15, spreadRadius: 0)
+          ],
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
     );
   }
 
@@ -66,14 +74,20 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
         ),
       ),
       Container(
-          height: 200,
-          decoration: const BoxDecoration(
+        height: 175,
+        decoration: const BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage('assets/login_screen/top_banner.png'),
+              image: NetworkImage(CommonWidgets.motifImageURI),
             ),
-            shape: BoxShape.rectangle,
-          )),
+            color: Color(0xffffc8b7),
+            boxShadow: [
+              BoxShadow(color: Colors.grey, blurRadius: 15, spreadRadius: 0)
+            ],
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20))),
+      )
     ]);
   }
 }

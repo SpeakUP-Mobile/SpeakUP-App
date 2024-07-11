@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CommonWidgets {
+  static const String motifImageURI =
+      "https://img.freepik.com/free-vector/abstract-blue-tone-memphis-patterned-social-template-vector_53876-140327.jpg";
+
   static Stack userInfo() {
     return Stack(
       alignment: Alignment.topCenter,

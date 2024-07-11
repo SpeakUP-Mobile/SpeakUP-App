@@ -23,10 +23,8 @@ class PublicSpeakHome extends StatelessWidget {
               decoration: const BoxDecoration(
                 // we can add an image later
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      "https://img.freepik.com/free-vector/abstract-blue-tone-memphis-patterned-social-template-vector_53876-140327.jpg"),
-                ),
+                    fit: BoxFit.cover,
+                    image: NetworkImage(CommonWidgets.motifImageURI)),
                 shape: BoxShape.rectangle,
                 color: Color(0xffFFC8B7),
                 borderRadius:
