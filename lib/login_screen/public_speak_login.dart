@@ -34,23 +34,19 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
       ]),
       bottomNavigationBar: Stack(children: [
         Container(
-            height: 75,
+            height: 150,
             decoration: const BoxDecoration(
                 shape: BoxShape.rectangle,
-                border: Border(
-                    left: BorderSide(width: 20, color: Color(0xffffc8b7))),
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage('assets/login_screen/bottom_banner.png'),
                 ))),
-        Padding(
-          padding: const EdgeInsets.only(top: 24.0),
-          child: Container(
-            height: 40,
-            decoration: const BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color.fromARGB(209, 247, 199, 183),
-            ),
+        Container(
+          margin: const EdgeInsets.only(top: 50),
+          height: 100,
+          decoration: const BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Color(0xffffc8b7),
           ),
         ),
       ]),
