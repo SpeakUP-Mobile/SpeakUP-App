@@ -32,24 +32,17 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
           Spacer(flex: 8),
         ]),
       ]),
-      bottomNavigationBar: Stack(children: [
-        Container(
-            height: 150,
-            decoration: const BoxDecoration(
-                shape: BoxShape.rectangle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage('assets/login_screen/bottom_banner.png'),
-                ))),
-        Container(
-          margin: const EdgeInsets.only(top: 50),
-          height: 100,
-          decoration: const BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Color(0xffffc8b7),
-          ),
-        ),
-      ]),
+      bottomNavigationBar: bottomBanner(),
+    );
+  }
+
+  Container bottomBanner() {
+    return Container(
+      height: 100,
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage("assets/login_screen/bottom_banner.png"))),
     );
   }
 
