@@ -11,30 +11,48 @@ class PublicSpeakLogin extends StatefulWidget {
 }
 
 class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
+  bool showLoginPanel = false;
+  bool showRegisterPanel = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        topBanner(),
-        const SizedBox(height: 150),
-        logoAndText(),
-        const SizedBox(height: 150),
-        const CustomLoginButton(text: 'Login'),
-        const SizedBox(height: 20),
-        const CustomLoginButton(text: 'Register'),
-        const SizedBox(height: 40),
-        const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Spacer(flex: 8),
-          ThirdPartyLoginButton(image: 'assets/login_screen/google_icon.png'),
-          Spacer(),
-          ThirdPartyLoginButton(image: 'assets/login_screen/facebook_icon.png'),
-          Spacer(),
-          ThirdPartyLoginButton(image: 'assets/login_screen/apple_icon.png'),
-          Spacer(flex: 8),
-        ]),
+      body: Stack(children: [
+        showLoginPanel ? loginPanel() : Container(),
+        showRegisterPanel ? registerPanel() : Container(),
+        loginScreen(),
       ]),
       bottomNavigationBar: bottomBanner(),
     );
+  }
+
+  Container loginPanel() {
+    return Container();
+  }
+
+  Container registerPanel() {
+    return Container();
+  }
+
+  Column loginScreen() {
+    return Column(children: [
+      topBanner(),
+      const SizedBox(height: 150),
+      logoAndText(),
+      const SizedBox(height: 150),
+      const CustomLoginButton(text: 'Login'),
+      const SizedBox(height: 20),
+      const CustomLoginButton(text: 'Register'),
+      const SizedBox(height: 40),
+      const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Spacer(flex: 8),
+        ThirdPartyLoginButton(image: 'assets/login_screen/google_icon.png'),
+        Spacer(),
+        ThirdPartyLoginButton(image: 'assets/login_screen/facebook_icon.png'),
+        Spacer(),
+        ThirdPartyLoginButton(image: 'assets/login_screen/apple_icon.png'),
+        Spacer(flex: 8),
+      ]),
+    ]);
   }
 
   Container bottomBanner() {
