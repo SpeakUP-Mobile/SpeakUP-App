@@ -4,51 +4,19 @@ class CommonWidgets {
   static const String motifImageURI =
       "https://img.freepik.com/free-vector/abstract-blue-tone-memphis-patterned-social-template-vector_53876-140327.jpg";
 
-  static Stack userInfo() {
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        Container(
-          height: 100,
-          width: 350,
-          padding: const EdgeInsets.only(top: 22, right: 30),
-          margin: const EdgeInsets.only(top: 27, left: 25),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.5),
-                spreadRadius: .01,
-                blurRadius: 6,
-              ),
-            ],
-          ),
-          child: Container(
-              padding: const EdgeInsets.only(left: 150),
-              child: const Text(
-                'Good afternoon, [NameNameName]',
-                style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.right,
-              )),
-        ),
-        Container(
-          margin: const EdgeInsets.only(right: 250, top: 8),
-          padding: const EdgeInsets.all(8),
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(color: Colors.grey, spreadRadius: .01, blurRadius: 6)
-              ]),
-          child: const CircleAvatar(
-            radius: 60,
-            backgroundColor: Colors.white,
-            backgroundImage: NetworkImage(
-                "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"),
-          ),
-        ),
-      ],
-    );
+  static Container topBanner() {
+    return Container(
+        height: 150,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(CommonWidgets.motifImageURI)),
+          shape: BoxShape.rectangle,
+          color: Color(0xffFFC8B7),
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(color: Colors.grey, spreadRadius: -1, blurRadius: 5),
+          ],
+        ));
   }
 }

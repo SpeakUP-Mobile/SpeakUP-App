@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'home_screen/public_speak_home.dart';
 import 'login_screen/public_speak_login.dart';
+import 'recordings_screen/public_speak_recordings.dart';
 
 void main() {
   runApp(const PublicSpeak());
@@ -18,8 +21,9 @@ class PublicSpeak extends StatelessWidget {
         useMaterial3: true,
       ),
       home:
+          //const PublicSpeakLogin(),
           //const PublicSpeakHome(),
-          const PublicSpeakLogin(),
+          const PublicSpeakRecordings(),
     );
   }
 }

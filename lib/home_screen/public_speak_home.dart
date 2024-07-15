@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:public_speak_cac_2024/custom_widgets/user_info_widget.dart';
 import '../common_widgets.dart';
 
 class PublicSpeakHome extends StatelessWidget {
@@ -18,27 +19,12 @@ class PublicSpeakHome extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          Container(
-              height: 150,
-              decoration: const BoxDecoration(
-                // we can add an image later
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(CommonWidgets.motifImageURI)),
-                shape: BoxShape.rectangle,
-                color: Color(0xffFFC8B7),
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(30)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey, spreadRadius: -1, blurRadius: 5),
-                ],
-              )),
+          CommonWidgets.topBanner(),
           Container(
             padding: const EdgeInsets.only(left: 20, top: 70, right: 20),
             alignment: AlignmentDirectional.topCenter,
             margin: const EdgeInsets.only(bottom: 13),
-            child: CommonWidgets.userInfo(),
+            child: const UserInfoWidget(text: 'Good afternoon, [Name]'),
           ),
           Container(
             margin: const EdgeInsets.only(

@@ -35,7 +35,7 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
 
   Column loginScreen() {
     return Column(children: [
-      topBanner(),
+      topBannerLogin(),
       const SizedBox(height: 150),
       logoAndText(),
       const SizedBox(height: 150),
@@ -82,7 +82,7 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
     );
   }
 
-  Stack topBanner() {
+  Stack topBannerLogin() {
     return Stack(children: [
       Container(
         height: 100,
