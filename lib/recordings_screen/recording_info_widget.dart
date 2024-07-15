@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 class RecordingInfoWidget extends StatelessWidget {
-  const RecordingInfoWidget({super.key});
+  final int recordingNumber;
+  final String date;
+  final String time;
+  final bool isInterview;
+  final int score;
+
+  const RecordingInfoWidget(
+      {super.key,
+      required this.recordingNumber,
+      required this.date,
+      required this.time,
+      required this.isInterview,
+      required this.score});
 
   @override
   Widget build(BuildContext context) {
@@ -28,35 +40,43 @@ class RecordingInfoWidget extends StatelessWidget {
               )),
           const Spacer(),
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            const Text('Recording 1', style: TextStyle(fontSize: 20)),
-            const Text('January 1st, 2024'),
-            const Text('18:53'),
+            Text('Recording $recordingNumber',
+                style: const TextStyle(fontSize: 20)),
+            Text(date),
+            Text(time),
             const Spacer(),
-            Row(
-              children: [
-                Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: const BoxDecoration(
-                        color: Color(0xFF1E1E1E),
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child: const Text("9/10",
-                        style: TextStyle(color: Color(0xFF00FF57)))),
-                const SizedBox(width: 5),
-                Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: const BoxDecoration(
-                        color: Color(0xFFFFB5C2),
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey,
-                              spreadRadius: 0,
-                              blurRadius: 2.5)
-                        ]),
-                    child: const Text('Public Speech'))
-              ],
-            )
+            recordingTags()
           ]),
         ]));
+  }
+
+  Row recordingTags() {
+    return Row(
+      children: [
+        Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: const BoxDecoration(
+                color: Color(0xFF1E1E1E),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            child: Text("9/10",
+                style: TextStyle(
+                    color: score > 5
+                        ? const Color(0xFF00FF57)
+                        : const Color(0xFFFF0000)))),
+        const SizedBox(width: 5),
+        Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                color: isInterview
+                    ? const Color(0xFFB5DBFF)
+                    : const Color(0xFFFFB5C2),
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
+                boxShadow: const [
+                  BoxShadow(
+                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
+                ]),
+            child: const Text('Public Speech'))
+      ],
+    );
   }
 }

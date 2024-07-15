@@ -25,7 +25,13 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
         ),
       ]),
       filterButtons(),
-      const RecordingInfoWidget()
+      const RecordingInfoWidget(
+        recordingNumber: 1,
+        date: 'January 1st, 2024',
+        time: '18:53',
+        isInterview: false,
+        score: 9,
+      )
     ]));
   }
 
