@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:public_speak_cac_2024/custom_widgets/user_info_widget.dart';
+import 'package:public_speak_cac_2024/custom_global_widgets/user_info_widget.dart';
 import '../common_widgets.dart';
 
 class PublicSpeakHome extends StatelessWidget {

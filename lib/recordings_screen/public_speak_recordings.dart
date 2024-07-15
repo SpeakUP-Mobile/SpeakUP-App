@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:public_speak_cac_2024/common_widgets.dart";
-import "package:public_speak_cac_2024/custom_widgets/user_info_widget.dart";
+import "package:public_speak_cac_2024/custom_global_widgets/user_info_widget.dart";
+import "package:public_speak_cac_2024/recordings_screen/recording_info_widget.dart";
 
 class PublicSpeakRecordings extends StatefulWidget {
   const PublicSpeakRecordings({super.key});
@@ -19,10 +20,46 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
         Container(
           padding: const EdgeInsets.only(left: 20, top: 70, right: 20),
           alignment: AlignmentDirectional.topCenter,
-          margin: const EdgeInsets.only(bottom: 13),
+          margin: const EdgeInsets.only(bottom: 5),
           child: const UserInfoWidget(text: 'Your Past Recordings'),
         ),
-      ])
+      ]),
+      filterButtons(),
+      const RecordingInfoWidget()
     ]));
+  }
+
+  Container filterButtons() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      child: Row(children: [
+        Container(
+            height: 30,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            margin: const EdgeInsets.only(left: 20),
+            decoration: const BoxDecoration(
+                color: Color(0xFFFFB5C2),
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
+                ]),
+            child: const Text("Public Speech")),
+        Container(
+            height: 30,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            margin: const EdgeInsets.only(left: 10),
+            decoration: const BoxDecoration(
+                color: Color(0xFFB5DBFF),
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
+                ]),
+            child: const Text('Interview')),
+      ]),
+    );
   }
 }
