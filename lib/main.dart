@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'recordings_screen/public_speak_recordings.dart';
+/*
 import 'home_screen/public_speak_home.dart';
 import 'login_screen/public_speak_login.dart';
-import 'recordings_screen/public_speak_recordings.dart';
+*/
 
 void main() {
   runApp(const PublicSpeak());
