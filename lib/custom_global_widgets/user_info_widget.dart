@@ -11,7 +11,7 @@ class UserInfoWidget extends StatelessWidget {
       Container(
           height: 100,
           width: 350,
-          padding: const EdgeInsets.only(top: 22, right: 30),
+          padding: const EdgeInsets.only(top: 14, right: 30, bottom: 20),
           margin: const EdgeInsets.only(top: 27, left: 25),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -27,7 +27,7 @@ class UserInfoWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 100),
               child: Text(
                 text,
-                style: const TextStyle(fontSize: 25),
+                style: const TextStyle(fontSize: 24),
                 textAlign: TextAlign.right,
               ))),
       Container(

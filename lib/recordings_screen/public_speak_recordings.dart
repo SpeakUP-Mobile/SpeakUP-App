@@ -37,7 +37,7 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
 
   Container filterButtons() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 25, top: 15),
       child: Row(children: [
         Container(
             height: 30,
