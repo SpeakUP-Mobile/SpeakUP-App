@@ -58,12 +58,12 @@ class RecordingInfoWidget extends StatelessWidget {
             decoration: const BoxDecoration(
                 color: Color(0xFF1E1E1E),
                 borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: Text("9/10",
+            child: Text("$score/10",
                 style: TextStyle(
                     color: score > 5
                         ? const Color(0xFF00FF57)
                         : const Color(0xFFFF0000)))),
-        const SizedBox(width: 5),
+        const SizedBox(width: 8),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
@@ -75,7 +75,7 @@ class RecordingInfoWidget extends StatelessWidget {
                   BoxShadow(
                       color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
                 ]),
-            child: const Text('Public Speech'))
+            child: Text(isInterview ? "Interview" : "Public Speech"))
       ],
     );
   }
