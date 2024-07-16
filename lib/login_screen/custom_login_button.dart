@@ -8,8 +8,8 @@ class CustomLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 35,
-      width: 250,
+      height: 50,
+      width: 300,
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -28,7 +28,7 @@ class CustomLoginButton extends StatelessWidget {
             },
           ),
         ),
-        child: Center(child: Text(text)),
+        child: Center(child: Text(text, style: const TextStyle(fontSize: 18))),
         onPressed: () => true,
       ),
     );

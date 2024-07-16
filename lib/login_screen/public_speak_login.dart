@@ -38,7 +38,7 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
       topBannerLogin(),
       const SizedBox(height: 150),
       logoAndText(),
-      const SizedBox(height: 150),
+      const SizedBox(height: 120),
       const CustomLoginButton(text: 'Login'),
       const SizedBox(height: 20),
       const CustomLoginButton(text: 'Register'),
@@ -76,9 +76,9 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
 
   Text logoAndText() {
     return const Text(
-      'Logo + [APP NAME]',
+      'SpeakUp',
       style: TextStyle(
-        fontSize: 35,
+        fontSize: 50,
       ),
       textAlign: TextAlign.center,
     );
