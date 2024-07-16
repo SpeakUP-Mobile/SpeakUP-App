@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:public_speak_cac_2024/common_widgets.dart';
-import 'third_party_login_buttons.dart';
 import 'custom_login_button.dart';
+// import 'third_party_login_buttons.dart';
 
 class PublicSpeakLogin extends StatefulWidget {
   const PublicSpeakLogin({super.key});
@@ -42,6 +42,7 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
       const CustomLoginButton(text: 'Login'),
       const SizedBox(height: 20),
       const CustomLoginButton(text: 'Register'),
+      /*
       const SizedBox(height: 40),
       const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Spacer(flex: 8),
@@ -52,6 +53,7 @@ class _PublicSpeakLoginState extends State<PublicSpeakLogin> {
         ThirdPartyLoginButton(image: 'assets/login_screen/apple_icon.png'),
         Spacer(flex: 8),
       ]),
+      */
     ]);
   }
 

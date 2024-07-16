@@ -16,8 +16,20 @@ class CustomLoginButton extends StatelessWidget {
           boxShadow: [
             BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
           ]),
-      child: Center(
-        child: Text(text),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
+          overlayColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.grey[200];
+              }
+              return null;
+            },
+          ),
+        ),
+        child: Center(child: Text(text)),
+        onPressed: () => true,
       ),
     );
   }
