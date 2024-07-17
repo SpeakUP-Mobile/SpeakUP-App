@@ -31,13 +31,20 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
         time: '18:53',
         isInterview: false,
         score: 9,
+      ),
+      const RecordingInfoWidget(
+        recordingNumber: 2,
+        date: 'January 4th, 2024',
+        time: '18:53',
+        isInterview: true,
+        score: 4,
       )
     ]));
   }
 
   Container filterButtons() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 25, top: 15),
+      margin: const EdgeInsets.only(bottom: 20, top: 15),
       child: Row(children: [
         Container(
             height: 30,
