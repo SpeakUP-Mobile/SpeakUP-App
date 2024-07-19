@@ -8,15 +8,15 @@ class PublicSpeakHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 75,
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 10)
-            ]),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 75,
+      //   decoration: const BoxDecoration(
+      //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      //       color: Colors.white,
+      //       boxShadow: [
+      //         BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 10)
+      //       ]),
+      // ),
       body: Stack(
         children: [
           CommonWidgets.topBanner(),

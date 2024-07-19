@@ -5,6 +5,7 @@ import 'login_screen/public_speak_login.dart';
 import 'home_screen/public_speak_home.dart';
 // ignore: unused_import
 import 'recordings_screen/public_speak_recordings.dart';
+import 'speak_up_app.dart';
 
 void main() {
   runApp(const PublicSpeak());
@@ -22,7 +23,8 @@ class PublicSpeak extends StatelessWidget {
         colorScheme: const ColorScheme.light(),
         useMaterial3: true,
       ),
-      home: const PublicSpeakLogin(),
+      home: const SpeakUpApp(),
+      //const PublicSpeakLogin(),
       // const PublicSpeakHome(),
       //const PublicSpeakRecordings(),
     );

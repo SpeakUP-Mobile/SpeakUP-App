@@ -11,12 +11,8 @@ class SpeakUpApp extends StatefulWidget {
 }
 
 class _SpeakUpAppState extends State<SpeakUpApp> {
-  int pageIndex = 1;
-  final screens = [
-    const PublicSpeakLogin(),
-    const PublicSpeakHome(),
-    const PublicSpeakRecordings(),
-  ];
+  int currentIndex = 0;
+  Widget currentScreen = const PublicSpeakHome();
 
   @override
   void initState() {
@@ -28,31 +24,39 @@ class _SpeakUpAppState extends State<SpeakUpApp> {
     super.dispose();
   }
 
+  void tapAction() {
+    switch (currentIndex) {
+      case 0:
+        return setState(() => currentScreen = const PublicSpeakHome());
+      case 1:
+        return setState(() => currentScreen = const PublicSpeakRecordings());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[pageIndex],
+      body: currentScreen,
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.blue,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white60,
-          selectedLabelStyle: const TextStyle(color: Colors.white),
-          currentIndex: pageIndex,
-          items: [
+          unselectedItemColor: Color.fromARGB(255, 53, 53, 53),
+          selectedItemColor: Colors.black,
+          unselectedIconTheme:
+              const IconThemeData(color: Color.fromARGB(255, 53, 53, 53)),
+          selectedIconTheme: const IconThemeData(color: Colors.black),
+          currentIndex: currentIndex,
+          onTap: (index) {
+            setState(() => currentIndex = index);
+            tapAction();
+          },
+          items: const [
             BottomNavigationBarItem(
-              icon: ElevatedButton(
-                child: const Icon(Icons.home),
-                onPressed: () => setState(() => pageIndex = 1),
-              ),
+              icon: Icon(Icons.home),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: ElevatedButton(
-                child: const Icon(Icons.folder),
-                onPressed: () => setState(() => pageIndex = 2),
-              ),
-              label: 'Recordings',
+              icon: Icon(Icons.book),
+              label: 'History',
             ),
           ]),
     );
