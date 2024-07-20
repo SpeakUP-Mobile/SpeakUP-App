@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class UserInfoWidget extends StatelessWidget {
   final String text;
+  final double fontSize;
 
-  const UserInfoWidget({super.key, required this.text});
+  const UserInfoWidget({super.key, required this.text, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.topCenter, children: [
       Container(
           height: 100,
-          width: 350,
+          width: 300,
           padding: const EdgeInsets.only(top: 14, right: 30, bottom: 20),
           margin: const EdgeInsets.only(top: 27, left: 25),
           decoration: BoxDecoration(
@@ -25,9 +26,10 @@ class UserInfoWidget extends StatelessWidget {
               ]),
           child: Container(
               padding: const EdgeInsets.only(left: 100),
+              alignment: AlignmentDirectional.centerEnd,
               child: Text(
                 text,
-                style: const TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: fontSize),
                 textAlign: TextAlign.right,
               ))),
       Container(

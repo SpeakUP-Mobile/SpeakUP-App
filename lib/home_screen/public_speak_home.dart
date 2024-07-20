@@ -24,7 +24,10 @@ class PublicSpeakHome extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20, top: 70, right: 20),
             alignment: AlignmentDirectional.topCenter,
             margin: const EdgeInsets.only(bottom: 13),
-            child: const UserInfoWidget(text: 'Good afternoon, [Name]'),
+            child: const UserInfoWidget(
+              text: 'Good afternoon, [Name]',
+              fontSize: 25,
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(

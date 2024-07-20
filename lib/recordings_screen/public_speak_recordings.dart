@@ -21,7 +21,10 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
           padding: const EdgeInsets.only(left: 20, top: 70, right: 20),
           alignment: AlignmentDirectional.topCenter,
           margin: const EdgeInsets.only(bottom: 5),
-          child: const UserInfoWidget(text: 'Your Past Recordings'),
+          child: const UserInfoWidget(
+            text: 'Your Past Recordings',
+            fontSize: 24,
+          ),
         ),
       ]),
       filterButtons(),

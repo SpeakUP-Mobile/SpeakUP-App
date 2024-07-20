@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../speech_upload_screen/public_speak_speech.dart';
+// ignore: unused_import
 import 'login_screen/public_speak_login.dart';
 import 'home_screen/public_speak_home.dart';
 import 'recordings_screen/public_speak_recordings.dart';
@@ -27,8 +29,12 @@ class _SpeakUpAppState extends State<SpeakUpApp> {
   void tapAction() {
     switch (currentIndex) {
       case 0:
-        return setState(() => currentScreen = const PublicSpeakHome());
+        return setState(() => currentScreen = const PublicSpeakRecordings());
       case 1:
+        return setState(() => currentScreen = const PublicSpeakSpeech());
+      case 2:
+        return setState(() => currentScreen = const PublicSpeakRecordings());
+      case 3:
         return setState(() => currentScreen = const PublicSpeakRecordings());
     }
   }
@@ -39,11 +45,12 @@ class _SpeakUpAppState extends State<SpeakUpApp> {
       body: currentScreen,
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          unselectedItemColor: Color.fromARGB(255, 53, 53, 53),
+          unselectedItemColor: const Color.fromARGB(255, 53, 53, 53),
           selectedItemColor: Colors.black,
           unselectedIconTheme:
               const IconThemeData(color: Color.fromARGB(255, 53, 53, 53)),
           selectedIconTheme: const IconThemeData(color: Colors.black),
+          iconSize: 10,
           currentIndex: currentIndex,
           onTap: (index) {
             setState(() => currentIndex = index);
@@ -51,12 +58,28 @@ class _SpeakUpAppState extends State<SpeakUpApp> {
           },
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: Image(
+                  height: 20,
+                  image: AssetImage('assets/icons/history_icon.png')),
+              label: 'History',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: 'History',
+              icon: Image(
+                  height: 20,
+                  image: AssetImage('assets/icons/podium_icon.png')),
+              label: 'Public Speaking',
+            ),
+            BottomNavigationBarItem(
+              icon: Image(
+                  height: 20,
+                  image: AssetImage('assets/icons/briefcase_icon.png')),
+              label: 'Interview',
+            ),
+            BottomNavigationBarItem(
+              icon: Image(
+                  height: 20,
+                  image: AssetImage('assets/icons/profile_icon.png')),
+              label: 'Ram Patel',
             ),
           ]),
     );
