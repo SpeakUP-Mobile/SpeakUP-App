@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../custom_global_widgets/user_info_widget.dart';
 import '../common_widgets.dart';
 
@@ -10,6 +11,14 @@ class PublicSpeakSpeech extends StatefulWidget {
 }
 
 class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
+  getVideoFile(ImageSource sourceImage) async {
+    final videoFile = await ImagePicker().pickVideo(source: sourceImage);
+
+    if (videoFile != null) {
+      print("Hello World");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +46,7 @@ class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
                   ]),
               child: const Text('Upload Speech')),
           onTap: () {
-            //Allow user to upload video
+            getVideoFile(ImageSource.gallery);
           },
         ),
         const SizedBox(height: 20),
@@ -55,7 +64,7 @@ class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
                   ]),
               child: const Text('Record Speech')),
           onTap: () {
-            //Allow user to record video
+            getVideoFile(ImageSource.camera);
           },
         ),
       ]),

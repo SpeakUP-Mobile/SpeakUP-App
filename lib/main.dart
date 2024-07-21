@@ -23,7 +23,7 @@ class PublicSpeak extends StatelessWidget {
         colorScheme: const ColorScheme.light(),
         useMaterial3: true,
       ),
-      home: const SpeakUpApp(),
+      home: SpeakUpApp(),
       //const PublicSpeakLogin(),
       // const PublicSpeakHome(),
       //const PublicSpeakRecordings(),
