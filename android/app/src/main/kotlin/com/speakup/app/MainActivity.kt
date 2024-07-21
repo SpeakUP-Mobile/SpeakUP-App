@@ -1,4 +1,4 @@
-package com.example.public_speak_cac_2024
+package com.speakup.app
 
 import io.flutter.embedding.android.FlutterActivity
 
