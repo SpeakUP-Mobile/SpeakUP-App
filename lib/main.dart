@@ -14,6 +14,7 @@ class PublicSpeak extends StatelessWidget {
     return MaterialApp(
       title: 'SpeakUP',
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFFF5F5F5),
         fontFamily: "Poppins",
         colorScheme: const ColorScheme.light(),
         useMaterial3: true,

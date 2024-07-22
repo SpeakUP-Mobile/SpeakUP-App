@@ -52,8 +52,24 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
         Container(
             height: 35,
             alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            margin: const EdgeInsets.only(left: 25),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
+                ]),
+            child: const Text(
+              "All",
+              style: TextStyle(color: Colors.black),
+            )),
+        Container(
+            height: 35,
+            alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            margin: const EdgeInsets.only(left: 20),
+            margin: const EdgeInsets.only(left: 10),
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
