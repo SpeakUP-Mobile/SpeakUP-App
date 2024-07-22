@@ -18,9 +18,9 @@ class UserInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.topCenter, children: [
       Container(
-          height: 100,
+          height: 90,
           width: double.infinity,
-          padding: const EdgeInsets.only(top: 14, right: 20, bottom: 0),
+          padding: const EdgeInsets.only(top: 11, right: 20, bottom: 10),
           margin: const EdgeInsets.only(top: 27, left: 50, right: 25),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -70,7 +70,7 @@ class UserInfoWidget extends StatelessWidget {
               BoxShadow(color: Colors.grey, spreadRadius: .01, blurRadius: 6)
             ]),
         child: const CircleAvatar(
-          radius: 60,
+          radius: 55,
           backgroundColor: Colors.white,
           backgroundImage: NetworkImage(
               "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"),

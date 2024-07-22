@@ -12,8 +12,9 @@ class PublicSpeak extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Public Speak',
+      title: 'SpeakUP',
       theme: ThemeData(
+        fontFamily: "Poppins",
         colorScheme: const ColorScheme.light(),
         useMaterial3: true,
       ),

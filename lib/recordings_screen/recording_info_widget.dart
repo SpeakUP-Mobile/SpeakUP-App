@@ -18,9 +18,9 @@ class RecordingInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 140,
-        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        height: 115,
+        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 9),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -34,6 +34,7 @@ class RecordingInfoWidget extends StatelessWidget {
         child: Row(children: [
           Container(
               width: 120,
+              margin: const EdgeInsets.symmetric(vertical: 12),
               decoration: const BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -42,8 +43,8 @@ class RecordingInfoWidget extends StatelessWidget {
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
             Text('Recording $recordingNumber',
                 style: const TextStyle(fontSize: 20)),
-            Text(date),
-            Text(time),
+            Text(date, style: const TextStyle(fontSize: 12)),
+            Text(time, style: const TextStyle(fontSize: 12)),
             const Spacer(),
             recordingTags()
           ]),
@@ -60,12 +61,14 @@ class RecordingInfoWidget extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(30))),
             child: Text("$score/10",
                 style: TextStyle(
+                    fontSize: 10,
                     color: score > 5
                         ? const Color(0xFF00FF57)
                         : const Color(0xFFFF0000)))),
         const SizedBox(width: 8),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, bottom: 5, top: 5),
           decoration: BoxDecoration(
               gradient: !isInterview
                   ? const LinearGradient(
@@ -81,7 +84,10 @@ class RecordingInfoWidget extends StatelessWidget {
                 BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
               ]),
           child: Text(isInterview ? "Interview" : "Public Speech",
-              style: const TextStyle(color: Colors.white, fontSize: 13)),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold)),
         )
       ],
     );

@@ -18,7 +18,7 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
         Container(
           padding: const EdgeInsets.only(top: 70),
           alignment: AlignmentDirectional.topCenter,
-          margin: const EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(bottom: 15),
           child: const UserInfoWidget(
             text: 'Good Morning,',
             fontSize: 24,
@@ -47,10 +47,10 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
 
   Container filterButtons() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20, top: 15),
+      margin: const EdgeInsets.only(bottom: 10),
       child: Row(children: [
         Container(
-            height: 30,
+            height: 35,
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.only(left: 20),
@@ -71,7 +71,7 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
               style: TextStyle(color: Colors.white),
             )),
         Container(
-            height: 30,
+            height: 35,
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.only(left: 10),

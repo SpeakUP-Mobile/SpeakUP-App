@@ -26,4 +26,11 @@ flutter:
   assets: 
     - assets/login_screen/
     - assets/icons/
-
+  fonts:
+  - family: Poppins
+    fonts: 
+      - asset: assets/fonts/poppins/Poppins-Regular.ttf
+      - asset: assets/fonts/poppins/Poppins-Italic.ttf
+        style: italic
+      - asset: assets/fonts/poppins/Poppins-Bold.ttf
+        weight: 700
