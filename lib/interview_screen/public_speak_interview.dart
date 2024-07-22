@@ -12,11 +12,11 @@ class PublicSpeakInterview extends StatelessWidget {
         children: [
           CommonWidgets.topBanner(),
           Container(
-            padding: const EdgeInsets.only(left: 20, top: 70, right: 20),
+            padding: const EdgeInsets.only(top: 70),
             alignment: AlignmentDirectional.topCenter,
             margin: const EdgeInsets.only(bottom: 13),
             child: const UserInfoWidget(
-              text: 'Good afternoon, [Name]',
+              text: 'Interviews',
               fontSize: 25,
             ),
           ),

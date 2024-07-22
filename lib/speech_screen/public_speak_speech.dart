@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../custom_global_widgets/user_info_widget.dart';
-import '../common_widgets.dart';
 
 class PublicSpeakSpeech extends StatefulWidget {
   const PublicSpeakSpeech({super.key});
@@ -24,9 +23,8 @@ class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
     return Scaffold(
       body: Column(children: [
         Stack(children: [
-          CommonWidgets.topBanner(),
           Container(
-            padding: const EdgeInsets.only(left: 20, top: 70, right: 20),
+            padding: const EdgeInsets.only(top: 70),
             alignment: AlignmentDirectional.centerEnd,
             child: const UserInfoWidget(text: 'Public Speaking', fontSize: 24),
           ),

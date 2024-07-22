@@ -65,17 +65,25 @@ class RecordingInfoWidget extends StatelessWidget {
                         : const Color(0xFFFF0000)))),
         const SizedBox(width: 8),
         Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                color: isInterview
-                    ? const Color(0xFFB5DBFF)
-                    : const Color(0xFFFFB5C2),
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
-                ]),
-            child: Text(isInterview ? "Interview" : "Public Speech"))
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+              gradient: !isInterview
+                  ? const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 176, 60, 248),
+                        Color(0xffFF18BE)
+                      ],
+                    )
+                  : const LinearGradient(
+                      colors: [Color(0xFFFFB5C2), Color(0xFFFFB5C2)]),
+              borderRadius: const BorderRadius.all(Radius.circular(30)),
+              boxShadow: const [
+                BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
+              ]),
+          child: Text(isInterview ? "Interview" : "Public Speech",
+              style:
+                  TextStyle(color: isInterview ? Colors.black : Colors.white)),
+        )
       ],
     );
   }
