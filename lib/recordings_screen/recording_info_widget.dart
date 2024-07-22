@@ -18,7 +18,7 @@ class RecordingInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 120,
+        height: 140,
         margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: const BoxDecoration(
@@ -54,7 +54,7 @@ class RecordingInfoWidget extends StatelessWidget {
     return Row(
       children: [
         Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             decoration: const BoxDecoration(
                 color: Color(0xFF1E1E1E),
                 borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -65,7 +65,7 @@ class RecordingInfoWidget extends StatelessWidget {
                         : const Color(0xFFFF0000)))),
         const SizedBox(width: 8),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
               gradient: !isInterview
                   ? const LinearGradient(
@@ -75,14 +75,13 @@ class RecordingInfoWidget extends StatelessWidget {
                       ],
                     )
                   : const LinearGradient(
-                      colors: [Color(0xFFFFB5C2), Color(0xFFFFB5C2)]),
+                      colors: [Color(0xFF4F23FF), Color(0xFF8F00FF)]),
               borderRadius: const BorderRadius.all(Radius.circular(30)),
               boxShadow: const [
                 BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
               ]),
           child: Text(isInterview ? "Interview" : "Public Speech",
-              style:
-                  TextStyle(color: isInterview ? Colors.black : Colors.white)),
+              style: const TextStyle(color: Colors.white, fontSize: 13)),
         )
       ],
     );

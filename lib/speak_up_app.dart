@@ -131,7 +131,7 @@ class SpeakUpApp extends StatelessWidget {
                     size: 20.0,
                   ),
                 ),
-                label: 'History',
+                label: 'Home',
                 backgroundColor: const Color.fromRGBO(36, 54, 101, 1.0),
               ),
               BottomNavigationBarItem(

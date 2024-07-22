@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:public_speak_cac_2024/custom_global_widgets/user_info_widget.dart';
-import '../common_widgets.dart';
 
 class PublicSpeakInterview extends StatelessWidget {
   const PublicSpeakInterview({super.key});
@@ -10,7 +9,6 @@ class PublicSpeakInterview extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          CommonWidgets.topBanner(),
           Container(
             padding: const EdgeInsets.only(top: 70),
             alignment: AlignmentDirectional.topCenter,

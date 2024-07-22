@@ -76,13 +76,17 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.only(left: 10),
             decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 187, 190, 236),
+                gradient: LinearGradient(
+                    colors: [Color(0xFF4F23FF), Color(0xFF8F00FF)]),
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 boxShadow: [
                   BoxShadow(
                       color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
                 ]),
-            child: const Text('Interview')),
+            child: const Text(
+              'Interview',
+              style: TextStyle(color: Colors.white),
+            )),
       ]),
     );
   }
