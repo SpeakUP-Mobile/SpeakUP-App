@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-
 import 'package:get/get.dart';
 
 class PublicSpeakSpeechAnalysis extends StatefulWidget {
-  final String filePath;
-  const PublicSpeakSpeechAnalysis({super.key, required this.filePath});
+  final File metadata;
+  final String fileName;
+  const PublicSpeakSpeechAnalysis(
+      {super.key, required this.metadata, required this.fileName});
 
   @override
   State<PublicSpeakSpeechAnalysis> createState() =>
@@ -15,8 +16,6 @@ class PublicSpeakSpeechAnalysis extends StatefulWidget {
 class _PublicSpeakSpeechAnalysisState extends State<PublicSpeakSpeechAnalysis> {
   @override
   Widget build(BuildContext context) {
-    final String fileName =
-        widget.filePath.substring(5, widget.filePath.length - 4);
     return Scaffold(
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Center(
@@ -36,7 +35,7 @@ class _PublicSpeakSpeechAnalysisState extends State<PublicSpeakSpeechAnalysis> {
                   style: TextStyle(
                     fontSize: 30,
                   )),
-              Text(fileName.toUpperCase()),
+              Text(widget.fileName),
               const Spacer(),
             ]))),
       ),
