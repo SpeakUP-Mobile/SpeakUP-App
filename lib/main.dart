@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:public_speak_cac_2024/speech_screen/public_speak_speech_analysis.dart';
 import 'package:public_speak_cac_2024/speech_screen/public_speak_speech_name.dart';
-// ignore: unused_import
 import 'speak_up_app.dart';
 import 'dart:io';
 
@@ -29,7 +28,7 @@ class PublicSpeak extends StatelessWidget {
           //  filePath: '/tmp/test.mov',
           //)
           //const PublicSpeakSpeechName(),
-          SpeakUpApp(),
+          const SpeakUpApp(),
       //const PublicSpeakLogin(),
       // const PublicSpeakHome(),
       //const PublicSpeakRecordings(),
