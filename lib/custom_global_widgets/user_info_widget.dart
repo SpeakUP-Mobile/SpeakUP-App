@@ -21,7 +21,7 @@ class UserInfoWidget extends StatelessWidget {
           height: 90,
           width: double.infinity,
           padding: const EdgeInsets.only(top: 10, right: 15, bottom: 10),
-          margin: const EdgeInsets.only(top: 20, left: 40, right: 10),
+          margin: const EdgeInsets.only(top: 20, left: 40, right: 20),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
@@ -59,7 +59,7 @@ class UserInfoWidget extends StatelessWidget {
           )),
       Container(
         margin: const EdgeInsets.only(
-          right: 270,
+          right: 250,
         ),
         padding: const EdgeInsets.all(8),
         decoration: const BoxDecoration(
