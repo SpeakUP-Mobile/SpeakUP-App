@@ -12,6 +12,9 @@ class PublicSpeakSpeech extends StatefulWidget {
 }
 
 class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
+  final double buttonHorizontalMargin = 25;
+  final double buttonHeight = 100;
+
   getVideoFile(ImageSource sourceImage) async {
     final videoFile = await ImagePicker().pickVideo(source: sourceImage);
 
@@ -35,8 +38,8 @@ class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
         const SizedBox(height: 20),
         GestureDetector(
           child: Container(
-              height: 165,
-              width: 360,
+              height: buttonHeight,
+              margin: EdgeInsets.symmetric(horizontal: buttonHorizontalMargin),
               alignment: AlignmentDirectional.center,
               decoration: const BoxDecoration(
                   color: Colors.white,
@@ -53,8 +56,8 @@ class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
         const SizedBox(height: 20),
         GestureDetector(
           child: Container(
-              height: 165,
-              width: 360,
+              height: buttonHeight,
+              margin: EdgeInsets.symmetric(horizontal: buttonHorizontalMargin),
               alignment: AlignmentDirectional.center,
               decoration: const BoxDecoration(
                   color: Colors.white,

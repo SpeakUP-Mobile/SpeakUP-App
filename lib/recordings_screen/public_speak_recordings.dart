@@ -10,6 +10,8 @@ class PublicSpeakRecordings extends StatefulWidget {
 }
 
 class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
+  String userName = "Long Name For Test";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,10 +21,10 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
           padding: const EdgeInsets.only(top: 70),
           alignment: AlignmentDirectional.topCenter,
           margin: const EdgeInsets.only(bottom: 15),
-          child: const UserInfoWidget(
+          child: UserInfoWidget(
             text: 'Good Morning,',
             fontSize: 24,
-            name: "Name",
+            name: userName,
             showName: true,
           ),
         ),
