@@ -1,13 +1,8 @@
-// ignore: unused_import
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:public_speak_cac_2024/speech_screen/public_speak_speech_analysis.dart';
 import 'package:public_speak_cac_2024/speech_screen/public_speak_speech_name.dart';
 import '../custom_global_widgets/user_info_widget.dart';
-// ignore: unused_import
-import 'package:path_provider/path_provider.dart';
 
 class PublicSpeakSpeech extends StatefulWidget {
   const PublicSpeakSpeech({super.key});

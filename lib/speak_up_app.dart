@@ -125,8 +125,7 @@ class SpeakUpApp extends StatelessWidget {
         children: [
           Container(
             width: 50,
-            margin: const EdgeInsets.only(
-                bottom: 5), // Adjust for more spacing between icon and label
+            margin: const EdgeInsets.only(bottom: 5),
             child: ImageIcon(
               AssetImage(
                 isSelected ? activeAssetImage : inactiveAssetImage,
