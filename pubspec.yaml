@@ -23,10 +23,13 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
-  uses-material-design: true
   assets: 
-    - assets/login_screen/
-    - assets/icons/
+    - assets/icons/home/home_icon.png
+    - assets/icons/home/home_selected_icon.png
+    - assets/icons/podium/podium_icon.png
+    - assets/icons/podium/podium_selected_icon.png
+    - assets/icons/briefcase/briefcase_icon.png
+    - assets/icons/briefcase/briefcase_selected_icon.png
   fonts:
   - family: Poppins
     fonts: 
@@ -35,3 +38,4 @@ flutter:
         style: italic
       - asset: assets/fonts/poppins/Poppins-Bold.ttf
         weight: 700
+  uses-material-design: true

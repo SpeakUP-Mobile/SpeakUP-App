@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:get/get.dart';
 
 class PublicSpeakSpeechAnalysis extends StatefulWidget {
   final String fileName;
