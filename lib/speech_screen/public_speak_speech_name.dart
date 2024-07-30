@@ -30,26 +30,31 @@ class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
   }
 
   Future<File> createMetadata() async {
-    final file = await _localFile;
+    File file = await _localFile;
 
     // Write the file
-    file.writeAsString('videoPath: ${widget.filePath} \n',
+    print(newName);
+    file = await file.writeAsString('videoName: $newName \n',
         mode: FileMode.append);
-    file.writeAsString('videoName: $newName \n', mode: FileMode.append);
-    file.writeAsString('isInterview: true \n', mode: FileMode.append);
+    file = await file.writeAsString('videoPath: ${widget.filePath} \n',
+        mode: FileMode.append);
+    file =
+        await file.writeAsString('isInterview: true \n', mode: FileMode.append);
     return file;
   }
 
-  Future<List<String>> get _fileContents async {
-    final file = await _localFile;
+  Future<bool> get _isRepeat async {
+    final path = await _localPath;
 
-    return file.readAsLines();
+    return File('$path/$newName.metadata').exists();
   }
 
   checkNameRepitition() async {
     final path = await _localPath;
 
-    if (File('$path/$newName.metadata').existsSync()) {
+    final isRepeat = await _isRepeat;
+
+    if (isRepeat) {
       validName = false;
       return true;
     } else {
@@ -58,11 +63,16 @@ class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
     }
   }
 
+  Future<List<String>> get _fileContents async {
+    final file = await _localFile;
+
+    return file.readAsLines();
+  }
+
   analyzeSpeech() async {
-    final path = await _localPath;
+    final file = await createMetadata();
     final fileContents = await _fileContents;
-    Get.to(PublicSpeakSpeechAnalysis(
-        metadata: File('$path/$newName.metadata'), fileName: fileContents[3]));
+    Get.to(PublicSpeakSpeechAnalysis(fileName: fileContents[1].substring(11)));
   }
 
   @override
@@ -72,22 +82,31 @@ class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Name this recording',
-                  hintText: 'Untitled 1'),
-              onChanged: (name) {
-                setState(() => newName = name);
-              },
-              validator: (name) =>
-                  checkNameRepitition() ? 'Name already exists' : null,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  validName ? analyzeSpeech() : null;
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Name this recording',
+                    hintText: 'Untitled 1'),
+                onChanged: (name) {
+                  setState(() => newName = name);
                 },
-                child: const Text('Analyze'))
+                validator: (name) => validName ? 'Name already exists' : null,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () => analyzeSpeech(),
+                    child: const Text('Analyze')),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                    onPressed: () => Get.back(), child: const Text("Cancel"))
+              ],
+            )
           ]),
     );
   }

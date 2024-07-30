@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:get/get.dart';
 
 class PublicSpeakSpeechAnalysis extends StatefulWidget {
-  final File metadata;
   final String fileName;
-  const PublicSpeakSpeechAnalysis(
-      {super.key, required this.metadata, required this.fileName});
+  const PublicSpeakSpeechAnalysis({super.key, required this.fileName});
 
   @override
   State<PublicSpeakSpeechAnalysis> createState() =>
