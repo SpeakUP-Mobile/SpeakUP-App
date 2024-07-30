@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RecordingInfoWidget extends StatelessWidget {
-  final int recordingNumber;
+  final String name;
   final String date;
   final String time;
   final bool isInterview;
@@ -9,7 +9,7 @@ class RecordingInfoWidget extends StatelessWidget {
 
   const RecordingInfoWidget(
       {super.key,
-      required this.recordingNumber,
+      required this.name,
       required this.date,
       required this.time,
       required this.isInterview,
@@ -41,8 +41,7 @@ class RecordingInfoWidget extends StatelessWidget {
               )),
           const Spacer(),
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Text('Recording $recordingNumber',
-                style: const TextStyle(fontSize: 20)),
+            Text(name, style: const TextStyle(fontSize: 20)),
             Text(date, style: const TextStyle(fontSize: 12)),
             Text(time, style: const TextStyle(fontSize: 12)),
             const Spacer(),

@@ -31,15 +31,13 @@ class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
 
   Future<File> createMetadata() async {
     File file = await _localFile;
-
-    // Write the file
-    print(newName);
-    file = await file.writeAsString('videoName: $newName \n',
-        mode: FileMode.append);
-    file = await file.writeAsString('videoPath: ${widget.filePath} \n',
-        mode: FileMode.append);
-    file =
-        await file.writeAsString('isInterview: true \n', mode: FileMode.append);
+    file = await file.writeAsString('$newName \n',
+        mode: FileMode.append); //Speech name
+    file = await file.writeAsString('${widget.filePath} \n',
+        mode: FileMode.append); //Path of actual video
+    file = await file.writeAsString('interview \n',
+        mode: FileMode.append); //Interview or Speech
+    file = await file.writeAsString('4 \n', mode: FileMode.append); //Rating
     return file;
   }
 
@@ -49,20 +47,6 @@ class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
     return File('$path/$newName.metadata').exists();
   }
 
-  checkNameRepitition() async {
-    final path = await _localPath;
-
-    final isRepeat = await _isRepeat;
-
-    if (isRepeat) {
-      validName = false;
-      return true;
-    } else {
-      validName = true;
-      return false;
-    }
-  }
-
   Future<List<String>> get _fileContents async {
     final file = await _localFile;
 
@@ -70,9 +54,15 @@ class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
   }
 
   analyzeSpeech() async {
-    final file = await createMetadata();
-    final fileContents = await _fileContents;
-    Get.to(PublicSpeakSpeechAnalysis(fileName: fileContents[1].substring(11)));
+    final fileExists = await _isRepeat;
+    if (!fileExists) {
+      validName = true;
+      await createMetadata();
+      final fileContents = await _fileContents;
+      Get.to(PublicSpeakSpeechAnalysis(fileName: fileContents[0]));
+    } else {
+      validName = false;
+    }
   }
 
   @override

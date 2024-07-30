@@ -19,7 +19,6 @@ class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
     final videoFile = await ImagePicker().pickVideo(source: sourceImage);
 
     if (videoFile != null) {
-      print('Hello World');
       Get.to(PublicSpeakSpeechName(filePath: videoFile.path));
     }
   }
