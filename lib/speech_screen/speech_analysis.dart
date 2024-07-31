@@ -3,18 +3,15 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-import 'package:public_speak_cac_2024/speech_screen/public_speak_speech.dart';
-
-class PublicSpeakSpeechAnalysis extends StatefulWidget {
+class SpeechAnalysisPage extends StatefulWidget {
   final String fileName;
-  const PublicSpeakSpeechAnalysis({super.key, required this.fileName});
+  const SpeechAnalysisPage({super.key, required this.fileName});
 
   @override
-  State<PublicSpeakSpeechAnalysis> createState() =>
-      _PublicSpeakSpeechAnalysisState();
+  State<SpeechAnalysisPage> createState() => _SpeechAnalysisPageState();
 }
 
-class _PublicSpeakSpeechAnalysisState extends State<PublicSpeakSpeechAnalysis> {
+class _SpeechAnalysisPageState extends State<SpeechAnalysisPage> {
   deletePrompt() {
     Get.defaultDialog(
       title: 'Delete',
@@ -30,13 +27,14 @@ class _PublicSpeakSpeechAnalysisState extends State<PublicSpeakSpeechAnalysis> {
 
   deleteFile() async {
     final localPath = await getApplicationDocumentsDirectory();
-    final file = File('$localPath/${widget.fileName}.mov');
+    final file = File('${localPath.path}/${widget.fileName}.metadata');
     final contents = await file.readAsLines();
     final videoPath = contents[1];
     final video = File(videoPath);
     await video.delete();
-    file.delete();
-    Get.to(const PublicSpeakSpeech());
+    await file.delete();
+    Get.back();
+    Get.back();
   }
 
   @override
@@ -84,7 +82,8 @@ class _PublicSpeakSpeechAnalysisState extends State<PublicSpeakSpeechAnalysis> {
                       padding: const EdgeInsets.only(top: 25.0),
                       child: IconButton(
                         onPressed: () {
-                          Get.to(const PublicSpeakSpeech());
+                          Get.back();
+                          Get.back();
                         },
                         iconSize: 32,
                         color: Colors.black,

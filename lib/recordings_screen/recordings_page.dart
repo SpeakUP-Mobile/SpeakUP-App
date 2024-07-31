@@ -4,14 +4,14 @@ import "package:path_provider/path_provider.dart";
 import "package:public_speak_cac_2024/custom_global_widgets/user_info_widget.dart";
 import "package:public_speak_cac_2024/recordings_screen/recording_info_widget.dart";
 
-class PublicSpeakRecordings extends StatefulWidget {
-  const PublicSpeakRecordings({super.key});
+class RecordingsPage extends StatefulWidget {
+  const RecordingsPage({super.key});
 
   @override
-  State<PublicSpeakRecordings> createState() => _PublicSpeakRecordingsState();
+  State<RecordingsPage> createState() => _RecordingsPageState();
 }
 
-class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
+class _RecordingsPageState extends State<RecordingsPage> {
   String userName = "Antonio Powers";
   int view = 0;
 
@@ -41,8 +41,7 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
       final dayEnding = getDayEnding(modifiedDate.day);
       final date = '$month ${modifiedDate.day}$dayEnding, ${modifiedDate.year}';
       final time = '${modifiedDate.hour}:${modifiedDate.minute}';
-      final isInterview =
-          contents[2].substring(0, 9) == 'interview' ? true : false;
+      final isInterview = contents[2] == 'interview' ? true : false;
       final score = contents[3];
       final recording = RecordingInfoWidget(
           name: name,

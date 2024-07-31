@@ -1,20 +1,19 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:public_speak_cac_2024/speech_screen/public_speak_speech_analysis.dart';
+import 'package:public_speak_cac_2024/speech_screen/speech_analysis.dart';
 
-class PublicSpeakSpeechName extends StatefulWidget {
+class SpeechNamePage extends StatefulWidget {
   final String filePath;
 
-  const PublicSpeakSpeechName({super.key, required this.filePath});
+  const SpeechNamePage({super.key, required this.filePath});
 
   @override
-  State<PublicSpeakSpeechName> createState() => _PublicSpeakSpeechNameState();
+  State<SpeechNamePage> createState() => _SpeechNamePageState();
 }
 
-class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
+class _SpeechNamePageState extends State<SpeechNamePage> {
   String newName = 'Untitled';
   bool validName = true;
 
@@ -31,13 +30,13 @@ class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
 
   Future<File> createMetadata() async {
     File file = await _localFile;
-    file = await file.writeAsString('$newName \n',
+    file = await file.writeAsString('$newName\n',
         mode: FileMode.append); //Speech name
-    file = await file.writeAsString('${widget.filePath} \n',
+    file = await file.writeAsString('${widget.filePath}\n',
         mode: FileMode.append); //Path of actual video
-    file = await file.writeAsString('interview \n',
+    file = await file.writeAsString('interview\n',
         mode: FileMode.append); //Interview or Speech
-    file = await file.writeAsString('4 \n', mode: FileMode.append); //Rating
+    file = await file.writeAsString('4\n', mode: FileMode.append); //Rating
     return file;
   }
 
@@ -59,7 +58,7 @@ class _PublicSpeakSpeechNameState extends State<PublicSpeakSpeechName> {
       validName = true;
       await createMetadata();
       final fileContents = await _fileContents;
-      Get.to(PublicSpeakSpeechAnalysis(fileName: fileContents[0]));
+      Get.to(SpeechAnalysisPage(fileName: fileContents[0]));
     } else {
       validName = false;
     }

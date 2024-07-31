@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'speak_up_app.dart';
+import 'package:public_speak_cac_2024/dashboard/dashboard_binding.dart';
+import 'dashboard/dashboard.dart';
 
 void main() {
   runApp(const PublicSpeak());
@@ -20,15 +21,13 @@ class PublicSpeak extends StatelessWidget {
         colorScheme: const ColorScheme.light(),
         useMaterial3: true,
       ),
-      home:
-          //const PublicSpeakSpeechAnalysis(
-          //  filePath: '/tmp/test.mov',
-          //)
-          //const PublicSpeakSpeechName(),
-          const SpeakUpApp(),
-      //const PublicSpeakLogin(),
-      // const PublicSpeakHome(),
-      //const PublicSpeakRecordings(),
+      initialRoute: '/',
+      getPages: [
+        GetPage(
+            name: '/',
+            page: () => const Dashboard(),
+            binding: DashboardBinding())
+      ],
     );
   }
 }

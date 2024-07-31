@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class RecordingInfoWidget extends StatelessWidget {
   final String name;
@@ -14,6 +17,16 @@ class RecordingInfoWidget extends StatelessWidget {
       required this.time,
       required this.isInterview,
       required this.score});
+
+  deleteRecording() async {
+    final localPath = await getApplicationDocumentsDirectory();
+    final file = File('${localPath.path}/$name.metadata');
+    final contents = await file.readAsLines();
+    final videoPath = contents[1];
+    final video = File(videoPath);
+    await video.delete();
+    await file.delete();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +67,7 @@ class RecordingInfoWidget extends StatelessWidget {
     return Row(
       children: [
         InkWell(
-          onTap: () => print("hii"),
+          onTap: () => deleteRecording(),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 7, right: 5, top: 3, bottom: 3),
@@ -67,12 +80,13 @@ class RecordingInfoWidget extends StatelessWidget {
                 ]),
             child: const Row(
               children: [
-                Text(
-                  "Delete",
-                  style: TextStyle(fontSize: 10),
-                ),
+                // Text(
+                //   "Delete",
+                //   style: TextStyle(fontSize: 10),
+                // ),
                 Icon(
                   Icons.delete,
+                  color: Colors.red,
                   size: 17,
                 ),
               ],

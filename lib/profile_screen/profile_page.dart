@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:public_speak_cac_2024/custom_global_widgets/user_info_widget.dart';
 
-class PublicSpeakProfile extends StatelessWidget {
-  const PublicSpeakProfile({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:public_speak_cac_2024/speech_screen/public_speak_speech_name.dart';
+import 'package:public_speak_cac_2024/speech_screen/speech_name.dart';
 import '../custom_global_widgets/user_info_widget.dart';
 
-class PublicSpeakSpeech extends StatefulWidget {
-  const PublicSpeakSpeech({super.key});
+class SpeechPage extends StatefulWidget {
+  const SpeechPage({super.key});
 
   @override
-  State<PublicSpeakSpeech> createState() => _PublicSpeakSpeechState();
+  State<SpeechPage> createState() => _SpeechPageState();
 }
 
-class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
+class _SpeechPageState extends State<SpeechPage> {
   final double buttonHorizontalMargin = 25;
   final double buttonHeight = 100;
 
@@ -19,7 +19,7 @@ class _PublicSpeakSpeechState extends State<PublicSpeakSpeech> {
     final videoFile = await ImagePicker().pickVideo(source: sourceImage);
 
     if (videoFile != null) {
-      Get.to(PublicSpeakSpeechName(filePath: videoFile.path));
+      Get.to(SpeechNamePage(filePath: videoFile.path));
     }
   }
 
