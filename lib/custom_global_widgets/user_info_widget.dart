@@ -16,65 +16,66 @@ class UserInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(alignment: Alignment.topCenter, children: [
-      Container(
-          height: 90,
-          width: double.infinity,
-          padding: const EdgeInsets.only(top: 10, right: 15, bottom: 10),
-          margin: const EdgeInsets.only(top: 20, left: 40, right: 20),
-          decoration: BoxDecoration(
+    return Container(
+      margin: const EdgeInsets.only(left: 15, right: 20),
+      child: Stack(alignment: Alignment.topCenter, children: [
+        Container(
+            height: 90,
+            width: double.infinity,
+            padding: const EdgeInsets.only(top: 10, right: 15, bottom: 10),
+            margin: const EdgeInsets.only(top: 25, left: 25),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 0.01,
+                    blurRadius: 6,
+                  )
+                ]),
+            child: Column(
+              children: [
+                Container(
+                    padding: const EdgeInsets.only(left: 50),
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Text(
+                      text,
+                      style: TextStyle(fontSize: fontSize),
+                      textAlign: TextAlign.right,
+                    )),
+                showName
+                    ? Container(
+                        padding: const EdgeInsets.only(left: 100),
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: GradientText(
+                          name,
+                          colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
+                          style: TextStyle(
+                            fontSize: fontSize,
+                          ),
+                          textAlign: TextAlign.right,
+                        ))
+                    : Container(),
+              ],
+            )),
+        Container(
+          margin: const EdgeInsets.only(right: 260),
+          padding: const EdgeInsets.all(8),
+          decoration: const BoxDecoration(
+              shape: BoxShape.circle,
               color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
               boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  spreadRadius: 0.01,
-                  blurRadius: 6,
-                )
+                BoxShadow(color: Colors.grey, spreadRadius: .01, blurRadius: 6)
               ]),
-          child: Column(
-            children: [
-              Container(
-                  padding: const EdgeInsets.only(left: 50),
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: Text(
-                    text,
-                    style: TextStyle(fontSize: fontSize),
-                    textAlign: TextAlign.right,
-                  )),
-              showName
-                  ? Container(
-                      padding: const EdgeInsets.only(left: 100),
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: GradientText(
-                        name,
-                        colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
-                        style: TextStyle(
-                          fontSize: fontSize,
-                        ),
-                        textAlign: TextAlign.right,
-                      ))
-                  : Container(),
-            ],
-          )),
-      Container(
-        margin: const EdgeInsets.only(
-          right: 250,
+          child: const CircleAvatar(
+            radius: 57,
+            backgroundColor: Colors.white,
+            backgroundImage: NetworkImage(
+                "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"),
+          ),
         ),
-        padding: const EdgeInsets.all(8),
-        decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(color: Colors.grey, spreadRadius: .01, blurRadius: 6)
-            ]),
-        child: const CircleAvatar(
-          radius: 55,
-          backgroundColor: Colors.white,
-          backgroundImage: NetworkImage(
-              "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"),
-        ),
-      ),
-    ]);
+      ]),
+    );
   }
 }
