@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
+import 'package:public_speak_cac_2024/speech_screen/public_speak_speech.dart';
+
 class PublicSpeakSpeechAnalysis extends StatefulWidget {
   final String fileName;
   const PublicSpeakSpeechAnalysis({super.key, required this.fileName});
@@ -34,7 +36,7 @@ class _PublicSpeakSpeechAnalysisState extends State<PublicSpeakSpeechAnalysis> {
     final video = File(videoPath);
     await video.delete();
     file.delete();
-    Get.back();
+    Get.to(const PublicSpeakSpeech());
   }
 
   @override
@@ -51,29 +53,46 @@ class _PublicSpeakSpeechAnalysisState extends State<PublicSpeakSpeechAnalysis> {
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: Color(0xFFFFC8B7),
                 ),
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                      const Spacer(),
-                      const SizedBox(height: 40),
-                      const Text('Public Speaking',
-                          style: TextStyle(
-                            fontSize: 30,
-                          )),
-                      Text(widget.fileName),
-                      const Spacer(),
-                    ]))),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 52, left: 10),
-            child: IconButton(
-                onPressed: () {
-                  deletePrompt();
-                },
-                iconSize: 32,
-                color: Colors.black,
-                icon: const Icon(Icons.delete)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: IconButton(
+                          onPressed: () {
+                            deletePrompt();
+                          },
+                          iconSize: 32,
+                          color: Colors.black,
+                          icon: const Icon(Icons.delete)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Column(children: [
+                        const Spacer(),
+                        const SizedBox(height: 40),
+                        const Text('Public Speaking',
+                            style: TextStyle(
+                              fontSize: 30,
+                            )),
+                        Text(widget.fileName),
+                        const Spacer(),
+                      ]),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: IconButton(
+                        onPressed: () {
+                          Get.to(const PublicSpeakSpeech());
+                        },
+                        iconSize: 32,
+                        color: Colors.black,
+                        icon: const Icon(Icons.arrow_forward),
+                      ),
+                    )
+                  ],
+                )),
           ),
         ],
       ),
