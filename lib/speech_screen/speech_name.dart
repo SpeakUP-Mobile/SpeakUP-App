@@ -1,68 +1,11 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:public_speak_cac_2024/speech_screen/speech_analysis.dart';
+import 'speech_name_controller.dart';
 
-class SpeechNamePage extends StatefulWidget {
-  final String filePath;
+class SpeechNamePage extends GetView<SpeechNameController> {
+  final String videoPath;
 
-  const SpeechNamePage({super.key, required this.filePath});
-
-  @override
-  State<SpeechNamePage> createState() => _SpeechNamePageState();
-}
-
-class _SpeechNamePageState extends State<SpeechNamePage> {
-  String newName = 'Untitled';
-  bool validName = true;
-
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/$newName.metadata');
-  }
-
-  Future<File> createMetadata() async {
-    File file = await _localFile;
-    file = await file.writeAsString('$newName\n',
-        mode: FileMode.append); //Speech name
-    file = await file.writeAsString('${widget.filePath}\n',
-        mode: FileMode.append); //Path of actual video
-    file = await file.writeAsString('interview\n',
-        mode: FileMode.append); //Interview or Speech
-    file = await file.writeAsString('4\n', mode: FileMode.append); //Rating
-    return file;
-  }
-
-  Future<bool> get _isRepeat async {
-    final path = await _localPath;
-
-    return File('$path/$newName.metadata').exists();
-  }
-
-  Future<List<String>> get _fileContents async {
-    final file = await _localFile;
-
-    return file.readAsLines();
-  }
-
-  analyzeSpeech() async {
-    final fileExists = await _isRepeat;
-    if (!fileExists) {
-      validName = true;
-      await createMetadata();
-      final fileContents = await _fileContents;
-      Get.to(SpeechAnalysisPage(fileName: fileContents[0]));
-    } else {
-      validName = false;
-    }
-  }
+  const SpeechNamePage({super.key, required this.videoPath});
 
   @override
   Widget build(BuildContext context) {
@@ -73,27 +16,29 @@ class _SpeechNamePageState extends State<SpeechNamePage> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: TextFormField(
+              child: TextField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Name this recording',
                     hintText: 'Untitled 1'),
-                onChanged: (name) {
-                  setState(() => newName = name);
-                },
-                validator: (name) => validName ? 'Name already exists' : null,
+                onChanged: (name) => controller.updateName(name),
               ),
             ),
+            const SizedBox(height: 20),
+            Obx(() => Text(
+                controller.validName.isFalse ? 'Name already exists' : '',
+                style: const TextStyle(fontSize: 40, color: Colors.red))),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    onPressed: () => analyzeSpeech(),
+                    onPressed: () => controller.analyze(videoPath),
                     child: const Text('Analyze')),
                 const SizedBox(width: 20),
                 ElevatedButton(
-                    onPressed: () => Get.back(), child: const Text("Cancel"))
+                    onPressed: () => controller.cancel(),
+                    child: const Text("Cancel"))
               ],
             )
           ]),

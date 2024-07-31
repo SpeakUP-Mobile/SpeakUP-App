@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:public_speak_cac_2024/speech_screen/speech_name.dart';
 import '../custom_global_widgets/user_info_widget.dart';
+import 'speech_controller.dart';
 
-class SpeechPage extends StatefulWidget {
+class SpeechPage extends GetView<SpeechController> {
   const SpeechPage({super.key});
 
-  @override
-  State<SpeechPage> createState() => _SpeechPageState();
-}
-
-class _SpeechPageState extends State<SpeechPage> {
   final double buttonHorizontalMargin = 25;
   final double buttonHeight = 100;
-
-  getVideoFile(ImageSource sourceImage) async {
-    final videoFile = await ImagePicker().pickVideo(source: sourceImage);
-
-    if (videoFile != null) {
-      Get.to(SpeechNamePage(filePath: videoFile.path));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +36,7 @@ class _SpeechPageState extends State<SpeechPage> {
                   ]),
               child: const Text('Upload Speech')),
           onTap: () {
-            getVideoFile(ImageSource.gallery);
+            controller.getVideoFile(ImageSource.gallery);
           },
         ),
         const SizedBox(height: 20),
@@ -67,7 +54,7 @@ class _SpeechPageState extends State<SpeechPage> {
                   ]),
               child: const Text('Record Speech')),
           onTap: () {
-            getVideoFile(ImageSource.camera);
+            controller.getVideoFile(ImageSource.camera);
           },
         ),
       ]),
