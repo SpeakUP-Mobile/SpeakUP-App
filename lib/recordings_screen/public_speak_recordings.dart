@@ -12,25 +12,8 @@ class PublicSpeakRecordings extends StatefulWidget {
 }
 
 class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
-  String userName = "TESTING NAME";
+  String userName = "Antonio Powers";
   int view = 0;
-
-  final testRecordings = <RecordingInfoWidget>[
-    const RecordingInfoWidget(
-      name: "Recording 1",
-      date: 'January 1st, 2024',
-      time: '18:53',
-      isInterview: false,
-      score: 9,
-    ),
-    const RecordingInfoWidget(
-      name: "Recording 2",
-      date: 'January 4th, 2024',
-      time: '18:53',
-      isInterview: true,
-      score: 4,
-    )
-  ];
 
   List<RecordingInfoWidget> recordings = [];
 
@@ -179,9 +162,11 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
                     ? Colors.white
                     : const Color.fromARGB(255, 222, 222, 222),
                 borderRadius: const BorderRadius.all(Radius.circular(30)),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
+                      color: const Color.fromARGB(255, 209, 209, 209),
+                      spreadRadius: 0,
+                      blurRadius: view == 0 ? 5 : 0),
                 ]),
             child: InkWell(
               onTap: () {
@@ -200,24 +185,21 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.only(left: 10),
             decoration: BoxDecoration(
-                gradient: view == 1
-                    ? const LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 176, 60, 248),
-                          Color(0xffFF18BE)
-                        ],
-                      )
-                    : const LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 130, 44, 184),
-                          Color.fromARGB(255, 178, 17, 133)
-                        ],
-                      ),
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
-                ]),
+              gradient: view == 1
+                  ? const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 176, 60, 248),
+                        Color(0xffFF18BE)
+                      ],
+                    )
+                  : const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 199, 199, 199),
+                        Color.fromARGB(255, 199, 199, 199)
+                      ],
+                    ),
+              borderRadius: const BorderRadius.all(Radius.circular(30)),
+            ),
             child: InkWell(
               onTap: () {
                 setState(() {
@@ -226,10 +208,8 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
               },
               child: Text(
                 "Public Speech",
-                style: TextStyle(
-                    color: view == 1
-                        ? Colors.white
-                        : const Color.fromARGB(255, 199, 199, 199)),
+                style:
+                    TextStyle(color: view == 1 ? Colors.white : Colors.black),
               ),
             )),
         Container(
@@ -238,17 +218,15 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           margin: const EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
-              gradient: view == 2
-                  ? const LinearGradient(
-                      colors: [Color(0xFF4F23FF), Color(0xFF8F00FF)])
-                  : const LinearGradient(colors: [
-                      Color.fromARGB(255, 57, 26, 181),
-                      Color.fromARGB(255, 92, 0, 163)
-                    ]),
-              borderRadius: const BorderRadius.all(Radius.circular(30)),
-              boxShadow: const [
-                BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
-              ]),
+            gradient: view == 2
+                ? const LinearGradient(
+                    colors: [Color(0xFF4F23FF), Color(0xFF8F00FF)])
+                : const LinearGradient(colors: [
+                    Color.fromARGB(255, 199, 199, 199),
+                    Color.fromARGB(255, 199, 199, 199)
+                  ]),
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
+          ),
           child: InkWell(
             onTap: () {
               setState(() {
@@ -259,7 +237,7 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
                 style: TextStyle(
                     color: view == 2
                         ? Colors.white
-                        : const Color.fromARGB(255, 199, 199, 199))),
+                        : const Color.fromARGB(255, 0, 0, 0))),
           ),
         ),
       ]),
