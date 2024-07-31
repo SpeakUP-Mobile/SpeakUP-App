@@ -19,7 +19,7 @@ class RecordingInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 115,
-        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 9),
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
         decoration: const BoxDecoration(
             color: Colors.white,
@@ -53,6 +53,33 @@ class RecordingInfoWidget extends StatelessWidget {
   Row recordingTags() {
     return Row(
       children: [
+        InkWell(
+          onTap: () => print("hii"),
+          child: Container(
+            padding:
+                const EdgeInsets.only(left: 7, right: 5, top: 3, bottom: 3),
+            decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 255, 255, 255),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
+                ]),
+            child: const Row(
+              children: [
+                Text(
+                  "Delete",
+                  style: TextStyle(fontSize: 10),
+                ),
+                Icon(
+                  Icons.delete,
+                  size: 17,
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 6),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             decoration: const BoxDecoration(
@@ -64,7 +91,7 @@ class RecordingInfoWidget extends StatelessWidget {
                     color: score > 5
                         ? const Color(0xFF00FF57)
                         : const Color(0xFFFF0000)))),
-        const SizedBox(width: 8),
+        const SizedBox(width: 5),
         Container(
           padding:
               const EdgeInsets.only(left: 15, right: 15, bottom: 5, top: 5),

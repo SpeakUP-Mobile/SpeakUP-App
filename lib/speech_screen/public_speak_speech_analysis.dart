@@ -20,7 +20,7 @@ class _PublicSpeakSpeechAnalysisState extends State<PublicSpeakSpeechAnalysis> {
       backgroundColor: Colors.grey,
       textConfirm: "Delete",
       textCancel: "Cancel",
-      onConfirm: deleteFile(),
+      onConfirm: (deleteFile()),
       barrierDismissible: false,
       radius: 50,
     );
