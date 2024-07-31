@@ -58,10 +58,8 @@ class _PublicSpeakRecordingsState extends State<PublicSpeakRecordings> {
       final dayEnding = getDayEnding(modifiedDate.day);
       final date = '$month ${modifiedDate.day}$dayEnding, ${modifiedDate.year}';
       final time = '${modifiedDate.hour}:${modifiedDate.minute}';
-      print(contents[2].substring(0, 9));
       final isInterview =
           contents[2].substring(0, 9) == 'interview' ? true : false;
-      print(isInterview);
       final score = contents[3];
       final recording = RecordingInfoWidget(
           name: name,
