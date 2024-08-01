@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'speech_name_controller.dart';
+import 'speech_controller.dart';
 
-class SpeechNamePage extends GetView<SpeechNameController> {
+class SpeechNamePage extends GetView<SpeechController> {
   final String videoPath;
 
   const SpeechNamePage({super.key, required this.videoPath});
@@ -25,9 +25,12 @@ class SpeechNamePage extends GetView<SpeechNameController> {
               ),
             ),
             const SizedBox(height: 20),
-            Obx(() => Text(
-                controller.validName.isFalse ? 'Name already exists' : '',
-                style: const TextStyle(fontSize: 40, color: Colors.red))),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Obx(() => Text(
+                  controller.validName.value ? 'Test' : 'Name is already used',
+                  style: const TextStyle(fontSize: 16, color: Colors.red))),
+            ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
