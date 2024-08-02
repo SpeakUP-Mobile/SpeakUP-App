@@ -56,7 +56,8 @@ class SpeechController extends GetxController {
     }
   }
 
-  cancel() {
+  cancel(String videoPath) async {
+    await File(videoPath).delete();
     Get.back();
   }
 }

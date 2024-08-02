@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'recordings_controller.dart';
 
 class RecordingInfoWidget extends GetView<RecordingsController> {
@@ -21,37 +19,39 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 115,
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 0,
-                blurRadius: 2.5,
-              )
-            ]),
-        child: Row(children: [
-          Container(
-              width: 120,
-              margin: const EdgeInsets.symmetric(vertical: 12),
-              decoration: const BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-              )),
-          const Spacer(),
-          Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Text(name, style: const TextStyle(fontSize: 20)),
-            Text(date, style: const TextStyle(fontSize: 12)),
-            Text(time, style: const TextStyle(fontSize: 12)),
-            const Spacer(),
-            recordingTags()
-          ]),
-        ]));
+    return GestureDetector(
+        child: Container(
+            height: 115,
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    spreadRadius: 0,
+                    blurRadius: 2.5,
+                  )
+                ]),
+            child: Row(children: [
+              Container(
+                  width: 120,
+                  margin: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  )),
+              const Spacer(),
+              Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                Text(name, style: const TextStyle(fontSize: 20)),
+                Text(date, style: const TextStyle(fontSize: 12)),
+                Text(time, style: const TextStyle(fontSize: 12)),
+                const Spacer(),
+                recordingTags()
+              ]),
+            ])),
+        onTap: () => controller.viewRecording(name));
   }
 
   Row recordingTags() {

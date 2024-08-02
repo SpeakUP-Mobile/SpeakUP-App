@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import '../speech_screen/speech_analysis.dart';
 import 'recording_info_widget.dart';
 
 class RecordingsController extends GetxController {
@@ -113,5 +114,9 @@ class RecordingsController extends GetxController {
     await video.delete();
     await file.delete();
     updateRecordings();
+  }
+
+  viewRecording(String name) async {
+    Get.to(SpeechAnalysisPage(fileName: name));
   }
 }

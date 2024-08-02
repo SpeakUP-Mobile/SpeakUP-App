@@ -40,7 +40,7 @@ class SpeechNamePage extends GetView<SpeechController> {
                     child: const Text('Analyze')),
                 const SizedBox(width: 20),
                 ElevatedButton(
-                    onPressed: () => controller.cancel(),
+                    onPressed: () => controller.cancel(videoPath),
                     child: const Text("Cancel"))
               ],
             )
