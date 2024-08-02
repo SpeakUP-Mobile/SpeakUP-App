@@ -117,6 +117,10 @@ class RecordingsController extends GetxController {
   }
 
   viewRecording(String name) async {
-    Get.to(SpeechAnalysisPage(fileName: name));
+    final localPath = await getApplicationDocumentsDirectory();
+    final metadataFile = File('${localPath.path}/$name.metadata');
+    final contents = await metadataFile.readAsLines();
+    final videoPath = contents[1];
+    Get.to(SpeechAnalysisPage(recordingName: name, videoPath: videoPath));
   }
 }

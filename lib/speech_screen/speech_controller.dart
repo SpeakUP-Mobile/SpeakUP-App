@@ -1,12 +1,17 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:video_player/video_player.dart';
 import '../recordings_screen/recordings_controller.dart';
 import 'speech_analysis.dart';
 import 'speech_name.dart';
 
 class SpeechController extends GetxController {
+  String name = '';
+  RxBool validName = true.obs;
+
   void getVideoFile(ImageSource source) async {
     final videoFile = await ImagePicker().pickVideo(source: source);
 
@@ -16,9 +21,6 @@ class SpeechController extends GetxController {
       ));
     }
   }
-
-  String name = '';
-  RxBool validName = true.obs;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -52,12 +54,41 @@ class SpeechController extends GetxController {
     if (validName.isTrue && name != '') {
       await createMetadata(videoPath);
       Get.find<RecordingsController>().updateRecordings();
-      Get.to(SpeechAnalysisPage(fileName: name));
+      Get.to(SpeechAnalysisPage(
+        recordingName: name,
+        videoPath: videoPath,
+      ));
     }
   }
 
   cancel(String videoPath) async {
     await File(videoPath).delete();
+    Get.back();
+  }
+
+  deletePrompt(String recordingName) {
+    Get.defaultDialog(
+      title: 'Delete',
+      middleText: 'Are you sure you want to delete $recordingName',
+      backgroundColor: Colors.grey,
+      textConfirm: "Delete",
+      textCancel: "Cancel",
+      onConfirm: () => deleteFile(recordingName),
+      barrierDismissible: false,
+      radius: 50,
+    );
+  }
+
+  deleteFile(String recordingName) async {
+    final localPath = await getApplicationDocumentsDirectory();
+    final file = File('${localPath.path}/$recordingName.metadata');
+    final contents = await file.readAsLines();
+    final videoPath = contents[1];
+    final video = File(videoPath);
+    await video.delete();
+    await file.delete();
+    Get.back();
+    Get.back();
     Get.back();
   }
 }

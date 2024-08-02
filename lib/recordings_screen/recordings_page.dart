@@ -26,15 +26,17 @@ class RecordingsPage extends GetView<RecordingsController> {
       ]),
       Obx(() => filterButtons()),
       Obx(() {
-        return Column(children: [
-          for (RecordingInfoWidget recording in controller.recordings)
-            if (controller.view.value == 0)
-              recording
-            else if (controller.view.value == 1 && !recording.isInterview)
-              recording
-            else if (controller.view.value == 2 && recording.isInterview)
-              recording
-        ]);
+        return SingleChildScrollView(
+          child: Column(children: [
+            for (RecordingInfoWidget recording in controller.recordings)
+              if (controller.view.value == 0)
+                recording
+              else if (controller.view.value == 1 && !recording.isInterview)
+                recording
+              else if (controller.view.value == 2 && recording.isInterview)
+                recording
+          ]),
+        );
       })
     ]));
   }
