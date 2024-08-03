@@ -8,6 +8,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
   final String time;
   final bool isInterview;
   final int score;
+  final String thumbnailPath;
 
   const RecordingInfoWidget(
       {super.key,
@@ -15,7 +16,8 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
       required this.date,
       required this.time,
       required this.isInterview,
-      required this.score});
+      required this.score,
+      required this.thumbnailPath});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,14 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
               Container(
                   width: 120,
                   margin: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: thumbnailPath != ''
+                            ? AssetImage(thumbnailPath)
+                            : const AssetImage(
+                                'assets/placeholder_thumbnail.jpg')),
                     color: Colors.grey,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
                   )),
               const Spacer(),
               Column(crossAxisAlignment: CrossAxisAlignment.end, children: [

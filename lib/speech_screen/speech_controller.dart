@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import '../recordings_screen/recordings_controller.dart';
 import 'speech_analysis.dart';
 import 'speech_name.dart';
@@ -30,12 +30,27 @@ class SpeechController extends GetxController {
   Future createMetadata(String videoPath) async {
     final path = await _localPath;
     final file = File('$path/$name.metadata');
+    final thumbnailPath = await getThumbnailPath(videoPath);
     await file.writeAsString('$name\n', mode: FileMode.append); //Speech name
     await file.writeAsString('$videoPath\n',
         mode: FileMode.append); //Path of actual video
     await file.writeAsString('interview\n',
         mode: FileMode.append); //Interview or Speech
     await file.writeAsString('4\n', mode: FileMode.append); //Rating
+    await file.writeAsString('$thumbnailPath\n',
+        mode: FileMode.append); //Path of thumbnail file
+  }
+
+  Future<String> getThumbnailPath(String videoPath) async {
+    final fileName = await VideoThumbnail.thumbnailFile(
+      video: videoPath,
+      thumbnailPath: (await getTemporaryDirectory()).path,
+      imageFormat: ImageFormat.PNG,
+      maxHeight: 100,
+      quality: 75,
+    );
+    print(fileName);
+    return fileName!;
   }
 
   updateName(name) async {
@@ -87,6 +102,7 @@ class SpeechController extends GetxController {
     final video = File(videoPath);
     await video.delete();
     await file.delete();
+    Get.find<RecordingsController>().updateRecordings();
     Get.back();
     Get.back();
     Get.back();

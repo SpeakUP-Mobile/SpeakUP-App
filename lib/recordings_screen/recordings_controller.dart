@@ -41,12 +41,15 @@ class RecordingsController extends GetxController {
       final time = '${modifiedDate.hour}:${modifiedDate.minute}';
       final isInterview = contents[2] == 'interview' ? true : false;
       final score = contents[3];
+      final thumbnailPath = contents[4];
       final recording = RecordingInfoWidget(
-          name: name,
-          date: date,
-          time: time,
-          isInterview: isInterview,
-          score: int.parse(score));
+        name: name,
+        date: date,
+        time: time,
+        isInterview: isInterview,
+        score: int.parse(score),
+        thumbnailPath: thumbnailPath,
+      );
       recordingWidgets.add(recording);
     }
     return recordingWidgets;
