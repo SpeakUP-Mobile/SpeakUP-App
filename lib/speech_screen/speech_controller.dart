@@ -47,9 +47,8 @@ class SpeechController extends GetxController {
       thumbnailPath: (await getTemporaryDirectory()).path,
       imageFormat: ImageFormat.PNG,
       maxHeight: 100,
-      quality: 75,
+      quality: 500,
     );
-    print(fileName);
     return fileName!;
   }
 

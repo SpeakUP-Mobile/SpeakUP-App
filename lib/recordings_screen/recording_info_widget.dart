@@ -42,10 +42,12 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                   margin: const EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: thumbnailPath != ''
-                            ? AssetImage(thumbnailPath)
-                            : const AssetImage(
-                                'assets/placeholder_thumbnail.jpg')),
+                      image: thumbnailPath != ''
+                          ? AssetImage(thumbnailPath)
+                          : const AssetImage(
+                              'assets/placeholder_thumbnail.jpg'),
+                      fit: BoxFit.cover,
+                    ),
                     color: Colors.grey,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                   )),
