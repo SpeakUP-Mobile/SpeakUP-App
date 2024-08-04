@@ -1,10 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:public_speak_cac_2024/firebase_options.dart';
 import 'dashboard/dashboard_binding.dart';
-import 'dashboard/dashboard.dart';
+// ignore: unused_import
 import 'login_screen/login_page.dart';
+// ignore: unused_import
+import 'dashboard/dashboard.dart';
+// ignore: unused_import
+import 'login_screen/auth_gate.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const PublicSpeak());
 }
 
@@ -26,7 +36,7 @@ class PublicSpeak extends StatelessWidget {
       getPages: [
         GetPage(
             name: '/',
-            page: () => const LoginPage(),
+            page: () => const AuthGate(),
             binding: DashboardBinding())
       ],
     );
