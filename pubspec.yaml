@@ -32,6 +32,11 @@ flutter:
     - assets/icons/podium/podium_selected_icon.png
     - assets/icons/briefcase/briefcase_icon.png
     - assets/icons/briefcase/briefcase_selected_icon.png
+    - assets/login_temp_background.jpeg
+    - assets/login_screen/facebook_icon.png
+    - assets/login_screen/apple_icon.png
+    - assets/login_screen/google_icon.png
+    - assets/speakup_logo.png
   fonts:
   - family: Poppins
     fonts: 

@@ -8,8 +8,8 @@ class ThirdPartyLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 40,
-        width: 40,
+        height: MediaQuery.of(context).size.height * 0.06,
+        width: MediaQuery.of(context).size.height * 0.06,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:public_speak_cac_2024/dashboard/dashboard_binding.dart';
+import 'dashboard/dashboard_binding.dart';
 import 'dashboard/dashboard.dart';
+import 'login_screen/login_page.dart';
 
 void main() {
   runApp(const PublicSpeak());
@@ -25,7 +26,7 @@ class PublicSpeak extends StatelessWidget {
       getPages: [
         GetPage(
             name: '/',
-            page: () => const Dashboard(),
+            page: () => const LoginPage(),
             binding: DashboardBinding())
       ],
     );

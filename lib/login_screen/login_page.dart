@@ -1,113 +1,143 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:public_speak_cac_2024/common_widgets.dart';
 import 'custom_login_button.dart';
-// import 'third_party_login_buttons.dart';
+import 'third_party_login_buttons.dart';
+import 'login_controller.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends GetView<LoginController> {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  bool showLoginPanel = false;
-  bool showRegisterPanel = false;
-  @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      body: Stack(children: [
-        showLoginPanel ? loginPanel() : Container(),
-        showRegisterPanel ? registerPanel() : Container(),
-        loginScreen(),
-      ]),
-      bottomNavigationBar: bottomBanner(),
-    );
-  }
-
-  Container loginPanel() {
-    return Container();
-  }
-
-  Container registerPanel() {
-    return Container();
-  }
-
-  Column loginScreen() {
-    return Column(children: [
-      topBannerLogin(),
-      const SizedBox(height: 150),
-      logoAndText(),
-      const SizedBox(height: 120),
-      const CustomLoginButton(text: 'Login'),
-      const SizedBox(height: 20),
-      const CustomLoginButton(text: 'Register'),
-      /*
-      const SizedBox(height: 40),
-      const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Spacer(flex: 8),
-        ThirdPartyLoginButton(image: 'assets/login_screen/google_icon.png'),
-        Spacer(),
-        ThirdPartyLoginButton(image: 'assets/login_screen/facebook_icon.png'),
-        Spacer(),
-        ThirdPartyLoginButton(image: 'assets/login_screen/apple_icon.png'),
-        Spacer(flex: 8),
-      ]),
-      */
-    ]);
-  }
-
-  Container bottomBanner() {
-    return Container(
-      height: 110,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(CommonWidgets.motifImageURI),
-          ),
-          color: Color(0xffffc8b7),
-          boxShadow: [
-            BoxShadow(color: Colors.grey, blurRadius: 15, spreadRadius: 0)
-          ],
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-    );
-  }
-
-  Text logoAndText() {
-    return const Text(
-      'SpeakUp',
-      style: TextStyle(
-        fontSize: 50,
-      ),
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Stack topBannerLogin() {
-    return Stack(children: [
-      Container(
-        height: 100,
-        decoration: const BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: Color(0xffffc8b7),
-        ),
-      ),
-      Container(
-        height: 175,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
+      body: Stack(alignment: AlignmentDirectional.topCenter, children: [
+        Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage('assets/login_temp_background.jpeg'),
               fit: BoxFit.cover,
-              image: NetworkImage(CommonWidgets.motifImageURI),
+            ))),
+        Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          SizedBox(height: screenHeight * 0.2),
+          const Text(
+            '👋 Welcome to...',
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
             ),
-            color: Color(0xffffc8b7),
-            boxShadow: [
-              BoxShadow(color: Colors.grey, blurRadius: 15, spreadRadius: 0)
+          ),
+          const SizedBox(height: 10),
+          const Row(
+            children: [
+              Spacer(flex: 3),
+              Text('Speak',
+                  style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF383DA8))),
+              Spacer(flex: 7),
             ],
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20))),
-      )
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.2),
+            child: const Image(image: AssetImage('assets/speakup_logo.png')),
+          ),
+          SizedBox(height: screenHeight * 0.035),
+          const Text(
+            'You AI-enhanced',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const Text(
+            'Public Speaking & Interview Coach',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: screenHeight * 0.035),
+          Container(
+            height: 50,
+            width: 300,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
+                ]),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                backgroundColor:
+                    const WidgetStatePropertyAll<Color>(Color(0x70C7B6E3)),
+                overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return Colors.grey[200];
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              child: const Center(
+                  child: Text('Get Started',
+                      style: TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold))),
+              onPressed: () => true,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            height: 50,
+            width: 300,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
+                ]),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
+                backgroundColor:
+                    const WidgetStatePropertyAll<Color>(Color(0xFF1C217F)),
+                overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return Colors.grey[200];
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              child: const Center(
+                  child: Text('Login', style: const TextStyle(fontSize: 18))),
+              onPressed: () => true,
+            ),
+          ),
+          const SizedBox(height: 20),
+          thirdPartyLoginButtons(),
+        ]),
+      ]),
+    );
+  }
+
+  Row thirdPartyLoginButtons() {
+    return const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Spacer(flex: 8),
+      ThirdPartyLoginButton(image: 'assets/login_screen/google_icon.png'),
+      Spacer(),
+      ThirdPartyLoginButton(image: 'assets/login_screen/facebook_icon.png'),
+      Spacer(),
+      ThirdPartyLoginButton(image: 'assets/login_screen/apple_icon.png'),
+      Spacer(flex: 8),
     ]);
   }
 }
