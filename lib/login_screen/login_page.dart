@@ -32,7 +32,7 @@ class LoginPage extends GetView<LoginController> {
             SizedBox(height: screenHeight * 0.04),
             registerButton(context),
             const SizedBox(height: 15),
-            loginButton(),
+            loginButton(context),
             SizedBox(height: screenHeight * 0.04),
             thirdPartyLoginButtons(),
           ]),
@@ -117,12 +117,16 @@ class LoginPage extends GetView<LoginController> {
         child: const Center(
             child: Text('Get Started',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-        onPressed: () => Get.dialog(registerDialog(context)),
+        onPressed: () {
+          Get.lazyPut(() => LoginController());
+          controller.resetWarningText();
+          Get.dialog(registerDialog(context));
+        },
       ),
     );
   }
 
-  Container loginButton() {
+  Container loginButton(BuildContext context) {
     return Container(
       height: 50,
       width: 300,
@@ -149,7 +153,11 @@ class LoginPage extends GetView<LoginController> {
         child: const Center(
             child: Text('Log In',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-        onPressed: () => true,
+        onPressed: () {
+          Get.lazyPut(() => LoginController());
+          controller.resetWarningText();
+          Get.dialog(loginDialog(context));
+        },
       ),
     );
   }
@@ -167,7 +175,6 @@ class LoginPage extends GetView<LoginController> {
   }
 
   registerDialog(BuildContext context) {
-    Get.lazyPut(() => LoginController());
     return Dialog(
       child: SingleChildScrollView(
         child: ClipRRect(
@@ -359,6 +366,132 @@ class LoginPage extends GetView<LoginController> {
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold))),
                     onPressed: () => controller.registerUser(),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  loginDialog(BuildContext context) {
+    return Dialog(
+      child: SingleChildScrollView(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Column(
+              children: [
+                Container(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: IconButton(
+                        onPressed: () => Get.back(),
+                        icon: const Icon(Icons.cancel_rounded))),
+                const Text('Login', style: TextStyle(fontSize: 32.0)),
+                const SizedBox(height: 20),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 10),
+                        Container(
+                          height: 45,
+                          decoration: const BoxDecoration(
+                              color: Color(0xFFE8E8E8),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30.0))),
+                          padding: const EdgeInsets.only(
+                              left: 30.0, right: 30, top: 7),
+                          child: TextField(
+                            enableSuggestions: false,
+                            maxLines: 1,
+                            maxLength: 50,
+                            textCapitalization: TextCapitalization.none,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
+                                counterText: '',
+                                isDense: true,
+                                border: InputBorder.none,
+                                hintText: 'Email adress',
+                                hintStyle: TextStyle(
+                                    fontSize: 12, color: Color(0xFFBFBFBF))),
+                            onChanged: (email) => controller.updateEmail(email),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                            height: 45,
+                            decoration: const BoxDecoration(
+                                color: Color(0xFFE8E8E8),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0))),
+                            padding: const EdgeInsets.only(
+                                left: 30.0, right: 30, top: 7),
+                            child: TextField(
+                              maxLines: 1,
+                              maxLength: 30,
+                              obscureText: true,
+                              decoration: const InputDecoration(
+                                  counterText: '',
+                                  isDense: true,
+                                  border: InputBorder.none,
+                                  hintText: 'Password',
+                                  hintStyle: TextStyle(
+                                      fontSize: 12, color: Color(0xFFBFBFBF))),
+                              onChanged: (password) =>
+                                  controller.updatePassword(password),
+                            )),
+                        const SizedBox(height: 10),
+                      ],
+                    )),
+                const SizedBox(height: 5),
+                Obx(() => Text(controller.warningText.value,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ))),
+                const SizedBox(height: 10),
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.symmetric(horizontal: 65),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            spreadRadius: 0,
+                            blurRadius: 2.5),
+                      ]),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      shape: const WidgetStatePropertyAll<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)))),
+                      foregroundColor:
+                          WidgetStateProperty.all<Color>(Colors.white),
+                      backgroundColor: const WidgetStatePropertyAll<Color>(
+                          Color(0xFF1C217F)),
+                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                        (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.pressed)) {
+                            return const Color.fromARGB(255, 20, 24, 92);
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    child: const Center(
+                        child: Text('Login',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold))),
+                    onPressed: () => controller.loginUser(),
                   ),
                 )
               ],

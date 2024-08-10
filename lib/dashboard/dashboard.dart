@@ -19,6 +19,7 @@ class Dashboard extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => DashboardController());
     return GetBuilder<DashboardController>(builder: (controller) {
       return Scaffold(
         bottomNavigationBar: Container(

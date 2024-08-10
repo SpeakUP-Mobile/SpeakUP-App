@@ -21,10 +21,11 @@ class LoginController extends GetxController {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      print(e.code);
       if (e.code == 'email-already-in-use') {
         warningText.value =
             'Account with that email already exists. Please sign in instead';
+      } else {
+        warningText.value = e.code;
       }
       return;
     }
@@ -71,6 +72,35 @@ class LoginController extends GetxController {
     } else {
       warningText.value = 'Please enter your name';
     }
+  }
+
+  loginUser() async {
+    if (email != null) {
+      if (password != null) {
+        try {
+          await FirebaseAuth.instance
+              .signInWithEmailAndPassword(email: email!, password: password!);
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'invalid-email') {
+            warningText.value = 'No user found for that email.';
+          } else if (e.code == 'invalid-credentail') {
+            warningText.value = 'Wrong password provided for that user.';
+          } else {
+            warningText.value = e.code;
+          }
+          return;
+        }
+        Get.back();
+      } else {
+        warningText.value = 'Please enter a password';
+      }
+    } else {
+      warningText.value = 'Please enter an email';
+    }
+  }
+
+  resetWarningText() {
+    warningText.value = '';
   }
 
   updateUsername(String username) {
