@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBpKcNgoy377xLlGcs86QY1V4yVNN_SKkc',
-    appId: '1:325064638953:android:59571db7036acabfa6cb78',
+    appId: '1:325064638953:android:ab3755e0c34a2383a6cb78',
     messagingSenderId: '325064638953',
     projectId: 'speak-up-cac',
     storageBucket: 'speak-up-cac.appspot.com',
@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDMIoVPq2Y_5k6Dc8ey0bWc9a3qVghzBK4',
-    appId: '1:325064638953:ios:735ffd07f507e293a6cb78',
+    appId: '1:325064638953:ios:a576fe44fa68dbbea6cb78',
     messagingSenderId: '325064638953',
     projectId: 'speak-up-cac',
     storageBucket: 'speak-up-cac.appspot.com',
-    iosBundleId: 'com.example.publicSpeakCac2024',
+    iosBundleId: 'com.speakup.app.joeltest1',
   );
+
 }

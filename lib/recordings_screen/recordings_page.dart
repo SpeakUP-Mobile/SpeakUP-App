@@ -16,12 +16,12 @@ class RecordingsPage extends GetView<RecordingsController> {
           padding: const EdgeInsets.only(top: 70),
           alignment: AlignmentDirectional.topCenter,
           margin: const EdgeInsets.only(bottom: 15),
-          child: UserInfoWidget(
-            text: 'Good Morning,',
-            fontSize: 24,
-            name: controller.userName,
-            showName: true,
-          ),
+          child: Obx(() => UserInfoWidget(
+                text: 'Good Morning,',
+                fontSize: 24,
+                name: controller.username.value,
+                showName: true,
+              )),
         ),
       ]),
       Obx(() => filterButtons()),

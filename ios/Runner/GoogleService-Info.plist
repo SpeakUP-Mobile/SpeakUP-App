@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.publicSpeakCac2024</string>
+	<string>com.speakup.app.joeltest1</string>
 	<key>PROJECT_ID</key>
 	<string>speak-up-cac</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:325064638953:ios:735ffd07f507e293a6cb78</string>
+	<string>1:325064638953:ios:a576fe44fa68dbbea6cb78</string>
 </dict>
 </plist>
