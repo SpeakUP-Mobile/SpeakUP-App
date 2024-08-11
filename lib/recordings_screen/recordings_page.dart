@@ -17,7 +17,7 @@ class RecordingsPage extends GetView<RecordingsController> {
           alignment: AlignmentDirectional.topCenter,
           margin: const EdgeInsets.only(bottom: 15),
           child: Obx(() => UserInfoWidget(
-                text: 'Good Morning,',
+                text: 'Good ${controller.getTime()},',
                 fontSize: 24,
                 name: controller.username.value,
                 showName: true,

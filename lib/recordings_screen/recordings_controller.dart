@@ -26,6 +26,21 @@ class RecordingsController extends GetxController {
     username.value = doc.data()!['username'];
   }
 
+  String getTime() {
+    final hour = DateTime.now().hour;
+    String text = '';
+    if (hour >= 5 && hour < 12) {
+      text = 'Morning';
+    } else if (hour >= 12 && hour < 20) {
+      text = 'Afternoon';
+    } else if (hour >= 20 && hour < 23) {
+      text = 'Evening';
+    } else {
+      text = 'Night';
+    }
+    return text;
+  }
+
   Future<List<String>> get _metadataPaths async {
     final localPath = await getApplicationDocumentsDirectory();
     List<String> metadataPaths = [];

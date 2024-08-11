@@ -10,14 +10,15 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
   final int score;
   final String thumbnailPath;
 
-  const RecordingInfoWidget(
-      {super.key,
-      required this.name,
-      required this.date,
-      required this.time,
-      required this.isInterview,
-      required this.score,
-      required this.thumbnailPath});
+  const RecordingInfoWidget({
+    super.key,
+    required this.name,
+    required this.date,
+    required this.time,
+    required this.isInterview,
+    required this.score,
+    required this.thumbnailPath,
+  });
 
   @override
   Widget build(BuildContext context) {

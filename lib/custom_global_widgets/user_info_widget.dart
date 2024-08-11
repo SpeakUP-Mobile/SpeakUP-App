@@ -7,12 +7,13 @@ class UserInfoWidget extends StatelessWidget {
   final bool showName;
   final String name;
 
-  const UserInfoWidget(
-      {super.key,
-      required this.text,
-      required this.fontSize,
-      this.name = "",
-      this.showName = false});
+  const UserInfoWidget({
+    super.key,
+    required this.text,
+    required this.fontSize,
+    this.name = "",
+    this.showName = false,
+  });
 
   @override
   Widget build(BuildContext context) {
