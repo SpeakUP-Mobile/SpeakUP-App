@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:public_speak_cac_2024/custom_global_widgets/user_info_widget.dart';
+import 'package:get/get.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class InterviewPage extends StatelessWidget {
   const InterviewPage({super.key});
@@ -7,41 +8,26 @@ class InterviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(top: 70),
-            alignment: AlignmentDirectional.topCenter,
-            margin: const EdgeInsets.only(bottom: 13),
-            child: const UserInfoWidget(
-              text: 'Interviews',
-              fontSize: 25,
+        appBar: AppBar(
+            leading: InkWell(
+                onTap: () => Get.back(), child: const Icon(Icons.arrow_back))),
+        body: Column(
+          children: [
+            const SizedBox(height: 10),
+            Center(
+              child: GradientText(
+                'Interview',
+                colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
+                style: const TextStyle(fontSize: 48),
+              ),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(
-                top: 250, left: 35, right: 35, bottom: 30),
-            child: Column(
-              // Content
-              children: [
-                Container(
-                  height: 165,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 0,
-                            blurRadius: 2.5),
-                      ]),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+            Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                alignment: Alignment.center,
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: const BoxDecoration(color: Colors.grey),
+                child: const Text('Placeholder for video')),
+          ],
+        ));
   }
 }

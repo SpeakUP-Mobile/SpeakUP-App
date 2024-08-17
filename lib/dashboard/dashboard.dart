@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'dashboard_controller.dart';
 import '../recordings_screen/recordings_page.dart';
 import '../speech_screen/speech_page.dart';
-import '../interview_screen/interview_page.dart';
+import '../interview_screen/interview_hub.dart';
 import '../profile_screen/profile_page.dart';
 
 class Dashboard extends GetView<DashboardController> {
@@ -168,7 +168,7 @@ class Dashboard extends GetView<DashboardController> {
           children: const [
             RecordingsPage(),
             SpeechPage(),
-            InterviewPage(),
+            InterviewHub(),
             ProfilePage(),
           ],
         ),

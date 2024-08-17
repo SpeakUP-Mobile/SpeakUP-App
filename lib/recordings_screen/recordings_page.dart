@@ -4,7 +4,6 @@ import 'recordings_controller.dart';
 import "../custom_global_widgets/user_info_widget.dart";
 import "../recordings_screen/recording_info_widget.dart";
 import '../interview_screen/interview_page.dart';
-import '../speech_screen/speech_page.dart';
 
 class RecordingsPage extends GetView<RecordingsController> {
   const RecordingsPage({super.key});
@@ -138,24 +137,48 @@ class RecordingsPage extends GetView<RecordingsController> {
     return Dialog(
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Column(
-              children: [
-                Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    height: 35,
-                    child: InkWell(
-                        onTap: () => Get.to(const SpeechPage()),
-                        child: const Text("Speech",
-                            style: TextStyle(fontSize: 16)))),
-                const SizedBox(height: 10),
-                Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    height: 35,
-                    child: InkWell(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Create a new recording to analyze (only interview works rn)',
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    InkWell(
+                        onTap: () => print('Speech'),
+                        child: Container(
+                            alignment: Alignment.center,
+                            height: 50,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                color: Color.fromARGB(51, 194, 194, 194)),
+                            child: const Text('Speech',
+                                style: TextStyle(fontSize: 16)))),
+                    const SizedBox(height: 10),
+                    InkWell(
                         onTap: () => Get.to(const InterviewPage()),
-                        child: const Text("Interview",
-                            style: TextStyle(fontSize: 16))))
-              ],
+                        child: Container(
+                            alignment: Alignment.center,
+                            height: 50,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                color: Color.fromARGB(51, 194, 194, 194)),
+                            child: const Text('Interview',
+                                style: TextStyle(fontSize: 16)))),
+                    const SizedBox(height: 10),
+                  ],
+                ),
+              ),
             )));
   }
 }
