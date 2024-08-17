@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'recordings_controller.dart';
 import "../custom_global_widgets/user_info_widget.dart";
 import "../recordings_screen/recording_info_widget.dart";
+import '../interview_screen/interview_page.dart';
+import '../speech_screen/speech_page.dart';
 
 class RecordingsPage extends GetView<RecordingsController> {
   const RecordingsPage({super.key});
@@ -10,35 +12,40 @@ class RecordingsPage extends GetView<RecordingsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(children: [
-      Stack(children: [
-        Container(
-          padding: const EdgeInsets.only(top: 70),
-          alignment: AlignmentDirectional.topCenter,
-          margin: const EdgeInsets.only(bottom: 15),
-          child: Obx(() => UserInfoWidget(
-                text: 'Good ${controller.getTime()},',
-                fontSize: 24,
-                name: controller.username.value,
-                showName: true,
-              )),
-        ),
+      body: Column(children: [
+        Stack(children: [
+          Container(
+            padding: const EdgeInsets.only(top: 70),
+            alignment: AlignmentDirectional.topCenter,
+            margin: const EdgeInsets.only(bottom: 15),
+            child: Obx(() => UserInfoWidget(
+                  text: 'Good ${controller.getTime()},',
+                  fontSize: 24,
+                  name: controller.username.value,
+                  showName: true,
+                )),
+          ),
+        ]),
+        Obx(() => filterButtons()),
+        Obx(() {
+          return SingleChildScrollView(
+            child: Column(children: [
+              for (RecordingInfoWidget recording in controller.recordings)
+                if (controller.view.value == 0)
+                  recording
+                else if (controller.view.value == 1 && !recording.isInterview)
+                  recording
+                else if (controller.view.value == 2 && recording.isInterview)
+                  recording
+            ]),
+          );
+        })
       ]),
-      Obx(() => filterButtons()),
-      Obx(() {
-        return SingleChildScrollView(
-          child: Column(children: [
-            for (RecordingInfoWidget recording in controller.recordings)
-              if (controller.view.value == 0)
-                recording
-              else if (controller.view.value == 1 && !recording.isInterview)
-                recording
-              else if (controller.view.value == 2 && recording.isInterview)
-                recording
-          ]),
-        );
-      })
-    ]));
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.dialog(newRecordingDialog(context)),
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 
   Container filterButtons() {
@@ -125,5 +132,30 @@ class RecordingsPage extends GetView<RecordingsController> {
         ),
       ]),
     );
+  }
+
+  Dialog newRecordingDialog(BuildContext context) {
+    return Dialog(
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Column(
+              children: [
+                Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 35,
+                    child: InkWell(
+                        onTap: () => Get.to(const SpeechPage()),
+                        child: const Text("Speech",
+                            style: TextStyle(fontSize: 16)))),
+                const SizedBox(height: 10),
+                Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 35,
+                    child: InkWell(
+                        onTap: () => Get.to(const InterviewPage()),
+                        child: const Text("Interview",
+                            style: TextStyle(fontSize: 16))))
+              ],
+            )));
   }
 }
