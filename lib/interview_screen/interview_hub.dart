@@ -1,9 +1,11 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../custom_global_widgets/user_info_widget.dart';
 import 'interview_page.dart';
+import 'interview_controller.dart';
 
-class InterviewHub extends StatelessWidget {
+class InterviewHub extends GetView<InterviewController> {
   const InterviewHub({super.key});
 
   @override
@@ -27,7 +29,10 @@ class InterviewHub extends StatelessWidget {
               // Content
               children: [
                 InkWell(
-                  onTap: () => Get.to(const InterviewPage()),
+                  onTap: () async {
+                    List<CameraDescription> cameras = await availableCameras();
+                    Get.to(InterviewPage(cameras: cameras));
+                  },
                   child: Container(
                       alignment: Alignment.center,
                       height: 165,
