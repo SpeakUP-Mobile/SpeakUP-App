@@ -23,7 +23,7 @@ class Dashboard extends GetView<DashboardController> {
     return GetBuilder<DashboardController>(builder: (controller) {
       return Scaffold(
         bottomNavigationBar: Container(
-          height: 120,
+          height: 100,
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -54,7 +54,7 @@ class Dashboard extends GetView<DashboardController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 50,
+                        width: 30,
                         margin: const EdgeInsets.only(bottom: 5),
                         child: ImageIcon(
                           AssetImage(
@@ -82,7 +82,7 @@ class Dashboard extends GetView<DashboardController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 50,
+                        width: 30,
                         margin: const EdgeInsets.only(bottom: 5),
                         child: ImageIcon(
                           AssetImage(
@@ -110,7 +110,7 @@ class Dashboard extends GetView<DashboardController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 50,
+                        width: 35,
                         margin: const EdgeInsets.only(bottom: 5),
                         child: ImageIcon(
                           AssetImage(
@@ -138,7 +138,7 @@ class Dashboard extends GetView<DashboardController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 50,
+                        width: 30,
                         margin: const EdgeInsets.only(bottom: 5),
                         child: ImageIcon(
                           AssetImage(
