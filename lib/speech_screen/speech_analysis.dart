@@ -17,24 +17,24 @@ class SpeechAnalysisPage extends StatefulWidget {
 }
 
 class _SpeechAnalysisPageState extends State<SpeechAnalysisPage> {
-  VideoPlayerController? videoPlayerController;
+  late VideoPlayerController _videoPlayerController;
   bool isVideoPaused = true;
 
   @override
   void initState() {
     super.initState();
-    setState(() => videoPlayerController =
+    setState(() => _videoPlayerController =
         VideoPlayerController.file(File(widget.videoPath)));
-    videoPlayerController!.initialize();
-    videoPlayerController!.play();
+    _videoPlayerController.initialize();
+    _videoPlayerController.play();
     setState(() => isVideoPaused = false);
-    videoPlayerController!.setVolume(2);
-    videoPlayerController!.setLooping(true);
+    _videoPlayerController.setVolume(2);
+    _videoPlayerController.setLooping(true);
   }
 
   @override
   void dispose() {
-    videoPlayerController!.dispose();
+    _videoPlayerController.dispose();
     super.dispose();
   }
 
@@ -77,7 +77,7 @@ class _SpeechAnalysisPageState extends State<SpeechAnalysisPage> {
       SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.65,
-        child: VideoPlayer(videoPlayerController!),
+        child: VideoPlayer(_videoPlayerController!),
       ),
       SizedBox(
         height: MediaQuery.of(context).size.height * 0.05,
@@ -99,10 +99,10 @@ class _SpeechAnalysisPageState extends State<SpeechAnalysisPage> {
         IconButton(
             onPressed: () {
               if (isVideoPaused) {
-                videoPlayerController!.play();
+                _videoPlayerController!.play();
                 setState(() => isVideoPaused = false);
               } else {
-                videoPlayerController!.pause();
+                _videoPlayerController!.pause();
                 setState(() => isVideoPaused = true);
               }
             },

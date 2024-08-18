@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'interview_analysis.dart';
 
 class InterviewPage extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -19,6 +20,9 @@ class _InterviewPageState extends State<InterviewPage> {
   bool isRecording = false;
   bool flash = false;
   bool isCameraFront = true;
+
+  XFile? videoFile;
+  bool isRecordingDone = false;
 
   @override
   void initState() {
@@ -80,13 +84,20 @@ class _InterviewPageState extends State<InterviewPage> {
                         )),
                     const Spacer(flex: 3),
                     InkWell(
-                        onTap: () {},
-                        child: const Icon(Icons.radio_button_checked,
-                            color: Colors.red, size: 48)),
+                        onTap: () => record(),
+                        child: Icon(
+                            isRecording
+                                ? Icons.radio_button_checked
+                                : Icons.radio_button_unchecked,
+                            color: Colors.red,
+                            size: 48)),
                     const Spacer(flex: 3),
-                    InkWell(
-                        onTap: () {},
-                        child: const Icon(Icons.arrow_forward, size: 48)),
+                    isRecordingDone
+                        ? InkWell(
+                            onTap: () => Get.to(
+                                InterviewAnalysis(filePath: videoFile!.path)),
+                            child: const Icon(Icons.arrow_forward, size: 48))
+                        : Container(),
                     const Spacer()
                   ],
                 ),
@@ -95,6 +106,16 @@ class _InterviewPageState extends State<InterviewPage> {
         ]),
       ),
     );
+  }
+
+  record() async {
+    if (!isRecording) {
+      _cameraController.startVideoRecording();
+    } else {
+      videoFile = await _cameraController.stopVideoRecording();
+      setState(() => isRecordingDone = true);
+    }
+    setState(() => isRecording = !isRecording);
   }
 
   Container cameraPreview(double screenWidth) {
