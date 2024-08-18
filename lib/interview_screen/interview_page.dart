@@ -39,43 +39,89 @@ class _InterviewPageState extends State<InterviewPage> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        appBar: AppBar(
-            leading: InkWell(
-                onTap: () => Get.back(), child: const Icon(Icons.arrow_back))),
-        body: Column(
-          children: [
-            const SizedBox(height: 10),
-            Center(
-              child: GradientText(
-                'Interview',
-                colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
-                style: const TextStyle(fontSize: 48),
-              ),
+      body: SafeArea(
+        bottom: false,
+        child: Column(children: [
+          const SizedBox(height: 10),
+          Center(
+            child: GradientText(
+              'Interview',
+              colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
+              style: const TextStyle(fontSize: 58, fontWeight: FontWeight.bold),
             ),
-            Container(
-                height: screenWidth,
-                width: screenWidth,
-                decoration: const BoxDecoration(color: Colors.grey),
-                child: FutureBuilder(
-                    future: cameraValue,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return ClipRect(
-                            child: OverflowBox(
-                                alignment: Alignment.center,
-                                child: FittedBox(
-                                    fit: BoxFit.fitWidth,
-                                    child: SizedBox(
-                                        width: screenWidth,
-                                        height: screenWidth *
-                                            _cameraController.value.aspectRatio,
-                                        child: CameraPreview(
-                                            _cameraController)))));
-                      } else {
-                        return const Text('Loading Camera Preview...');
-                      }
-                    })),
-          ],
-        ));
+          ),
+          const SizedBox(height: 30),
+          cameraPreview(screenWidth),
+          const Spacer(),
+          Container(
+              height: MediaQuery.of(context).size.height * 0.25,
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Colors.white),
+              child: Column(children: [
+                const SizedBox(height: 35),
+                SizedBox(
+                  width: screenWidth * 0.85,
+                  child: const Text(
+                      'Talk about a time where you demonstrated leadership skills',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18)),
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    InkWell(
+                        onTap: () => Get.back(),
+                        child: const Icon(
+                          Icons.arrow_back,
+                          size: 48,
+                        )),
+                    const Spacer(flex: 3),
+                    InkWell(
+                        onTap: () {},
+                        child: const Icon(Icons.radio_button_checked,
+                            color: Colors.red, size: 48)),
+                    const Spacer(flex: 3),
+                    InkWell(
+                        onTap: () {},
+                        child: const Icon(Icons.arrow_forward, size: 48)),
+                    const Spacer()
+                  ],
+                ),
+                const Spacer(),
+              ]))
+        ]),
+      ),
+    );
+  }
+
+  Container cameraPreview(double screenWidth) {
+    return Container(
+        height: screenWidth,
+        width: screenWidth,
+        decoration: const BoxDecoration(color: Colors.grey),
+        child: ClipRect(
+            child: OverflowBox(
+                alignment: Alignment.center,
+                child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: FutureBuilder(
+                        future: cameraValue,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return SizedBox(
+                                width: screenWidth,
+                                height: screenWidth *
+                                    _cameraController.value.aspectRatio,
+                                child: CameraPreview(_cameraController));
+                          } else {
+                            return const Padding(
+                                padding: EdgeInsets.all(20),
+                                child: CircularProgressIndicator());
+                          }
+                        })))));
   }
 }
