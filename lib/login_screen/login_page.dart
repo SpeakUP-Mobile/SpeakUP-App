@@ -16,25 +16,25 @@ class LoginPage extends GetView<LoginController> {
         child: Stack(alignment: AlignmentDirectional.topCenter, children: [
           Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height + 5,
               decoration: const BoxDecoration(
                   image: DecorationImage(
                 image: AssetImage('assets/login_temp_background.jpeg'),
                 fit: BoxFit.cover,
               ))),
           Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            SizedBox(height: screenHeight * 0.18),
+            SizedBox(height: screenHeight * 0.20),
             welcomeTo(),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             speakup(screenWidth),
             SizedBox(height: screenHeight * 0.035),
             description(),
-            SizedBox(height: screenHeight * 0.04),
+            SizedBox(height: screenHeight * 0.08),
             registerButton(context),
             const SizedBox(height: 15),
             loginButton(context),
             SizedBox(height: screenHeight * 0.04),
-            thirdPartyLoginButtons(),
+            //thirdPartyLoginButtons(),
           ]),
         ]),
       ),
@@ -45,7 +45,7 @@ class LoginPage extends GetView<LoginController> {
     return const Text(
       '👋 Welcome to...',
       style: TextStyle(
-        fontSize: 32,
+        fontSize: 40,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -56,15 +56,16 @@ class LoginPage extends GetView<LoginController> {
       children: [
         const Row(
           children: [
-            Spacer(flex: 3),
-            Text('Speak',
+            Spacer(flex: 2),
+            Text('speak',
                 style: TextStyle(
                     fontSize: 38,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF383DA8))),
-            Spacer(flex: 7),
+            Spacer(flex: 5),
           ],
         ),
+        const SizedBox(height: 3),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.2),
           child: const Image(image: AssetImage('assets/speakup_logo.png')),
@@ -103,8 +104,8 @@ class LoginPage extends GetView<LoginController> {
       child: ElevatedButton(
         style: ButtonStyle(
           foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
-          backgroundColor:
-              const WidgetStatePropertyAll<Color>(Color(0xFF1C217F)),
+          backgroundColor: const WidgetStatePropertyAll<Color>(
+              Color.fromARGB(255, 30, 35, 129)),
           overlayColor: WidgetStateProperty.resolveWith<Color?>(
             (Set<WidgetState> states) {
               if (states.contains(WidgetState.pressed)) {
@@ -131,16 +132,14 @@ class LoginPage extends GetView<LoginController> {
       height: 50,
       width: 300,
       decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5),
-          ]),
+        color: Color.fromARGB(255, 255, 255, 255),
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+      ),
       child: ElevatedButton(
         style: ButtonStyle(
           foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
-          backgroundColor:
-              const WidgetStatePropertyAll<Color>(Color(0x70C7B6E3)),
+          backgroundColor: const WidgetStatePropertyAll<Color>(
+              Color.fromARGB(255, 255, 255, 255)),
           overlayColor: WidgetStateProperty.resolveWith<Color?>(
             (Set<WidgetState> states) {
               if (states.contains(WidgetState.pressed)) {
