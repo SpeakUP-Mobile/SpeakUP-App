@@ -41,9 +41,20 @@ class RecordingsPage extends GetView<RecordingsController> {
           );
         })
       ]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.dialog(newRecordingDialog(context)),
-        child: const Icon(Icons.add),
+      floatingActionButton: SizedBox(
+        height: 70,
+        width: 70,
+        child: FittedBox(
+          child: FloatingActionButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(360)),
+            onPressed: () => Get.dialog(newRecordingDialog(context)),
+            child: const Icon(
+              Icons.add,
+              size: 30,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -145,13 +156,17 @@ class RecordingsPage extends GetView<RecordingsController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Create a new recording to analyze (only interview works rn)',
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: const Text(
+                        'Create a new recording to analyze (only interview works rn)',
+                        style: TextStyle(fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     const SizedBox(height: 20),
                     InkWell(
+                        // ignore: avoid_print
                         onTap: () => print('Speech'),
                         child: Container(
                             alignment: Alignment.center,
