@@ -10,6 +10,7 @@ class RecordingsPage extends GetView<RecordingsController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => RecordingsController());
     return Scaffold(
       body: Column(children: [
         Stack(children: [
