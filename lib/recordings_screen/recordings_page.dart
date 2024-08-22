@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'recordings_controller.dart';
@@ -185,9 +184,7 @@ class RecordingsPage extends GetView<RecordingsController> {
                     const SizedBox(height: 10),
                     InkWell(
                         onTap: () async {
-                          List<CameraDescription> cameras =
-                              await availableCameras();
-                          Get.to(InterviewPage(cameras: cameras));
+                          Get.to(const InterviewPage());
                         },
                         child: Container(
                             alignment: Alignment.center,

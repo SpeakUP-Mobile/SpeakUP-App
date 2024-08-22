@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'speech_controller.dart';
@@ -77,7 +76,7 @@ class _SpeechAnalysisPageState extends State<SpeechAnalysisPage> {
       SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.65,
-        child: VideoPlayer(_videoPlayerController!),
+        child: VideoPlayer(_videoPlayerController),
       ),
       SizedBox(
         height: MediaQuery.of(context).size.height * 0.05,
@@ -99,10 +98,10 @@ class _SpeechAnalysisPageState extends State<SpeechAnalysisPage> {
         IconButton(
             onPressed: () {
               if (isVideoPaused) {
-                _videoPlayerController!.play();
+                _videoPlayerController.play();
                 setState(() => isVideoPaused = false);
               } else {
-                _videoPlayerController!.pause();
+                _videoPlayerController.pause();
                 setState(() => isVideoPaused = true);
               }
             },
