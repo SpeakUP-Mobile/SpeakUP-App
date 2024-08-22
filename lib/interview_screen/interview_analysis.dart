@@ -17,12 +17,23 @@ class InterviewAnalysis extends StatefulWidget {
 class _InterviewAnalysisState extends State<InterviewAnalysis> {
   late VideoPlayerController _videoPlayerController;
 
+  bool isVideoPlaying = false;
+
   @override
   void initState() {
     super.initState();
     setState(() => _videoPlayerController =
         VideoPlayerController.file(File(widget.filePath)));
-    _videoPlayerController.init
+    _videoPlayerController.initialize();
+    _videoPlayerController.play();
+    setState(() => isVideoPlaying = true);
+    _videoPlayerController.setVolume(2);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _videoPlayerController.dispose();
   }
 
   @override
@@ -42,7 +53,6 @@ class _InterviewAnalysisState extends State<InterviewAnalysis> {
                       fontSize: 58, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 30),
-
           ]),
         ));
   }

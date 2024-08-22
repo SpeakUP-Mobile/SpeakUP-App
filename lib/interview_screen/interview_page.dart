@@ -145,4 +145,18 @@ class _InterviewPageState extends State<InterviewPage> {
                           }
                         })))));
   }
+
+  Container cameraPreview2(double screenWidth) {
+    return Container(
+        height: screenWidth,
+        width: screenWidth,
+        child: ClipRect(
+            child: OverflowBox(
+                alignment: Alignment.center,
+                child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Obx(() {
+                      return Container();
+                    })))));
+  }
 }
