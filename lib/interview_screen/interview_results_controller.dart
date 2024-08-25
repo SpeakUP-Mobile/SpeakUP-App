@@ -11,5 +11,6 @@ class InterviewResultsController extends GetxController {
     Get.back();
     Get.back();
     Get.back();
+    Get.back();
   }
 }

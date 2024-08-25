@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../custom_global_widgets/custom_dialog_button.dart';
 import 'third_party_login_button.dart';
 import 'login_controller.dart';
 
@@ -8,6 +9,8 @@ class LoginPage extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => LoginController());
+
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -153,7 +156,6 @@ class LoginPage extends GetView<LoginController> {
             child: Text('Log In',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
         onPressed: () {
-          Get.lazyPut(() => LoginController());
           controller.resetWarningText();
           Get.dialog(loginDialog(context));
         },
@@ -330,43 +332,25 @@ class LoginPage extends GetView<LoginController> {
                     ))),
                 const SizedBox(height: 10),
                 Container(
-                  height: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 65),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 0,
-                            blurRadius: 2.5),
-                      ]),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      shape: const WidgetStatePropertyAll<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)))),
-                      foregroundColor:
-                          WidgetStateProperty.all<Color>(Colors.white),
-                      backgroundColor: const WidgetStatePropertyAll<Color>(
-                          Color(0xFF1C217F)),
-                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return const Color.fromARGB(255, 20, 24, 92);
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    child: const Center(
-                        child: Text('DONE',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold))),
-                    onPressed: () => controller.registerUser(),
-                  ),
-                )
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(horizontal: 65),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              spreadRadius: 0,
+                              blurRadius: 2.5),
+                        ]),
+                    child: CustomDialogButton(
+                      text: 'Done',
+                      primaryColor: const Color(0xFF1C217F),
+                      secondaryColor: const Color.fromARGB(255, 20, 24, 92),
+                      onPressed: () => controller.registerUser(),
+                      fontSize: 24,
+                      bold: true,
+                    ))
               ],
             ),
           ),
@@ -456,43 +440,25 @@ class LoginPage extends GetView<LoginController> {
                     ))),
                 const SizedBox(height: 10),
                 Container(
-                  height: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 65),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 0,
-                            blurRadius: 2.5),
-                      ]),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      shape: const WidgetStatePropertyAll<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)))),
-                      foregroundColor:
-                          WidgetStateProperty.all<Color>(Colors.white),
-                      backgroundColor: const WidgetStatePropertyAll<Color>(
-                          Color(0xFF1C217F)),
-                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return const Color.fromARGB(255, 20, 24, 92);
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    child: const Center(
-                        child: Text('Login',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold))),
-                    onPressed: () => controller.loginUser(),
-                  ),
-                )
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(horizontal: 65),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey,
+                              spreadRadius: 0,
+                              blurRadius: 2.5),
+                        ]),
+                    child: CustomDialogButton(
+                      text: 'Login',
+                      primaryColor: const Color(0xFF1C217F),
+                      secondaryColor: const Color.fromARGB(255, 20, 24, 92),
+                      onPressed: () => controller.loginUser(),
+                      fontSize: 24,
+                      bold: true,
+                    ))
               ],
             ),
           ),
