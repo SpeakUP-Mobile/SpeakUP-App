@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:public_speak_cac_2024/recordings_screen/recordings_controller.dart';
 
 class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -15,6 +16,7 @@ class LoginController extends GetxController {
 
   Future registerNewUser(String email, String password, String username) async {
     UserCredential? userCredential;
+
     try {
       userCredential = await _auth.createUserWithEmailAndPassword(
         email: email.trim(),
@@ -83,7 +85,7 @@ class LoginController extends GetxController {
         } on FirebaseAuthException catch (e) {
           if (e.code == 'invalid-email') {
             warningText.value = 'No user found for that email.';
-          } else if (e.code == 'invalid-credentail') {
+          } else if (e.code == 'invalid-credential') {
             warningText.value = 'Wrong password provided for that user.';
           } else {
             warningText.value = e.code;

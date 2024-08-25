@@ -13,6 +13,8 @@ class RecordingsController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  // run on new login as well
+
   @override
   void onInit() async {
     await getUsername();
