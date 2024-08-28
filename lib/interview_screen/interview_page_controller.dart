@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
 import 'dart:io';
@@ -19,8 +21,9 @@ class InterviewPageController extends GetxController {
   RxBool isRecording = false.obs;
   RxBool isDoneRecording = false.obs;
 
-  Rx<Stopwatch> recordingTimer = Stopwatch().obs;
-  late List<int> questionTimes;
+  RxInt recordingSeconds = 0.obs;
+  bool endTimer = false;
+  RxList<int> questionTimes = <int>[].obs;
 
   bool flash = false;
   bool isCameraFront = true;
@@ -32,7 +35,8 @@ class InterviewPageController extends GetxController {
     super.onInit();
     currentQuestion.value = 0;
     isCameraInitialized.value = false;
-    questionTimes = List<int>.filled(questions.length, 0, growable: false);
+    questionTimes.value =
+        List<int>.filled(questions.length, 0, growable: false);
     List<CameraDescription> cameras = await availableCameras();
     cameraController = CameraController(cameras[1], ResolutionPreset.high);
     cameraValue = cameraController.initialize();
@@ -44,21 +48,33 @@ class InterviewPageController extends GetxController {
     if (isCameraInitialized.value) {
       if (!isRecording.value && !isDoneRecording.value) {
         await cameraController.startVideoRecording();
-        recordingTimer.value.start();
+        Timer.periodic(const Duration(seconds: 1), (Timer t) => timer(t));
         isRecording.value = true;
       } else if (isRecording.value) {
         final videoPath = (await cameraController.stopVideoRecording()).path;
-        recordingTimer.value.stop();
         videoPaths.insert(currentQuestion.value, videoPath);
-        isRecording.value = false;
-        isDoneRecording.value = true;
+        endTimer = true;
       }
+    }
+  }
+
+  void timer(Timer t) {
+    if (endTimer) {
+      t.cancel();
+      endTimer = false;
+      questionTimes[currentQuestion.value] = recordingSeconds.value;
+      recordingSeconds.value = 0;
+      isRecording.value = false;
+      isDoneRecording.value = true;
+    } else {
+      recordingSeconds.value++;
     }
   }
 
   void retakeRecording() async {
     await File(videoPaths[currentQuestion.value]).delete();
     videoPaths.removeAt(currentQuestion.value);
+    questionTimes[currentQuestion.value] = 0;
     isDoneRecording.value = false;
     Get.back();
   }

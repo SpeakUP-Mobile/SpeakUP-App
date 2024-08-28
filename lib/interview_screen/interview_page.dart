@@ -137,11 +137,11 @@ class InterviewPage extends GetView<InterviewPageController> {
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Obx(() {
             final int time = controller.isRecording.value
-                ? controller.recordingTimer.value.elapsedMilliseconds
+                ? controller.recordingSeconds.value
                 : controller.questionTimes[controller.currentQuestion.value];
-            final int minutes = ((time / 60000).floor());
+            final int minutes = (time ~/ 60);
             final String seconds =
-                ((time - minutes * 60000) / 1000).toString().padLeft(2, '0');
+                (time - minutes * 60).toString().padLeft(2, '0');
             return Text('${minutes.toString()}:$seconds');
           }),
         ]));
