@@ -4,5 +4,6 @@ import 'package:get/get.dart';
 class ProfileController extends GetxController {
   signOutUser() {
     FirebaseAuth.instance.signOut();
+    Get.deleteAll();
   }
 }
