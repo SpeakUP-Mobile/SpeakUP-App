@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import '../custom_global_widgets/user_info_widget.dart';
 import 'package:get/get.dart';
 import 'profile_controller.dart';

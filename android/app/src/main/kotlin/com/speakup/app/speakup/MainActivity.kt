@@ -1,4 +1,4 @@
-package com.speakup.app
+package com.speakup.app.speakup
 
 import io.flutter.embedding.android.FlutterActivity
 

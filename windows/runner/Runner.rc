@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "public_speak_cac_2024" "\0"
+            VALUE "CompanyName", "com.speakup.app" "\0"
+            VALUE "FileDescription", "speakup" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "public_speak_cac_2024" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "public_speak_cac_2024.exe" "\0"
-            VALUE "ProductName", "public_speak_cac_2024" "\0"
+            VALUE "InternalName", "speakup" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.speakup.app. All rights reserved." "\0"
+            VALUE "OriginalFilename", "speakup.exe" "\0"
+            VALUE "ProductName", "speakup" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

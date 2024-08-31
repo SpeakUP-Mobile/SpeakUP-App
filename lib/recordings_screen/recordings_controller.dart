@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import '../speech_screen/speech_analysis.dart';
@@ -10,22 +8,13 @@ class RecordingsController extends GetxController {
   RxString username = ''.obs;
   RxInt view = 0.obs;
   RxList<RecordingInfoWidget> recordings = <RecordingInfoWidget>[].obs;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // run on new login as well
 
   @override
   void onInit() async {
-    await getUsername();
     updateRecordings();
     super.onInit();
-  }
-
-  getUsername() async {
-    final doc =
-        await _firestore.collection('users').doc(_auth.currentUser!.uid).get();
-    username.value = doc.data()!['username'];
   }
 
   String getTime() {

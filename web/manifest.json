@@ -1,6 +1,6 @@
 {
-    "name": "public_speak_cac_2024",
-    "short_name": "public_speak_cac_2024",
+    "name": "speakup",
+    "short_name": "speakup",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
