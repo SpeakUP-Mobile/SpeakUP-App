@@ -7,8 +7,8 @@ import 'interview_results.dart';
 
 class InterviewPageController extends GetxController {
   late CameraController cameraController;
-  late Future<void> cameraValue;
-  RxBool isCameraInitialized = false.obs;
+  late List<CameraDescription> cameras;
+  RxBool isPreviewLoading = true.obs;
 
   List<String> questions = [
     'Talk about a time where you demonstrated leadership qualities.',
@@ -25,8 +25,7 @@ class InterviewPageController extends GetxController {
   bool endTimer = false;
   RxList<int> questionTimes = <int>[].obs;
 
-  bool flash = false;
-  bool isCameraFront = true;
+  RxBool isCameraFront = true.obs;
 
   List<String> videoPaths = [];
 
@@ -34,20 +33,22 @@ class InterviewPageController extends GetxController {
   void onInit() async {
     super.onInit();
     currentQuestion.value = 0;
-    isCameraInitialized.value = false;
+    isPreviewLoading.value = true;
+    isCameraFront.value = true;
     questionTimes.value =
         List<int>.filled(questions.length, 0, growable: false);
-    List<CameraDescription> cameras = await availableCameras();
+    cameras = await availableCameras();
     cameraController = CameraController(cameras[1], ResolutionPreset.high);
-    cameraValue = cameraController.initialize();
-    await cameraValue;
-    isCameraInitialized.value = true;
+    await cameraController.initialize();
+    isPreviewLoading.value = false;
   }
 
   Future<void> pressRecord() async {
-    if (isCameraInitialized.value) {
+    if (!isPreviewLoading.value) {
       if (!isRecording.value && !isDoneRecording.value) {
+        isPreviewLoading.value = true;
         await cameraController.startVideoRecording();
+        isPreviewLoading.value = false;
         Timer.periodic(const Duration(seconds: 1), (Timer t) => timer(t));
         isRecording.value = true;
       } else if (isRecording.value) {
@@ -77,6 +78,17 @@ class InterviewPageController extends GetxController {
     questionTimes[currentQuestion.value] = 0;
     isDoneRecording.value = false;
     Get.back();
+  }
+
+  void flipCamera() async {
+    if (cameras.length > 1 && !isRecording.value) {
+      cameraController = CameraController(
+          cameras[isCameraFront.value ? 0 : 1], ResolutionPreset.high);
+      isPreviewLoading.value = true;
+      await cameraController.initialize();
+      isPreviewLoading.value = false;
+      isCameraFront.value = !isCameraFront.value;
+    }
   }
 
   void previousQuestion() {

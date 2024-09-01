@@ -37,69 +37,9 @@ class InterviewPage extends GetView<InterviewPageController> {
                     children: [
                       const SizedBox(height: 35),
                       recordingInfo(),
-                      SizedBox(
-                        width: screenWidth * 0.85,
-                        child: Obx(
-                          () => Text(
-                              controller
-                                  .questions[controller.currentQuestion.value],
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 18)),
-                        ),
-                      ),
+                      questionText(screenWidth),
                       const Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Spacer(),
-                          InkWell(
-                              onTap: () => !controller.isRecording.value
-                                  ? controller.currentQuestion.value != 0
-                                      ? controller.previousQuestion()
-                                      : Get.dialog(exitInterviewDialog(context))
-                                  : null,
-                              child: Obx(
-                                () => Icon(
-                                  Icons.arrow_back,
-                                  size: 48,
-                                  color: !controller.isRecording.value
-                                      ? Colors.black
-                                      : const Color.fromARGB(
-                                          153, 183, 183, 183),
-                                ),
-                              )),
-                          const Spacer(flex: 3),
-                          InkWell(
-                              onTap: () => controller.isDoneRecording.value
-                                  ? Get.dialog(retakeRecordingDialog(context))
-                                  : controller.pressRecord(),
-                              child: Obx(
-                                () => Icon(
-                                    controller.isDoneRecording.value
-                                        ? Icons.replay
-                                        : controller.isRecording.value
-                                            ? Icons.radio_button_checked
-                                            : Icons.radio_button_unchecked,
-                                    color: Colors.red,
-                                    size: 48),
-                              )),
-                          const Spacer(flex: 3),
-                          InkWell(
-                              onTap: () => controller.currentQuestion.value !=
-                                      controller.numQuestions - 1
-                                  ? controller.nextQuestion()
-                                  : Get.dialog(viewResultsDialog(context)),
-                              child: Obx(
-                                () => Icon(Icons.arrow_forward,
-                                    size: 48,
-                                    color: controller.isDoneRecording.value
-                                        ? Colors.black
-                                        : const Color.fromARGB(
-                                            153, 183, 183, 183)),
-                              )),
-                          const Spacer()
-                        ],
-                      ),
+                      interviewControls(context),
                       const Spacer(),
                     ],
                   ))
@@ -116,12 +56,38 @@ class InterviewPage extends GetView<InterviewPageController> {
                 child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Obx(() {
-                      if (controller.isCameraInitialized.value) {
+                      if (!controller.isPreviewLoading.value) {
                         return SizedBox(
                             width: screenWidth,
                             height: screenWidth *
                                 controller.cameraController.value.aspectRatio,
-                            child: CameraPreview(controller.cameraController));
+                            child: Stack(
+                              alignment: Alignment.centerLeft,
+                              children: [
+                                Obx(() {
+                                  if (controller.isCameraFront.value) {
+                                    return CameraPreview(
+                                        controller.cameraController);
+                                  } else {
+                                    return CameraPreview(
+                                        controller.cameraController);
+                                  }
+                                }),
+                                Positioned(
+                                  top: 165,
+                                  left: 10,
+                                  child: InkWell(
+                                    onTap: () => controller.flipCamera(),
+                                    child: Icon(Icons.flip_camera_ios_outlined,
+                                        size: 32,
+                                        color: controller.isRecording.value
+                                            ? const Color.fromARGB(
+                                                38, 135, 135, 135)
+                                            : Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ));
                       } else {
                         return const Padding(
                             padding: EdgeInsets.all(20),
@@ -142,9 +108,108 @@ class InterviewPage extends GetView<InterviewPageController> {
             final int minutes = (time ~/ 60);
             final String seconds =
                 (time - minutes * 60).toString().padLeft(2, '0');
-            return Text('${minutes.toString()}:$seconds');
+            return Text('${minutes.toString()}:$seconds',
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
           }),
+          const SizedBox(width: 10),
+          Obx(() {
+            if (controller.isRecording.value) {
+              return Container(
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: Color(0xFF3B3B3B)),
+                  child: const Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+                    child: Row(children: [
+                      Text('REC',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(width: 10),
+                      Icon(Icons.circle, color: Colors.red, size: 20)
+                    ]),
+                  ));
+            } else {
+              return Container();
+            }
+          })
         ]));
+  }
+
+  SizedBox questionText(double screenWidth) {
+    return SizedBox(
+      width: screenWidth * 0.85,
+      child: Obx(
+        () => Text(controller.questions[controller.currentQuestion.value],
+            textAlign: TextAlign.center, style: const TextStyle(fontSize: 18)),
+      ),
+    );
+  }
+
+  Row interviewControls(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Spacer(),
+        InkWell(
+            onTap: () => !controller.isRecording.value
+                ? controller.currentQuestion.value != 0
+                    ? controller.previousQuestion()
+                    : Get.dialog(exitInterviewDialog(context))
+                : null,
+            child: Obx(
+              () => Icon(
+                Icons.arrow_back,
+                size: 48,
+                color: !controller.isRecording.value
+                    ? Colors.black
+                    : const Color.fromARGB(153, 183, 183, 183),
+              ),
+            )),
+        const Spacer(flex: 3),
+        InkWell(
+            onTap: () => controller.isDoneRecording.value
+                ? Get.dialog(retakeRecordingDialog(context))
+                : controller.pressRecord(),
+            child: Obx(() {
+              if (controller.isDoneRecording.value) {
+                return const Icon(Icons.replay, color: Colors.red, size: 48);
+              } else {
+                return Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(6)),
+                        border: Border.all(
+                            color: controller.isRecording.value
+                                ? Colors.red
+                                : Colors.black,
+                            width: 5),
+                        color: controller.isRecording.value
+                            ? Colors.red
+                            : Colors.black));
+              }
+            })),
+        const Spacer(flex: 3),
+        InkWell(
+            onTap: () =>
+                controller.currentQuestion.value != controller.numQuestions - 1
+                    ? controller.nextQuestion()
+                    : Get.dialog(viewResultsDialog(context)),
+            child: Obx(
+              () => Icon(Icons.arrow_forward,
+                  size: 48,
+                  color: controller.isDoneRecording.value
+                      ? Colors.black
+                      : const Color.fromARGB(153, 183, 183, 183)),
+            )),
+        const Spacer()
+      ],
+    );
   }
 
   Dialog exitInterviewDialog(BuildContext context) {
