@@ -1,25 +1,15 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:public_speak_cac_2024/firebase_options.dart';
-import 'dashboard/dashboard_binding.dart';
-// ignore: unused_import
-import 'login_screen/login_page.dart';
-// ignore: unused_import
-import 'dashboard/dashboard.dart';
-// ignore: unused_import
-import 'login_screen/auth_gate.dart';
+import 'package:speakup/dashboard/dashboard.dart';
+import 'package:speakup/dashboard/dashboard_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const PublicSpeak());
+  runApp(const SpeakUP());
 }
 
-class PublicSpeak extends StatelessWidget {
-  const PublicSpeak({super.key});
+class SpeakUP extends StatelessWidget {
+  const SpeakUP({super.key});
 
   // This widget is the root of your application.
   @override
@@ -36,7 +26,7 @@ class PublicSpeak extends StatelessWidget {
       getPages: [
         GetPage(
             name: '/',
-            page: () => const AuthGate(),
+            page: () => const Dashboard(),
             binding: DashboardBinding())
       ],
     );
