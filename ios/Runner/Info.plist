@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>SpeakUP needs access to the camera to analyze your facial expressions</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>SpeakUP nees access to the microphone to analyze your voice</string>
 </dict>
 </plist>

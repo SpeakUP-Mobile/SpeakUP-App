@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'interview_results.dart';
 
@@ -32,15 +32,35 @@ class InterviewPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    initializeVariables();
+    await getPermissions();
+    await initalizeCamera();
+  }
+
+  Future<void> initalizeCamera() async {
+    cameras = await availableCameras();
+    cameraController = CameraController(cameras[1], ResolutionPreset.low);
+    await cameraController.initialize();
+    isPreviewLoading.value = false;
+  }
+
+  Future<void> getPermissions() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+    var cameraStatus = await Permission.camera.status;
+    if (!cameraStatus.isGranted) {
+      await Permission.camera.request();
+    }
+  }
+
+  void initializeVariables() {
     currentQuestion.value = 0;
     isPreviewLoading.value = true;
     isCameraFront.value = true;
     questionTimes.value =
         List<int>.filled(questions.length, 0, growable: false);
-    cameras = await availableCameras();
-    cameraController = CameraController(cameras[1], ResolutionPreset.high);
-    await cameraController.initialize();
-    isPreviewLoading.value = false;
   }
 
   Future<void> pressRecord() async {

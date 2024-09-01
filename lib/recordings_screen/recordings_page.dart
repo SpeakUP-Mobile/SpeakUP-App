@@ -183,7 +183,7 @@ class RecordingsPage extends GetView<RecordingsController> {
                                 style: TextStyle(fontSize: 16)))),
                     const SizedBox(height: 10),
                     InkWell(
-                        onTap: () async {
+                        onTap: () {
                           Get.to(const InterviewPage());
                         },
                         child: Container(

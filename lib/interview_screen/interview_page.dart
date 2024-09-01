@@ -62,7 +62,7 @@ class InterviewPage extends GetView<InterviewPageController> {
                             height: screenWidth *
                                 controller.cameraController.value.aspectRatio,
                             child: Stack(
-                              alignment: Alignment.centerLeft,
+                              alignment: Alignment.topLeft,
                               children: [
                                 Obx(() {
                                   if (controller.isCameraFront.value) {
@@ -74,7 +74,7 @@ class InterviewPage extends GetView<InterviewPageController> {
                                   }
                                 }),
                                 Positioned(
-                                  top: 165,
+                                  top: 160,
                                   left: 10,
                                   child: InkWell(
                                     onTap: () => controller.flipCamera(),
