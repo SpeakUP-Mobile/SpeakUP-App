@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../speech_screen/speech_analysis.dart';
 import 'recording_info_widget.dart';
 
@@ -9,10 +10,10 @@ class RecordingsController extends GetxController {
   RxInt view = 0.obs;
   RxList<RecordingInfoWidget> recordings = <RecordingInfoWidget>[].obs;
 
-  // run on new login as well
-
   @override
   void onInit() async {
+    final currentUser = Supabase.instance.client.auth.currentUser;
+    username.value = currentUser!.userMetadata!['username'];
     updateRecordings();
     super.onInit();
   }

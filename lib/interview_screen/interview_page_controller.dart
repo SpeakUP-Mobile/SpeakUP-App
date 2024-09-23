@@ -2,13 +2,20 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:io';
 import 'interview_results.dart';
+import 'package:video_compress/video_compress.dart';
 
 class InterviewPageController extends GetxController {
   late CameraController cameraController;
   late List<CameraDescription> cameras;
   RxBool isPreviewLoading = true.obs;
+
+  RxBool isProcessingFiles = false.obs;
+  RxString processingState = ''.obs;
+  RxInt totalProcessingSteps = 1.obs;
+  RxInt currentProcessingStep = 0.obs;
 
   List<String> questions = [
     'Talk about a time where you demonstrated leadership qualities.',
@@ -42,6 +49,10 @@ class InterviewPageController extends GetxController {
     cameraController = CameraController(cameras[1], ResolutionPreset.low);
     await cameraController.initialize();
     isPreviewLoading.value = false;
+    isProcessingFiles.value = false;
+    processingState.value = '';
+    totalProcessingSteps.value = 1;
+    currentProcessingStep.value = 0;
   }
 
   Future<void> getPermissions() async {
@@ -136,7 +147,41 @@ class InterviewPageController extends GetxController {
     Get.back();
   }
 
-  void endInterview() {
+  Future<void> endInterview() async {
+    final supabase = Supabase.instance.client;
+    isProcessingFiles.value = true;
+    List<String> compressedFiles = [];
+    List<String> compressedUrls = [];
+    totalProcessingSteps.value = videoPaths.length * 5;
+
+    for (int i = 0; i < videoPaths.length; i++) {
+      processingState.value = 'Compressing Files ${i + 1}/${videoPaths.length}';
+      MediaInfo? compressedFile =
+          await VideoCompress.compressVideo(videoPaths[i]);
+      compressedFiles.add(compressedFile!.path!);
+      currentProcessingStep.value++;
+    }
+
+    for (int i = 0; i < videoPaths.length; i++) {
+      processingState.value = 'Uploading Files ${i + 1}/${videoPaths.length}';
+      await supabase.storage.from('users').upload(
+          '${Supabase.instance.client.auth.currentUser!.id}/recordings/$i.mp4',
+          File(compressedFiles[i]));
+      final String publicUrl = supabase.storage.from('public-bucket').getPublicUrl(
+          '${Supabase.instance.client.auth.currentUser!.id}/recordings/$i.mp4');
+      compressedUrls.add(publicUrl);
+      currentProcessingStep.value++;
+    }
+
+    for (int i = 0; i < videoPaths.length; i++) {
+      processingState.value =
+          'Deleting Compressed Files ${i + 1}/${videoPaths.length}';
+      await File(compressedFiles[i]).delete();
+      currentProcessingStep.value++;
+    }
+
+    for (int i = 0; i < videoPaths.length; i++) {}
+
     Get.to(const InterviewResults(), arguments: videoPaths);
   }
 }

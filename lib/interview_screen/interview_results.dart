@@ -8,6 +8,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => InterviewResultsController());
     return Scaffold(
         body: SafeArea(
             bottom: false,

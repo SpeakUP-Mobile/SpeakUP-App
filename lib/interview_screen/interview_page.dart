@@ -25,24 +25,36 @@ class InterviewPage extends GetView<InterviewPageController> {
                       fontSize: 58, fontWeight: FontWeight.bold),
                 ),
               ),
-              const SizedBox(height: 30),
-              cameraPreview(screenWidth),
-              const Spacer(),
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: Colors.white),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 35),
-                      recordingInfo(),
-                      questionText(screenWidth),
-                      const Spacer(),
-                      interviewControls(context),
-                      const Spacer(),
-                    ],
-                  ))
+              Obx(() => controller.isProcessingFiles.value
+                  ? Column(children: [
+                      LinearProgressIndicator(
+                          value: controller.currentProcessingStep.value /
+                              controller.totalProcessingSteps.value),
+                      Text(controller.processingState.value)
+                    ])
+                  : Column(
+                      children: [
+                        const SizedBox(height: 30),
+                        cameraPreview(screenWidth),
+                        const Spacer(),
+                        Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: Colors.white),
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 35),
+                                recordingInfo(),
+                                questionText(screenWidth),
+                                const Spacer(),
+                                interviewControls(context),
+                                const Spacer(),
+                              ],
+                            ))
+                      ],
+                    )),
             ])));
   }
 
