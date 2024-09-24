@@ -12,70 +12,85 @@ class InterviewResults extends GetView<InterviewResultsController> {
     return Scaffold(
         body: SafeArea(
             bottom: false,
-            child: Column(children: [
-              const SizedBox(height: 30),
-              GradientText(
-                'Results',
-                textAlign: TextAlign.center,
-                colors: const [Color(0xff8710d0), Color(0xffff18be)],
-                style:
-                    const TextStyle(fontSize: 56, fontWeight: FontWeight.bold),
-              ),
-              InkWell(
-                  child: Container(
-                      alignment: Alignment.center,
-                      height: 40,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(24.0)),
-                        gradient: LinearGradient(
-                            colors: [Color(0xFF4F23FF), Color(0xFF8F00FF)]),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('View Interview Recordings',
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.white)),
-                          SizedBox(width: 10),
-                          Icon(Icons.arrow_forward, color: Colors.white)
-                        ],
-                      )),
-                  onTap: () => print('View Recordings')),
-              const SizedBox(height: 15),
-              SingleChildScrollView(
-                  child: Column(children: [
-                resultsOverview(context),
-                const SizedBox(height: 30),
-                questionResult(context),
-              ])),
-              const Spacer(),
-              temporaryNavigation(context),
-            ])));
+            child: Center(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 30),
+                    GradientText(
+                      'Results',
+                      textAlign: TextAlign.center,
+                      colors: const [Color(0xff8710d0), Color(0xffff18be)],
+                      style: const TextStyle(
+                          fontSize: 56, fontWeight: FontWeight.bold),
+                    ),
+                    recordingsButton(context),
+                    const SizedBox(height: 5),
+                    backButton(context),
+                    const SizedBox(height: 15),
+                    SingleChildScrollView(
+                        child: Column(children: [
+                      resultsOverview(context),
+                      const SizedBox(height: 15),
+                      questionResult(context),
+                    ])),
+                    const Spacer(),
+                  ]),
+            )));
   }
 
-  Row temporaryNavigation(BuildContext context) {
-    return Row(
-      children: [
-        InkWell(
-            child: Container(
-                alignment: Alignment.center,
-                height: 65,
-                width: MediaQuery.of(context).size.width * 0.5,
-                decoration: const BoxDecoration(color: Colors.blue),
-                child: const Text('View Interview Recording')),
-            onTap: () => controller.viewSourceRecordings()),
-        InkWell(
-            child: Container(
-                alignment: Alignment.center,
-                height: 65,
-                width: MediaQuery.of(context).size.width * 0.5,
-                decoration: const BoxDecoration(color: Colors.red),
-                child: const Text('Back to home')),
-            onTap: () => controller.backToHome()),
-      ],
-    );
+  InkWell recordingsButton(BuildContext context) {
+    return InkWell(
+        child: Container(
+            alignment: Alignment.center,
+            height: 40,
+            width: MediaQuery.of(context).size.width * 0.8,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(24.0)),
+              gradient: LinearGradient(
+                  colors: [Color(0xFF4F23FF), Color(0xFF8F00FF)]),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('View Interview Recordings',
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
+                SizedBox(width: 10),
+                Icon(Icons.arrow_forward, color: Colors.white)
+              ],
+            )),
+        onTap: () => print('View Recordings'));
+  }
+
+  InkWell backButton(BuildContext context) {
+    return InkWell(
+        child: Container(
+            alignment: Alignment.center,
+            height: 40,
+            width: MediaQuery.of(context).size.width * 0.25,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(24.0)),
+              gradient: LinearGradient(
+                  colors: [Color(0xFF4F23FF), Color(0xFF8F00FF)]),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.arrow_back, color: Colors.white),
+                SizedBox(width: 10),
+                Text('Exit',
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
+              ],
+            )),
+        onTap: () => exitResults());
+  }
+
+  void exitResults() {
+    Get.back();
+    Get.back();
+    Get.back();
   }
 
   Container resultsOverview(BuildContext context) {
@@ -159,7 +174,6 @@ class InterviewResults extends GetView<InterviewResultsController> {
 
   Container questionResult(BuildContext context) {
     return Container(
-        height: 230,
         width: MediaQuery.of(context).size.width - 30,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         decoration: const BoxDecoration(
@@ -167,6 +181,42 @@ class InterviewResults extends GetView<InterviewResultsController> {
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
             boxShadow: [
               BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
-            ]));
+            ]),
+        child: Column(
+          children: [
+            const Text('Question 1', style: TextStyle(fontSize: 24)),
+            const SizedBox(height: 5),
+            emotionScore(context, 1, 68),
+            const SizedBox(height: 5),
+            emotionScore(context, 2, 95),
+            const SizedBox(height: 5),
+            emotionScore(context, 3, 42)
+          ],
+        ));
+  }
+
+  Column emotionScore(BuildContext context, int number, int score) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text('Emotion $number',
+          style: const TextStyle(fontWeight: FontWeight.bold)),
+      Row(
+        children: [
+          Text('$score',
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF8F00FF),
+                  fontSize: 18)),
+          const SizedBox(width: 10),
+          SizedBox(
+              width: MediaQuery.of(context).size.width * 0.65,
+              child: LinearProgressIndicator(
+                  borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                  minHeight: 18,
+                  value: score / 100,
+                  backgroundColor: Colors.grey,
+                  color: const Color(0xFF8F00FF)))
+        ],
+      )
+    ]);
   }
 }

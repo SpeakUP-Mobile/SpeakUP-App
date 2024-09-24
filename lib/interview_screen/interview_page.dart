@@ -27,12 +27,33 @@ class InterviewPage extends GetView<InterviewPageController> {
                 ),
               ),
               Obx(() => controller.isProcessingFiles.value
-                  ? Column(children: [
-                      LinearProgressIndicator(
-                          value: controller.currentProcessingStep.value /
-                              controller.totalProcessingSteps.value),
-                      Text(controller.processingState.value)
-                    ])
+                  ? Center(
+                      child: Column(children: [
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.3),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text(
+                            'The anlysis of your interview will be available shortly...',
+                            style: TextStyle(fontSize: 24),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: LinearProgressIndicator(
+                              backgroundColor: Colors.grey,
+                              value: controller.currentProcessingStep.value /
+                                  controller.totalProcessingSteps.value,
+                              minHeight: 15,
+                              color: const Color(0xFF8F00FF),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(12.0))),
+                        ),
+                        Text(controller.processingState.value),
+                      ]),
+                    )
                   : SizedBox(
                       height: MediaQuery.of(context).size.height * 0.8,
                       child: Column(children: [
