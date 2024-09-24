@@ -147,9 +147,11 @@ class RecordingsController extends GetxController {
     updateRecordings();
   }
 
-  viewRecording(bool isInterview, String name) async {
+  viewRecording(bool isInterview, String name, String date, String time,
+      int score, List<String> videoPaths) async {
     if (isInterview) {
-      Get.to(const InterviewResults(), arguments: name);
+      Get.to(const InterviewResults(),
+          arguments: [name, date, time, score, videoPaths]);
     } else {
       print('No speeches yet');
     }

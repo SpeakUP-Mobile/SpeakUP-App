@@ -63,7 +63,8 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                 recordingTags()
               ]),
             ])),
-        onTap: () => controller.viewRecording(isInterview, name));
+        onTap: () => controller.viewRecording(
+            isInterview, name, date, time, score, videoPaths));
   }
 
   Row recordingTags() {

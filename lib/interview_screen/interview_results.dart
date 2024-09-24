@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'interview_recordings.dart';
 import 'interview_results_controller.dart';
 
 class InterviewResults extends GetView<InterviewResultsController> {
@@ -68,7 +69,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
                 Icon(Icons.arrow_forward, color: Colors.white)
               ],
             )),
-        onTap: () => print('View Recordings'));
+        onTap: () => controller.viewRecordings());
   }
 
   InkWell backButton(BuildContext context) {
@@ -92,13 +93,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
                     style: TextStyle(fontSize: 16, color: Colors.white)),
               ],
             )),
-        onTap: () => exitResults());
-  }
-
-  void exitResults() {
-    Get.back();
-    Get.back();
-    Get.back();
+        onTap: () => controller.backToHome());
   }
 
   Container resultsOverview(BuildContext context) {
@@ -120,14 +115,17 @@ class InterviewResults extends GetView<InterviewResultsController> {
         child: Row(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Spacer(),
-            const Text('Recording 3',
-                style: TextStyle(
+            Text(controller.recordingName,
+                style: const TextStyle(
                   fontSize: 22,
                 )),
-            const Text('18:35 on April 1st, 2022',
-                style: TextStyle(
-                  fontSize: 14,
-                )),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              child: Text(controller.dateTime, //'18:35 on April 1st, 2022'
+                  style: const TextStyle(
+                    fontSize: 14,
+                  )),
+            ),
             const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
