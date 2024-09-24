@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import '../recordings_screen/recordings_controller.dart';
 import 'speech_analysis.dart';
@@ -31,14 +32,19 @@ class SpeechController extends GetxController {
     final path = await _localPath;
     final file = File('$path/$name.metadata');
     final thumbnailPath = await getThumbnailPath(videoPath);
+
+    await file.writeAsString(
+        '${Supabase.instance.client.auth.currentUser!.id}}\n',
+        mode: FileMode.append); //User ID
     await file.writeAsString('$name\n', mode: FileMode.append); //Speech name
+    await file.writeAsString('interview\n', mode: FileMode.append); //Interview
+    await file.writeAsString('1\n', mode: FileMode.append); //Number of files
     await file.writeAsString('$videoPath\n',
-        mode: FileMode.append); //Path of actual video
-    await file.writeAsString('interview\n',
-        mode: FileMode.append); //Interview or Speech
-    await file.writeAsString('4\n', mode: FileMode.append); //Rating
+        mode: FileMode.append); //Path of video
+    await file.writeAsString('96\n', mode: FileMode.append); //Rating out of 100
     await file.writeAsString('$thumbnailPath\n',
         mode: FileMode.append); //Path of thumbnail file
+    await file.writeAsString('null\n', mode: FileMode.append); //Job ID
   }
 
   Future<String> getThumbnailPath(String videoPath) async {

@@ -13,6 +13,7 @@ class InterviewPage extends GetView<InterviewPageController> {
     Get.lazyPut(() => InterviewPageController());
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
             bottom: false,
             child: Column(children: [
@@ -32,8 +33,9 @@ class InterviewPage extends GetView<InterviewPageController> {
                               controller.totalProcessingSteps.value),
                       Text(controller.processingState.value)
                     ])
-                  : Column(
-                      children: [
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Column(children: [
                         const SizedBox(height: 30),
                         cameraPreview(screenWidth),
                         const Spacer(),
@@ -53,8 +55,7 @@ class InterviewPage extends GetView<InterviewPageController> {
                                 const Spacer(),
                               ],
                             ))
-                      ],
-                    )),
+                      ]))),
             ])));
   }
 
@@ -208,10 +209,12 @@ class InterviewPage extends GetView<InterviewPageController> {
             })),
         const Spacer(flex: 3),
         InkWell(
-            onTap: () =>
-                controller.currentQuestion.value != controller.numQuestions - 1
+            onTap: () => controller.isDoneRecording.value
+                ? controller.currentQuestion.value !=
+                        controller.numQuestions - 1
                     ? controller.nextQuestion()
-                    : Get.dialog(viewResultsDialog(context)),
+                    : Get.dialog(viewResultsDialog(context))
+                : null,
             child: Obx(
               () => Icon(Icons.arrow_forward,
                   size: 48,
@@ -248,7 +251,7 @@ class InterviewPage extends GetView<InterviewPageController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomDialogButton(
-                      text: 'Cacnel',
+                      text: 'Cancel',
                       primaryColor: const Color(0xFF1C217F),
                       secondaryColor: const Color.fromARGB(255, 20, 24, 92),
                       onPressed: () => Get.back()),
@@ -290,7 +293,7 @@ class InterviewPage extends GetView<InterviewPageController> {
                   const SizedBox(height: 15),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     CustomDialogButton(
-                        text: 'Cacnel',
+                        text: 'Cancel',
                         primaryColor: const Color(0xFF1C217F),
                         secondaryColor: const Color.fromARGB(255, 20, 24, 92),
                         onPressed: () => Get.back()),
@@ -306,37 +309,49 @@ class InterviewPage extends GetView<InterviewPageController> {
 
   Dialog viewResultsDialog(BuildContext context) {
     return Dialog(
-        child: ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.25,
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            const Text('Finsh Interview',
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 32.0)),
-            const SizedBox(height: 10),
-            const Text('Are you sure you want to finish this interview?',
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 14)),
-            const SizedBox(height: 5),
-            const Text('The recordings can be acessed later.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 15),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              CustomDialogButton(
-                  text: 'Cacnel',
-                  primaryColor: const Color.fromARGB(255, 113, 113, 113),
-                  secondaryColor: const Color.fromARGB(255, 73, 73, 73),
-                  onPressed: () => Get.back()),
-              const SizedBox(width: 15),
-              CustomDialogButton(
-                  text: 'Finish',
-                  primaryColor: const Color(0xFF1C217F),
-                  secondaryColor: const Color.fromARGB(255, 20, 24, 92),
-                  onPressed: () => controller.endInterview()),
-            ])
-          ],
+        child: SingleChildScrollView(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.25,
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: TextField(
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          hintText: 'Interview 1'),
+                      onChanged: (name) => controller.updateName(name))),
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text('Are you sure you want to end this interview',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14)),
+              ),
+              const SizedBox(height: 5),
+              const Text('The recordings can be accessed later.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 15),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                CustomDialogButton(
+                    text: 'Cancel',
+                    primaryColor: const Color.fromARGB(255, 113, 113, 113),
+                    secondaryColor: const Color.fromARGB(255, 73, 73, 73),
+                    onPressed: () => Get.back()),
+                const SizedBox(width: 15),
+                CustomDialogButton(
+                    text: 'Finish',
+                    primaryColor: const Color(0xFF1C217F),
+                    secondaryColor: const Color.fromARGB(255, 20, 24, 92),
+                    onPressed: () => controller.endInterview()),
+              ])
+            ],
+          ),
         ),
       ),
     ));

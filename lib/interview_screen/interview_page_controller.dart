@@ -1,9 +1,12 @@
 import 'dart:async';
-import 'package:camera/camera.dart';
+import 'package:camera/camera.dart' hide ImageFormat;
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'dart:io';
+import '../recordings_screen/recordings_controller.dart';
 import 'interview_results.dart';
 import 'package:video_compress/video_compress.dart';
 
@@ -35,6 +38,13 @@ class InterviewPageController extends GetxController {
   RxBool isCameraFront = true.obs;
 
   List<String> videoPaths = [];
+
+  String interviewName = 'UNTITLED 1';
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
 
   @override
   void onInit() async {
@@ -72,6 +82,7 @@ class InterviewPageController extends GetxController {
     isCameraFront.value = true;
     questionTimes.value =
         List<int>.filled(questions.length, 0, growable: false);
+    interviewName = 'Interview 1';
   }
 
   Future<void> pressRecord() async {
@@ -148,11 +159,13 @@ class InterviewPageController extends GetxController {
   }
 
   Future<void> endInterview() async {
+    Get.back();
     final supabase = Supabase.instance.client;
     isProcessingFiles.value = true;
     List<String> compressedFiles = [];
     List<String> compressedUrls = [];
-    totalProcessingSteps.value = videoPaths.length * 5;
+    List<String> jobIds = [];
+    totalProcessingSteps.value = videoPaths.length * 5 + 2;
 
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value = 'Compressing Files ${i + 1}/${videoPaths.length}';
@@ -165,7 +178,7 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value = 'Uploading Files ${i + 1}/${videoPaths.length}';
       await supabase.storage.from('users').upload(
-          '${Supabase.instance.client.auth.currentUser!.id}/recordings/$i.mp4',
+          '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4',
           File(compressedFiles[i]));
       final String publicUrl = supabase.storage.from('public-bucket').getPublicUrl(
           '${Supabase.instance.client.auth.currentUser!.id}/recordings/$i.mp4');
@@ -180,8 +193,73 @@ class InterviewPageController extends GetxController {
       currentProcessingStep.value++;
     }
 
-    for (int i = 0; i < videoPaths.length; i++) {}
+    for (int i = 0; i < videoPaths.length; i++) {
+      processingState.value = 'Starting Analysis ${i + 1}/${videoPaths.length}';
+      //TODO: Call supabase edge function
+      //TODO: Store job id in jobIds list
+      jobIds.add('$i');
+      currentProcessingStep.value++;
+    }
 
-    Get.to(const InterviewResults(), arguments: videoPaths);
+    processingState.value = 'Waiting for Results (This may take a while)';
+    //TODO: Check supabase storage every 100 ms and proceed when all jobIds are present
+    currentProcessingStep.value++;
+
+    for (int i = 0; i < videoPaths.length; i++) {
+      processingState.value =
+          'Deleting Cloud Files ${i + 1}/${videoPaths.length}';
+      await supabase.storage.from('users').remove([
+        '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4'
+      ]);
+      currentProcessingStep.value++;
+    }
+
+    processingState.value = 'Creating Metadata';
+    await createMetadata(jobIds);
+    currentProcessingStep.value++;
+
+    Get.find<RecordingsController>().updateRecordings();
+
+    Get.to(const InterviewResults(), arguments: interviewName);
+  }
+
+  Future<void> createMetadata(List<String> jobIds) async {
+    final path = await _localPath;
+    final file = File('$path/$interviewName.metadata');
+    final thumbnailPath = await getThumbnailPath(videoPaths[0]);
+
+    await file.writeAsString(
+        '${Supabase.instance.client.auth.currentUser!.id}\n',
+        mode: FileMode.append); //User ID
+    await file.writeAsString('$interviewName\n',
+        mode: FileMode.append); //Interview name
+    await file.writeAsString('interview\n', mode: FileMode.append); //Interview
+    await file.writeAsString('${videoPaths.length}\n',
+        mode: FileMode.append); //Number of files
+    for (int i = 0; i < videoPaths.length; i++) {
+      await file.writeAsString('${videoPaths[i]}\n',
+          mode: FileMode.append); //Paths of video
+    }
+    await file.writeAsString('96\n', mode: FileMode.append); //Rating out of 100
+    await file.writeAsString('$thumbnailPath\n',
+        mode: FileMode.append); //Path of thumbnail file
+    for (int i = 0; i < videoPaths.length; i++) {
+      await file.writeAsString('${jobIds[i]}\n', mode: FileMode.append);
+    } //Job IDs
+  }
+
+  Future<String> getThumbnailPath(String videoPath) async {
+    final fileName = await VideoThumbnail.thumbnailFile(
+      video: videoPath,
+      thumbnailPath: (await getTemporaryDirectory()).path,
+      imageFormat: ImageFormat.PNG,
+      maxHeight: 100,
+      quality: 500,
+    );
+    return fileName!;
+  }
+
+  void updateName(String name) {
+    interviewName = name;
   }
 }

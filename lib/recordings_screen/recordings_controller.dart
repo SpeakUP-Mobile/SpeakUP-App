@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../speech_screen/speech_analysis.dart';
+import '../interview_screen/interview_results.dart';
 import 'recording_info_widget.dart';
 
 class RecordingsController extends GetxController {
@@ -41,6 +41,7 @@ class RecordingsController extends GetxController {
         metadataPaths.add(file.path);
       }
     }
+    print(metadataPaths);
     return metadataPaths;
   }
 
@@ -51,24 +52,34 @@ class RecordingsController extends GetxController {
     for (String path in paths) {
       final file = File(path);
       final contents = await file.readAsLines();
-      final name = contents[0];
+      final uid = contents[0].trim();
+      final name = contents[1].trim();
       final modifiedDate = await file.lastModified();
       final month = getMonth(modifiedDate.month);
       final dayEnding = getDayEnding(modifiedDate.day);
       final date = '$month ${modifiedDate.day}$dayEnding, ${modifiedDate.year}';
       final time = '${modifiedDate.hour}:${modifiedDate.minute}';
       final isInterview = contents[2] == 'interview' ? true : false;
-      final score = contents[3];
-      final thumbnailPath = contents[4];
+      final numberOfFiles = int.parse(contents[3].trim());
+      List<String> videoPaths = [];
+      for (int i = 0; i < numberOfFiles; i++) {
+        videoPaths.add(contents[4 + i]);
+      }
+      final score =
+          int.parse(contents[4 + int.parse(contents[3].trim())].trim());
+      final thumbnailPath = contents[5 + int.parse(contents[3].trim())].trim();
       final recording = RecordingInfoWidget(
         name: name,
         date: date,
         time: time,
         isInterview: isInterview,
-        score: int.parse(score),
+        videoPaths: videoPaths,
+        score: score,
         thumbnailPath: thumbnailPath,
       );
-      recordingWidgets.add(recording);
+      if (uid == Supabase.instance.client.auth.currentUser!.id) {
+        recordingWidgets.add(recording);
+      }
     }
     return recordingWidgets;
   }
@@ -126,22 +137,21 @@ class RecordingsController extends GetxController {
     view.value = value;
   }
 
-  deleteRecording(String name) async {
+  deleteRecording(String name, List<String> videoPaths) async {
+    for (int i = 0; i < videoPaths.length; i++) {
+      await File(videoPaths[i]).delete();
+    }
     final localPath = await getApplicationDocumentsDirectory();
-    final file = File('${localPath.path}/$name.metadata');
-    final contents = await file.readAsLines();
-    final videoPath = contents[1];
-    final video = File(videoPath);
-    await video.delete();
-    await file.delete();
+    await File('${localPath.path}/$name.metadata').delete();
+
     updateRecordings();
   }
 
-  viewRecording(String name) async {
-    final localPath = await getApplicationDocumentsDirectory();
-    final metadataFile = File('${localPath.path}/$name.metadata');
-    final contents = await metadataFile.readAsLines();
-    final videoPath = contents[1];
-    Get.to(SpeechAnalysisPage(recordingName: name, videoPath: videoPath));
+  viewRecording(bool isInterview, String name) async {
+    if (isInterview) {
+      Get.to(const InterviewResults(), arguments: name);
+    } else {
+      print('No speeches yet');
+    }
   }
 }

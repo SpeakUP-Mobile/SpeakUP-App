@@ -7,6 +7,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
   final String date;
   final String time;
   final bool isInterview;
+  final List<String> videoPaths;
   final int score;
   final String thumbnailPath;
 
@@ -16,6 +17,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
     required this.date,
     required this.time,
     required this.isInterview,
+    required this.videoPaths,
     required this.score,
     required this.thumbnailPath,
   });
@@ -61,14 +63,14 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                 recordingTags()
               ]),
             ])),
-        onTap: () => controller.viewRecording(name));
+        onTap: () => controller.viewRecording(isInterview, name));
   }
 
   Row recordingTags() {
     return Row(
       children: [
         InkWell(
-          onTap: () => controller.deleteRecording(name),
+          onTap: () => controller.deleteRecording(name, videoPaths),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 7, right: 5, top: 3, bottom: 3),
@@ -92,10 +94,10 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
             decoration: const BoxDecoration(
                 color: Color(0xFF1E1E1E),
                 borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: Text("$score/10",
+            child: Text("$score/100",
                 style: TextStyle(
                     fontSize: 10,
-                    color: score > 5
+                    color: score > 70
                         ? const Color(0xFF00FF57)
                         : const Color(0xFFFF0000)))),
         const SizedBox(width: 5),
