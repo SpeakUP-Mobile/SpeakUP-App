@@ -41,7 +41,6 @@ class RecordingsController extends GetxController {
         metadataPaths.add(file.path);
       }
     }
-    print(metadataPaths);
     return metadataPaths;
   }
 
@@ -50,24 +49,16 @@ class RecordingsController extends GetxController {
     List<RecordingInfoWidget> recordingWidgets = [];
 
     for (String path in paths) {
-      final file = File(path);
-      final contents = await file.readAsLines();
-      final uid = contents[0].trim();
-      final name = contents[1].trim();
-      final modifiedDate = await file.lastModified();
-      final month = getMonth(modifiedDate.month);
-      final dayEnding = getDayEnding(modifiedDate.day);
-      final date = '$month ${modifiedDate.day}$dayEnding, ${modifiedDate.year}';
-      final time = '${modifiedDate.hour}:${modifiedDate.minute}';
-      final isInterview = contents[2] == 'interview' ? true : false;
-      final numberOfFiles = int.parse(contents[3].trim());
-      List<String> videoPaths = [];
-      for (int i = 0; i < numberOfFiles; i++) {
-        videoPaths.add(contents[4 + i]);
-      }
-      final score =
-          int.parse(contents[4 + int.parse(contents[3].trim())].trim());
-      final thumbnailPath = contents[5 + int.parse(contents[3].trim())].trim();
+      final info = await getInfoFromMetadata(path);
+      final uid = info[0];
+      final name = info[1];
+      final date = info[2];
+      final time = info[3];
+      final isInterview = info[4];
+      final videoPaths = info[5];
+      final score = info[6];
+      final thumbnailPath = info[7];
+      final questions = info[8];
       final recording = RecordingInfoWidget(
         name: name,
         date: date,
@@ -76,12 +67,52 @@ class RecordingsController extends GetxController {
         videoPaths: videoPaths,
         score: score,
         thumbnailPath: thumbnailPath,
+        questions: questions,
       );
       if (uid == Supabase.instance.client.auth.currentUser!.id) {
         recordingWidgets.add(recording);
       }
     }
     return recordingWidgets;
+  }
+
+  Future<List<dynamic>> getInfoFromMetadata(String path) async {
+    final file = File(path);
+    final contents = await file.readAsLines();
+    final uid = contents[0].trim();
+    final name = contents[1].trim();
+    final modifiedDate = await file.lastModified();
+    final month = getMonth(modifiedDate.month);
+    final dayEnding = getDayEnding(modifiedDate.day);
+    final date = '$month ${modifiedDate.day}$dayEnding, ${modifiedDate.year}';
+    final time = '${modifiedDate.hour}:${modifiedDate.minute}';
+    final isInterview = contents[2] == 'interview' ? true : false;
+    final numberOfFiles = int.parse(contents[3].trim());
+    List<String> videoPaths = [];
+    for (int i = 0; i < numberOfFiles; i++) {
+      videoPaths.add(contents[4 + i]);
+    }
+    final score = int.parse(contents[4 + int.parse(contents[3].trim())].trim());
+    final thumbnailPath = contents[5 + int.parse(contents[3].trim())].trim();
+    List<String> questions = [];
+    if (isInterview) {
+      for (int i = 0; i < numberOfFiles; i++) {
+        String question =
+            contents[6 + 2 * int.parse(contents[3].trim())].trim();
+        questions.add(question);
+      }
+    }
+    return [
+      uid,
+      name,
+      date,
+      time,
+      isInterview,
+      videoPaths,
+      score,
+      thumbnailPath,
+      questions
+    ];
   }
 
   String getMonth(int month) {
@@ -148,10 +179,10 @@ class RecordingsController extends GetxController {
   }
 
   viewRecording(bool isInterview, String name, String date, String time,
-      int score, List<String> videoPaths) async {
+      int score, List<String> videoPaths, List<String> questions) async {
     if (isInterview) {
       Get.to(const InterviewResults(),
-          arguments: [name, date, time, score, videoPaths]);
+          arguments: [name, date, time, score, videoPaths, questions]);
     } else {
       print('No speeches yet');
     }

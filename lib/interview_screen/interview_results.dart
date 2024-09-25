@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'interview_recordings.dart';
 import 'interview_results_controller.dart';
 
 class InterviewResults extends GetView<InterviewResultsController> {

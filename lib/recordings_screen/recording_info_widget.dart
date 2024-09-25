@@ -10,6 +10,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
   final List<String> videoPaths;
   final int score;
   final String thumbnailPath;
+  final List<String> questions;
 
   const RecordingInfoWidget({
     super.key,
@@ -20,6 +21,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
     required this.videoPaths,
     required this.score,
     required this.thumbnailPath,
+    required this.questions,
   });
 
   @override
@@ -64,7 +66,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
               ]),
             ])),
         onTap: () => controller.viewRecording(
-            isInterview, name, date, time, score, videoPaths));
+            isInterview, name, date, time, score, videoPaths, questions));
   }
 
   Row recordingTags() {

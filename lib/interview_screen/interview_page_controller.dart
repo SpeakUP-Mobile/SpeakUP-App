@@ -215,15 +215,19 @@ class InterviewPageController extends GetxController {
     }
 
     processingState.value = 'Creating Metadata';
-    await createMetadata(jobIds);
+    final path = await createMetadata(jobIds);
     currentProcessingStep.value++;
-
+    final interviewInfo =
+        await Get.find<RecordingsController>().getInfoFromMetadata(path);
+    final date = interviewInfo[2];
+    final time = interviewInfo[3];
+    final score = interviewInfo[6];
     Get.find<RecordingsController>().updateRecordings();
-
-    Get.to(const InterviewResults(), arguments: interviewName);
+    Get.to(const InterviewResults(),
+        arguments: [interviewName, date, time, score, videoPaths, questions]);
   }
 
-  Future<void> createMetadata(List<String> jobIds) async {
+  Future<String> createMetadata(List<String> jobIds) async {
     final path = await _localPath;
     final file = File('$path/$interviewName.metadata');
     final thumbnailPath = await getThumbnailPath(videoPaths[0]);
@@ -246,6 +250,11 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoPaths.length; i++) {
       await file.writeAsString('${jobIds[i]}\n', mode: FileMode.append);
     } //Job IDs
+    for (int i = 0; i < videoPaths.length; i++) {
+      await file.writeAsString('${questions[i]}\n', mode: FileMode.append);
+    }
+
+    return file.path;
   }
 
   Future<String> getThumbnailPath(String videoPath) async {

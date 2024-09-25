@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../interview_screen/interview_analysis_controller.dart';
+import '../interview_screen/interview_recordings_controller.dart';
 import '../interview_screen/interview_results_controller.dart';
 import 'dashboard_controller.dart';
 import '../recordings_screen/recordings_controller.dart';
@@ -15,8 +15,8 @@ class DashboardBinding extends Bindings {
     Get.lazyPut<SpeechController>(() => SpeechController());
     Get.lazyPut<InterviewPageController>(() => InterviewPageController());
     Get.lazyPut<InterviewResultsController>(() => InterviewResultsController());
-    Get.lazyPut<InterviewAnalysisController>(
-        () => InterviewAnalysisController());
+    Get.lazyPut<InterviewRecordingsController>(
+        () => InterviewRecordingsController());
     Get.lazyPut<ProfileController>(() => ProfileController());
   }
 }

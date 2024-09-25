@@ -8,6 +8,7 @@ class InterviewResultsController extends GetxController {
   late String dateTime;
   late int score;
   late List<String> videoPaths;
+  late List<String> questions;
 
   @override
   void onInit() {
@@ -17,11 +18,13 @@ class InterviewResultsController extends GetxController {
     dateTime = '$time on $date';
     score = Get.arguments[3];
     videoPaths = Get.arguments[4];
+    questions = Get.arguments[5];
+    print(recordingName + date + time + dateTime);
     super.onInit;
   }
 
   void viewRecordings() {
-    Get.to(const InterviewRecordings(), arguments: videoPaths);
+    Get.to(const InterviewRecordings(), arguments: [videoPaths, questions]);
   }
 
   void backToHome() {
