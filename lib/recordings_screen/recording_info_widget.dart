@@ -73,7 +73,8 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
     return Row(
       children: [
         InkWell(
-          onTap: () => controller.deleteRecording(name, videoPaths),
+          onTap: () =>
+              controller.deleteRecording(name, videoPaths, thumbnailPath),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 7, right: 5, top: 3, bottom: 3),

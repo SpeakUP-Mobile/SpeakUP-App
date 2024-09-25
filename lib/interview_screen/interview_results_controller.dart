@@ -19,7 +19,6 @@ class InterviewResultsController extends GetxController {
     score = Get.arguments[3];
     videoPaths = Get.arguments[4];
     questions = Get.arguments[5];
-    print(recordingName + date + time + dateTime);
     super.onInit;
   }
 

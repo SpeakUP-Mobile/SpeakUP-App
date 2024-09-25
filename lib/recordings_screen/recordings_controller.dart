@@ -98,7 +98,7 @@ class RecordingsController extends GetxController {
     if (isInterview) {
       for (int i = 0; i < numberOfFiles; i++) {
         String question =
-            contents[6 + 2 * int.parse(contents[3].trim())].trim();
+            contents[i + 6 + 2 * int.parse(contents[3].trim())].trim();
         questions.add(question);
       }
     }
@@ -168,13 +168,14 @@ class RecordingsController extends GetxController {
     view.value = value;
   }
 
-  deleteRecording(String name, List<String> videoPaths) async {
+  deleteRecording(
+      String name, List<String> videoPaths, String thumbnailPath) async {
     for (int i = 0; i < videoPaths.length; i++) {
       await File(videoPaths[i]).delete();
     }
     final localPath = await getApplicationDocumentsDirectory();
     await File('${localPath.path}/$name.metadata').delete();
-
+    await File(thumbnailPath).delete();
     updateRecordings();
   }
 
