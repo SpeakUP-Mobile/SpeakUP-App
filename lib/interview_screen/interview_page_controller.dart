@@ -10,20 +10,16 @@ import '../recordings_screen/recordings_controller.dart';
 import 'interview_results.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:http/http.dart' as http;
-
-import 'dart:convert'; // For jsonEncode
-import 'package:http/http.dart' as http; // Add http package if not added
+import 'dart:convert';
 
 Future<void> analyzeUrl(String videoUrl) async {
-  // The URL of the Supabase function
   final url = Uri.parse(
-      'https://8ab5-76-205-203-7.ngrok-free.app/functions/v1/analyze-url');
+      'https://8ab5-76-205-203-7.ngrok-free.app/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
 
-  // Create a map for the JSON body
   var requestBody = jsonEncode({'videoUrl': videoUrl});
 
   try {
-    // Send the POST request
+    // Send the POST request (translation from the curl command)
     var response = await http.post(
       url,
       headers: {
@@ -245,11 +241,9 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value =
           'Deleting Cloud Files ${i + 1}/${videoPaths.length}';
-      /*
       await supabase.storage.from('users').remove([
         '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4'
       ]);
-      */
       currentProcessingStep.value++;
     }
 
