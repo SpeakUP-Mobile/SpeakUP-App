@@ -9,6 +9,40 @@ import 'dart:io';
 import '../recordings_screen/recordings_controller.dart';
 import 'interview_results.dart';
 import 'package:video_compress/video_compress.dart';
+import 'package:http/http.dart' as http;
+
+import 'dart:convert'; // For jsonEncode
+import 'package:http/http.dart' as http; // Add http package if not added
+
+Future<void> analyzeUrl(String videoUrl) async {
+  // The URL of the Supabase function
+  final url = Uri.parse(
+      'https://8ab5-76-205-203-7.ngrok-free.app/functions/v1/analyze-url');
+
+  // Create a map for the JSON body
+  var requestBody = jsonEncode({'videoUrl': videoUrl});
+
+  try {
+    // Send the POST request
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: requestBody,
+    );
+
+    if (response.statusCode == 200) {
+      print('Response data: ${response.body}');
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Exception: $e');
+  }
+}
+
+// TODO: close the camera as iOS shows it in use even when out of an interview
 
 class InterviewPageController extends GetxController {
   late CameraController cameraController;
@@ -180,22 +214,25 @@ class InterviewPageController extends GetxController {
       await supabase.storage.from('users').upload(
           '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4',
           File(compressedFiles[i]));
-      final String publicUrl = supabase.storage.from('public-bucket').getPublicUrl(
-          '${Supabase.instance.client.auth.currentUser!.id}/recordings/$i.mp4');
+      final String publicUrl = supabase.storage.from('users').getPublicUrl(
+          '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4');
       compressedUrls.add(publicUrl);
       currentProcessingStep.value++;
     }
 
     for (int i = 0; i < videoPaths.length; i++) {
+      /*
       processingState.value =
           'Deleting Compressed Files ${i + 1}/${videoPaths.length}';
       await File(compressedFiles[i]).delete();
+      */
       currentProcessingStep.value++;
     }
 
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value = 'Starting Analysis ${i + 1}/${videoPaths.length}';
-      //TODO: Call supabase edge function
+      print('Analyzing ${compressedUrls[i]}');
+      analyzeUrl(compressedUrls[i]);
       //TODO: Store job id in jobIds list
       jobIds.add('$i');
       currentProcessingStep.value++;
@@ -208,9 +245,11 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value =
           'Deleting Cloud Files ${i + 1}/${videoPaths.length}';
+      /*
       await supabase.storage.from('users').remove([
         '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4'
       ]);
+      */
       currentProcessingStep.value++;
     }
 
