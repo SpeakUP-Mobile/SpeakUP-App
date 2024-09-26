@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:get/get.dart';
@@ -10,12 +11,15 @@ class InterviewRecordingsController extends GetxController {
   RxBool isPlaying = false.obs;
   late Rx<VideoPlayerController> videoController;
   late bool videoEnded;
+  Timer? timer;
 
   @override
   void onInit() async {
     intializeVariables();
     videoController = VideoPlayerController.file(File(videoPaths[0])).obs;
     await resetVideoController();
+    timer = Timer.periodic(const Duration(milliseconds: 500),
+        (Timer t) => videoController.refresh());
     super.onInit();
   }
 

@@ -48,7 +48,7 @@ class InterviewRecordings extends GetView<InterviewRecordingsController> {
             const Spacer(),
             question(context),
             const Spacer(),
-            interviewControls(context),
+            playbackControls(context),
             const Spacer(),
           ],
         ));
@@ -128,10 +128,11 @@ class InterviewRecordings extends GetView<InterviewRecordingsController> {
     );
   }
 
-  Column interviewControls(BuildContext context) {
+  Column playbackControls(BuildContext context) {
     return Column(
       children: [
-        //TODO: Video Bar
+        videoScrubber(context),
+        const SizedBox(height: 25),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Spacer(),
           InkWell(
@@ -153,5 +154,36 @@ class InterviewRecordings extends GetView<InterviewRecordingsController> {
         ])
       ],
     );
+  }
+
+  Row videoScrubber(BuildContext context) {
+    return Row(children: [
+      const Spacer(),
+      Obx(() => Text(
+          '${controller.videoController.value.value.position.inMinutes}:${controller.videoController.value.value.position.inSeconds.toString().padLeft(2, '0')}')),
+      const Spacer(),
+      ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(24)),
+          child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: 10,
+              child: Obx(() => controller
+                      .videoController.value.value.isInitialized
+                  ? VideoProgressIndicator(controller.videoController.value,
+                      allowScrubbing: true,
+                      padding: const EdgeInsets.all(0),
+                      colors: const VideoProgressColors(
+                          playedColor: Color(0xFF8F00FF),
+                          backgroundColor: Color.fromARGB(255, 233, 233, 233),
+                          bufferedColor: Color(0xFFD9D9D9)))
+                  : const LinearProgressIndicator(
+                      value: 0,
+                      color: Color(0xFF8F00FF),
+                      backgroundColor: Color(0xFFD9D9D9))))),
+      const Spacer(),
+      Obx(() => Text(
+          '${controller.videoController.value.value.duration.inMinutes}:${controller.videoController.value.value.duration.inSeconds.toString().padLeft(2, '0')}')),
+      const Spacer()
+    ]);
   }
 }
