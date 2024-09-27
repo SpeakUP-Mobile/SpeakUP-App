@@ -323,10 +323,19 @@ class InterviewPageController extends GetxController {
     } //Job IDs
     for (int i = 0; i < videoPaths.length; i++) {
       await file.writeAsString('${questions[i]}\n', mode: FileMode.append);
-    }
+    } //Interview Questions
 
-    //TODO: Add results from jsonResults vairable to metadata file
-    //TODO: Add llama outputs to metadata file
+    for (int i = 0; i < videoPaths.length; i++) {
+      for (int j = 0; j < 3; j++) {
+        await file.writeAsString('${jsonResults[i][j]}\n',
+            mode: FileMode.append);
+      } //Scores for positive, negative, and filler words
+      await file.writeAsString(
+          'This is an example overview paragraph. In the actual app, we will use Llama in order to generate a short summary of the user\'s emotions during each question\n',
+          mode:
+              FileMode.append); // TEMPORARY until real llama output is working
+      //TODO: Add llama outputs to metadata file
+    }
 
     return file.path;
   }
@@ -342,16 +351,22 @@ class InterviewPageController extends GetxController {
       final faceData = jsonData['predictions']['results']['predictions']
           ['models']['face']['grouped_predictions']['predictions'];
 
-      const numPositiveEmotions = 20;
-      const numNegativeEmotions = 20;
+      const numPositiveEmotions = 11;
+      const numNegativeEmotions = 13;
       List<double> framePositiveScores = [];
       List<double> frameNegativeScores = [];
 
       for (int j = 0; j < faceData.length; j++) {
+        final emotions = faceData[j]['emotions'];
         double framePositiveSum = 0;
         double frameNegativeSum = 0;
-        //TODO: Add to positive sum
-        //TODO: Add to negative sum
+        for (int k = 0; k < emotions.length; k++) {
+          if (isPositiveEmotion(emotions[k]['name'])) {
+            framePositiveSum += emotions[k]['score'];
+          } else if (isNegativeEmotion(emotions[k]['name'])) {
+            frameNegativeSum += emotions[k]['score'];
+          }
+        }
         framePositiveScores.add(framePositiveSum / numPositiveEmotions);
         frameNegativeScores.add(frameNegativeSum / numNegativeEmotions);
       }
@@ -376,6 +391,39 @@ class InterviewPageController extends GetxController {
       results.add(questionResults);
     }
     return results;
+  }
+
+  //Positive: Calmness, Concentration, Contemplation, Contentment, Determination, Excitement, Interest, Joy, Realization, Surprise (positive), Triumph
+  //Negative: Anger, Anxiety, Awkwardness, Boredom, Confusion, Contempt, Distress, Doubt, Embarrassment, Fear, Pride, Surprise (negative), Tiredness
+
+  bool isPositiveEmotion(String emotion) {
+    return emotion == 'Calmness' ||
+        emotion == 'Concentration' ||
+        emotion == 'Contemplation' ||
+        emotion == 'Contentment' ||
+        emotion == 'Determination' ||
+        emotion == 'Excitement' ||
+        emotion == 'Interest' ||
+        emotion == 'Joy' ||
+        emotion == 'Realization' ||
+        emotion == 'Surprise (positive)' ||
+        emotion == 'Triumph';
+  }
+
+  bool isNegativeEmotion(String emotion) {
+    return emotion == 'Anger' ||
+        emotion == 'Anxiety' ||
+        emotion == 'Awkwardness' ||
+        emotion == 'Boredom' ||
+        emotion == 'Confusion' ||
+        emotion == 'Contempt' ||
+        emotion == 'Distress' ||
+        emotion == 'Doubt' ||
+        emotion == 'Embarrassment' ||
+        emotion == 'Fear' ||
+        emotion == 'Pride' ||
+        emotion == 'Surprise (negative)' ||
+        emotion == 'Tiredness';
   }
 
   Future<String> getThumbnailPath(String videoPath) async {
