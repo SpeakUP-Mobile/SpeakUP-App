@@ -345,21 +345,34 @@ class InterviewPageController extends GetxController {
       const numPositiveEmotions = 20;
       const numNegativeEmotions = 20;
       List<double> framePositiveScores = [];
+      List<double> frameNegativeScores = [];
 
       for (int j = 0; j < faceData.length; j++) {
-        int positiveSum = 0;
-        //Add to positive sum
-        framePositiveScores.add(positiveSum / numPositiveEmotions);
+        double framePositiveSum = 0;
+        double frameNegativeSum = 0;
+        //TODO: Add to positive sum
+        //TODO: Add to negative sum
+        framePositiveScores.add(framePositiveSum / numPositiveEmotions);
+        frameNegativeScores.add(frameNegativeSum / numNegativeEmotions);
       }
-      //For each frame:
-      //Average together positive emotion scores in one frame
-      //Average together negative emotion scores in one frame
 
-      //Average togehter positive scores for all frames
-      //Average together negative scores for all frams
-      //Caluculate file word usage
+      double totalPositiveSum = 0;
+      double totalNegativeSum = 0;
+      for (int j = 0; i < faceData.length; j++) {
+        totalPositiveSum += framePositiveScores[j];
+        totalNegativeSum += frameNegativeScores[j];
+      }
 
-      //Store each result into the queastionResults array
+      final totalPositiveScore =
+          ((totalPositiveSum / faceData.length) * 100).round();
+      final totalNegativeScore =
+          ((totalNegativeSum / faceData.length) * 100).round();
+
+      //TODO: Caluculate filler word usage
+
+      questionResults.add(totalPositiveScore);
+      questionResults.add(totalNegativeScore);
+      questionResults.add(42); //Placeholder for filler word score
       results.add(questionResults);
     }
     return results;
