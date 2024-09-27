@@ -38,8 +38,6 @@ Future<void> analyzeUrl(String videoUrl) async {
   }
 }
 
-// TODO: close the camera as iOS shows it in use even when out of an interview
-
 class InterviewPageController extends GetxController {
   late CameraController cameraController;
   late List<CameraDescription> cameras;
@@ -284,6 +282,12 @@ class InterviewPageController extends GetxController {
     processingState.value = 'Creating Metadata';
     final path = await createMetadata(jobIds);
     currentProcessingStep.value++;
+
+    for (int i = 0; i < jobIds.length; i++) {
+      await supabase.storage.from('avatars').remove(
+          ['${supabase.auth.currentUser!.id}/analyzed-json/${jobIds[i]}.json']);
+    }
+
     final interviewInfo =
         await Get.find<RecordingsController>().getInfoFromMetadata(path);
     final date = interviewInfo[2];
@@ -298,7 +302,7 @@ class InterviewPageController extends GetxController {
     final path = await _localPath;
     final file = File('$path/$interviewName.metadata');
     final thumbnailPath = await getThumbnailPath(videoPaths[0]);
-
+    final jsonResults = await parseJson(jobIds);
     await file.writeAsString(
         '${Supabase.instance.client.auth.currentUser!.id}\n',
         mode: FileMode.append); //User ID
@@ -321,7 +325,44 @@ class InterviewPageController extends GetxController {
       await file.writeAsString('${questions[i]}\n', mode: FileMode.append);
     }
 
+    //TODO: Add results from jsonResults vairable to metadata file
+    //TODO: Add llama outputs to metadata file
+
     return file.path;
+  }
+
+  Future<List<List<int>>> parseJson(List<String> jobIds) async {
+    final supabase = Supabase.instance.client;
+    List<List<int>> results = [];
+    for (int i = 0; i < jobIds.length; i++) {
+      List<int> questionResults = [];
+      final file = await supabase.storage.from('users').download(
+          '${supabase.auth.currentUser!.id}/analyzed-json/${jobIds[i]}.json');
+      final jsonData = json.decode(ascii.decode(file));
+      final faceData = jsonData['predictions']['results']['predictions']
+          ['models']['face']['grouped_predictions']['predictions'];
+
+      const numPositiveEmotions = 20;
+      const numNegativeEmotions = 20;
+      List<double> framePositiveScores = [];
+
+      for (int j = 0; j < faceData.length; j++) {
+        int positiveSum = 0;
+        //Add to positive sum
+        framePositiveScores.add(positiveSum / numPositiveEmotions);
+      }
+      //For each frame:
+      //Average together positive emotion scores in one frame
+      //Average together negative emotion scores in one frame
+
+      //Average togehter positive scores for all frames
+      //Average together negative scores for all frams
+      //Caluculate file word usage
+
+      //Store each result into the queastionResults array
+      results.add(questionResults);
+    }
+    return results;
   }
 
   Future<String> getThumbnailPath(String videoPath) async {
