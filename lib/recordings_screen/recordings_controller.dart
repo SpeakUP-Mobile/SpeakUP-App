@@ -115,6 +115,13 @@ class RecordingsController extends GetxController {
     ];
   }
 
+  void clearMetadata() async {
+    List<String> paths = await _metadataPaths;
+    for (int i = 0; i < paths.length; i++) {
+      await File(paths[i]).delete();
+    }
+  }
+
   String getMonth(int month) {
     switch (month) {
       case 1:

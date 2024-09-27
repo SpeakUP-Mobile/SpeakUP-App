@@ -169,8 +169,8 @@ class RecordingsPage extends GetView<RecordingsController> {
                     ),
                     const SizedBox(height: 20),
                     InkWell(
-                        // ignore: avoid_print
-                        onTap: () => print('Speech'),
+                      //TODO: Actually implement speech analysis
+                        onTap: () => controller.clearMetadata(), //Im temporarily using this button to delete all metadata files
                         child: Container(
                             alignment: Alignment.center,
                             height: 50,
