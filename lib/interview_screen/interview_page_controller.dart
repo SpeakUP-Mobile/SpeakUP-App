@@ -71,6 +71,8 @@ class InterviewPageController extends GetxController {
 
   String interviewName = 'UNTITLED 1';
 
+  bool isAnalysisDone = false;
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
@@ -82,6 +84,12 @@ class InterviewPageController extends GetxController {
     initializeVariables();
     await getPermissions();
     await initalizeCamera();
+  }
+
+  @override
+  void onClose() {
+    cameraController.dispose();
+    super.onClose();
   }
 
   Future<void> initalizeCamera() async {
@@ -217,25 +225,51 @@ class InterviewPageController extends GetxController {
     }
 
     for (int i = 0; i < videoPaths.length; i++) {
-      /*
       processingState.value =
           'Deleting Compressed Files ${i + 1}/${videoPaths.length}';
       await File(compressedFiles[i]).delete();
-      */
       currentProcessingStep.value++;
     }
 
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value = 'Starting Analysis ${i + 1}/${videoPaths.length}';
-      print('Analyzing ${compressedUrls[i]}');
-      analyzeUrl(compressedUrls[i]);
-      //TODO: Store job id in jobIds list
-      jobIds.add('$i');
+      //analyzeUrl(compressedUrls[i]);
+      final response = await supabase.functions
+          .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
+      jobIds.add(response.data['data']['job_id']);
       currentProcessingStep.value++;
     }
 
-    processingState.value = 'Waiting for Results (This may take a while)';
-    //TODO: Check supabase storage every 100 ms and proceed when all jobIds are present
+    processingState.value = 'Waiting for Results... (This may take a while)';
+    isAnalysisDone = false;
+    Timer.periodic(const Duration(seconds: 1),
+        (Timer t) => awaitAnalysisResults(t, jobIds, supabase));
+  }
+
+  void awaitAnalysisResults(
+      Timer t, List<String> jobIds, SupabaseClient supabase) async {
+    final List<FileObject> objects = await supabase.storage
+        .from('users')
+        .list(path: '${supabase.auth.currentUser!.id}/analyzed-json');
+    int matchCount = 0;
+    for (int i = 0; i < jobIds.length; i++) {
+      for (int j = 0; j < objects.length; j++) {
+        if (jobIds[i] ==
+            objects[j].name.substring(0, objects[j].name.length - 5)) {
+          matchCount++;
+          break;
+        }
+      }
+    }
+
+    if (matchCount == jobIds.length) {
+      t.cancel();
+      await finishAnalysis(jobIds, supabase);
+    }
+  }
+
+  Future<void> finishAnalysis(
+      List<String> jobIds, SupabaseClient supabase) async {
     currentProcessingStep.value++;
 
     for (int i = 0; i < videoPaths.length; i++) {
@@ -293,7 +327,6 @@ class InterviewPageController extends GetxController {
   Future<String> getThumbnailPath(String videoPath) async {
     final fileName = await VideoThumbnail.thumbnailFile(
       video: videoPath,
-      thumbnailPath: (await getTemporaryDirectory()).path,
       imageFormat: ImageFormat.PNG,
       maxHeight: 100,
       quality: 500,
