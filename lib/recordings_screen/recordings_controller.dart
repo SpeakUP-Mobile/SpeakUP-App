@@ -120,6 +120,7 @@ class RecordingsController extends GetxController {
     for (int i = 0; i < paths.length; i++) {
       await File(paths[i]).delete();
     }
+    await updateRecordings();
   }
 
   String getMonth(int month) {
