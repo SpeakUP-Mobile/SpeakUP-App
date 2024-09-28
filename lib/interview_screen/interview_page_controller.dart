@@ -71,6 +71,9 @@ class InterviewPageController extends GetxController {
 
   bool isAnalysisDone = false;
 
+  //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
+  bool getLlamaOutput = true;
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
@@ -203,6 +206,10 @@ class InterviewPageController extends GetxController {
     List<String> jobIds = [];
     totalProcessingSteps.value = videoPaths.length * 5 + 2;
 
+    if (getLlamaOutput) {
+      totalProcessingSteps.value++;
+    }
+
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value = 'Compressing Files ${i + 1}/${videoPaths.length}';
       MediaInfo? compressedFile =
@@ -243,7 +250,8 @@ class InterviewPageController extends GetxController {
       currentProcessingStep.value++;
     }
 
-    processingState.value = 'Waiting for Results... (This may take a while)';
+    processingState.value =
+        'Waiting for Analysis Results... (This may take a while)';
     isAnalysisDone = false;
     Timer.periodic(const Duration(seconds: 1),
         (Timer t) => awaitAnalysisResults(t, jobIds, supabase));
@@ -267,7 +275,37 @@ class InterviewPageController extends GetxController {
 
     if (matchCount == jobIds.length) {
       t.cancel();
-      await finishAnalysis(jobIds, supabase);
+      if (getLlamaOutput) {
+        processingState.value =
+            'Summarizing Results... (This may take a while)';
+        currentProcessingStep.value++;
+        Timer.periodic(const Duration(seconds: 1),
+            (Timer t) => fetchLlamaResults(t, jobIds, supabase));
+      } else {
+        await finishAnalysis(jobIds, supabase);
+      }
+    }
+  }
+
+  Future<void> fetchLlamaResults(
+      Timer t, List<String> jobIds, SupabaseClient supabase) async {
+    final List<FileObject> objects = await supabase.storage
+        .from('users')
+        .list(path: '${supabase.auth.currentUser!.id}/llama-output');
+    int matchCount = 0;
+    for (int i = 0; i < jobIds.length; i++) {
+      for (int j = 0; j < objects.length; j++) {
+        if (jobIds[i] ==
+            objects[j].name.substring(0, objects[j].name.length - 4)) {
+          matchCount++;
+          break;
+        }
+      }
+
+      if (matchCount == jobIds.length) {
+        t.cancel();
+        await finishAnalysis(jobIds, supabase);
+      }
     }
   }
 
