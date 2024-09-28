@@ -9,6 +9,8 @@ class InterviewResultsController extends GetxController {
   late int score;
   late List<String> videoPaths;
   late List<String> questions;
+  late List<List<int>> questionResults;
+  late List<String> llamaResults;
 
   @override
   void onInit() {
@@ -19,6 +21,8 @@ class InterviewResultsController extends GetxController {
     score = Get.arguments[3];
     videoPaths = Get.arguments[4];
     questions = Get.arguments[5];
+    questionResults = Get.arguments[6];
+    llamaResults = Get.arguments[7];
     super.onInit;
   }
 

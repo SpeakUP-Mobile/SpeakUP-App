@@ -12,9 +12,9 @@ import 'package:video_compress/video_compress.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<void> analyzeUrl(String videoUrl) async {
+Future<String?> analyzeUrl(String videoUrl) async {
   final url = Uri.parse(
-      'https://8ab5-76-205-203-7.ngrok-free.app/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
+      'https://omotzypqzerrcymfovba.supabase.co/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
 
   var requestBody = jsonEncode({'videoUrl': videoUrl});
 
@@ -29,7 +29,7 @@ Future<void> analyzeUrl(String videoUrl) async {
     );
 
     if (response.statusCode == 200) {
-      print('Response data: ${response.body}');
+      return response.body;
     } else {
       print('Error: ${response.statusCode}');
     }
@@ -231,10 +231,15 @@ class InterviewPageController extends GetxController {
 
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value = 'Starting Analysis ${i + 1}/${videoPaths.length}';
-      //analyzeUrl(compressedUrls[i]);
-      final response = await supabase.functions
-          .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
-      jobIds.add(response.data['data']['job_id']);
+      final res = await analyzeUrl(compressedUrls[i]);
+      final response = json.decode(res!);
+      jobIds.add(response['data']['job_id']);
+      //await Future.delayed(const Duration(seconds: 10));
+
+      // final response = await supabase.functions
+      //     .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
+      // jobIds.add(response.data['data']['job_id']);
+
       currentProcessingStep.value++;
     }
 
@@ -293,9 +298,19 @@ class InterviewPageController extends GetxController {
     final date = interviewInfo[2];
     final time = interviewInfo[3];
     final score = interviewInfo[6];
+    final questionResults = [9];
+    final llamaResults = [10];
     Get.find<RecordingsController>().updateRecordings();
-    Get.to(const InterviewResults(),
-        arguments: [interviewName, date, time, score, videoPaths, questions]);
+    Get.to(const InterviewResults(), arguments: [
+      interviewName,
+      date,
+      time,
+      score,
+      videoPaths,
+      questions,
+      questionResults,
+      llamaResults
+    ]);
   }
 
   Future<String> createMetadata(List<String> jobIds) async {
@@ -330,12 +345,15 @@ class InterviewPageController extends GetxController {
         await file.writeAsString('${jsonResults[i][j]}\n',
             mode: FileMode.append);
       } //Scores for positive, negative, and filler words
+    }
+
+    for (int i = 0; i < videoPaths.length; i++) {
       await file.writeAsString(
           'This is an example overview paragraph. In the actual app, we will use Llama in order to generate a short summary of the user\'s emotions during each question\n',
           mode:
               FileMode.append); // TEMPORARY until real llama output is working
       //TODO: Add llama outputs to metadata file
-    }
+    } //Llama output
 
     return file.path;
   }
@@ -348,8 +366,8 @@ class InterviewPageController extends GetxController {
       final file = await supabase.storage.from('users').download(
           '${supabase.auth.currentUser!.id}/analyzed-json/${jobIds[i]}.json');
       final jsonData = json.decode(ascii.decode(file));
-      final faceData = jsonData['predictions']['results']['predictions']
-          ['models']['face']['grouped_predictions']['predictions'];
+      final faceData = jsonData['predictions'][0]['results']['predictions'][0]
+          ['models']['face']['grouped_predictions'][0]['predictions'];
 
       const numPositiveEmotions = 11;
       const numNegativeEmotions = 13;
@@ -373,7 +391,7 @@ class InterviewPageController extends GetxController {
 
       double totalPositiveSum = 0;
       double totalNegativeSum = 0;
-      for (int j = 0; i < faceData.length; j++) {
+      for (int j = 0; j < faceData.length; j++) {
         totalPositiveSum += framePositiveScores[j];
         totalNegativeSum += frameNegativeScores[j];
       }

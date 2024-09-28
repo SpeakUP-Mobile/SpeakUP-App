@@ -50,6 +50,7 @@ class RecordingsController extends GetxController {
 
     for (String path in paths) {
       final info = await getInfoFromMetadata(path);
+      print('Hello world $info');
       final uid = info[0];
       final name = info[1];
       final date = info[2];
@@ -59,6 +60,8 @@ class RecordingsController extends GetxController {
       final score = info[6];
       final thumbnailPath = info[7];
       final questions = info[8];
+      final questionScores = info[9];
+      final llamaResults = info[10];
       final recording = RecordingInfoWidget(
         name: name,
         date: date,
@@ -68,6 +71,8 @@ class RecordingsController extends GetxController {
         score: score,
         thumbnailPath: thumbnailPath,
         questions: questions,
+        questionResults: questionScores,
+        llamaResults: llamaResults,
       );
       if (uid == Supabase.instance.client.auth.currentUser!.id) {
         recordingWidgets.add(recording);
@@ -95,13 +100,63 @@ class RecordingsController extends GetxController {
     final score = int.parse(contents[4 + int.parse(contents[3].trim())].trim());
     final thumbnailPath = contents[5 + int.parse(contents[3].trim())].trim();
     List<String> questions = [];
+    List<List<int>> scores = [];
+    List<String> llamaResults = [];
+
     if (isInterview) {
       for (int i = 0; i < numberOfFiles; i++) {
-        String question =
-            contents[i + 6 + 2 * int.parse(contents[3].trim())].trim();
+        String question = contents[i + 6 + 2 * numberOfFiles].trim();
         questions.add(question);
+
+        final temp = contents[3 +
+                numberOfFiles +
+                2 +
+                numberOfFiles +
+                numberOfFiles +
+                3 * i +
+                1]
+            .trim();
+        print(temp);
+        print(int.parse(temp));
+
+        int positiveScore = int.parse(contents[3 +
+                numberOfFiles +
+                2 +
+                numberOfFiles +
+                numberOfFiles +
+                3 * i +
+                1]
+            .trim());
+        int negativeScore = int.parse(contents[3 +
+                numberOfFiles +
+                2 +
+                numberOfFiles +
+                numberOfFiles +
+                3 * i +
+                2]
+            .trim());
+        int fillerScore = int.parse(contents[3 +
+                numberOfFiles +
+                2 +
+                numberOfFiles +
+                numberOfFiles +
+                3 * i +
+                3]
+            .trim());
+        List<int> questionScores = [positiveScore, negativeScore, fillerScore];
+        scores.add(questionScores);
+        String llamaResult = contents[3 +
+            numberOfFiles +
+            2 +
+            numberOfFiles +
+            numberOfFiles +
+            3 * numberOfFiles +
+            1 +
+            i];
+        llamaResults.add(llamaResult);
       }
     }
+
     return [
       uid,
       name,
@@ -111,7 +166,9 @@ class RecordingsController extends GetxController {
       videoPaths,
       score,
       thumbnailPath,
-      questions
+      questions,
+      scores,
+      llamaResults,
     ];
   }
 
@@ -187,11 +244,27 @@ class RecordingsController extends GetxController {
     updateRecordings();
   }
 
-  viewRecording(bool isInterview, String name, String date, String time,
-      int score, List<String> videoPaths, List<String> questions) async {
+  viewRecording(
+      bool isInterview,
+      String name,
+      String date,
+      String time,
+      int score,
+      List<String> videoPaths,
+      List<String> questions,
+      List<List<int>> questionResults,
+      List<String> llamaResults) async {
     if (isInterview) {
-      Get.to(const InterviewResults(),
-          arguments: [name, date, time, score, videoPaths, questions]);
+      Get.to(const InterviewResults(), arguments: [
+        name,
+        date,
+        time,
+        score,
+        videoPaths,
+        questions,
+        questionResults,
+        llamaResults
+      ]);
     } else {
       print('No speeches yet');
     }

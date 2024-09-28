@@ -12,37 +12,70 @@ class InterviewResults extends GetView<InterviewResultsController> {
     return Scaffold(
         body: SafeArea(
             bottom: false,
-            child: SingleChildScrollView(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 30),
-                        GradientText(
-                          'Results',
-                          textAlign: TextAlign.center,
-                          colors: const [Color(0xff8710d0), Color(0xffff18be)],
-                          style: const TextStyle(
-                              fontSize: 56, fontWeight: FontWeight.bold),
-                        ),
-                        recordingsButton(context),
-                        const SizedBox(height: 5),
-                        backButton(context),
-                        const SizedBox(height: 15),
-                        resultsOverview(context),
-                        const SizedBox(height: 10),
-                        questionResult(context, 1),
-                        const SizedBox(height: 10),
-                        questionResult(context, 2),
-                        const SizedBox(height: 10),
-                        questionResult(context, 3),
-                        const SizedBox(height: 10),
-                        backButton(context),
-                        const SizedBox(height: 30),
-                      ]),
-                ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 30),
+                      GradientText(
+                        'Results',
+                        textAlign: TextAlign.center,
+                        colors: const [Color(0xff8710d0), Color(0xffff18be)],
+                        style: const TextStyle(
+                            fontSize: 56, fontWeight: FontWeight.bold),
+                      ),
+                      // recordingsButton(context),
+                      // const SizedBox(height: 5),
+                      // backButton(context),
+                      // const SizedBox(height: 15),
+                      // resultsOverview(context),
+                      // const SizedBox(height: 10),
+                      Expanded(
+                        child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            itemCount: controller.questions.length + 4,
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == 0) {
+                                return Column(
+                                  children: [
+                                    recordingsButton(context),
+                                    const SizedBox(height: 5),
+                                  ],
+                                );
+                              } else if (index == 1) {
+                                return Column(
+                                  children: [
+                                    backButton(context),
+                                    const SizedBox(height: 10),
+                                  ],
+                                );
+                              } else if (index == 2) {
+                                return Column(
+                                  children: [
+                                    resultsOverview(context),
+                                    const SizedBox(height: 25),
+                                  ],
+                                );
+                              } else if (index ==
+                                  controller.questions.length + 3) {
+                                return Column(
+                                  children: [
+                                    backButton(context),
+                                  ],
+                                );
+                              } else {
+                                return Column(
+                                  children: [
+                                    questionResult(context, index - 3),
+                                    const SizedBox(height: 10),
+                                  ],
+                                );
+                              }
+                            }),
+                      ),
+                    ]),
               ),
             )));
   }
@@ -177,7 +210,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
     ]);
   }
 
-  Container questionResult(BuildContext context, int number) {
+  Container questionResult(BuildContext context, int index) {
     return Container(
         width: MediaQuery.of(context).size.width - 30,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -189,17 +222,19 @@ class InterviewResults extends GetView<InterviewResultsController> {
             ]),
         child: Column(
           children: [
-            Text('Question $number', style: const TextStyle(fontSize: 18)),
+            Text('Question ${index + 1}', style: const TextStyle(fontSize: 18)),
             const SizedBox(height: 5),
-            emotionScore(context, 'Positive Emotions', 68),
+            emotionScore(context, 'Positive Emotions',
+                controller.questionResults[index][0]),
             const SizedBox(height: 5),
-            emotionScore(context, 'Negative Emotions', 12),
+            emotionScore(context, 'Negative Emotions',
+                controller.questionResults[index][1]),
             const SizedBox(height: 5),
-            emotionScore(context, 'Use of Filler Words', 42),
+            emotionScore(context, 'Use of Filler Words',
+                controller.questionResults[index][2]),
             const SizedBox(height: 15),
-            const Text(
-                'This is an example overview paragraph. In the actual app, we will use Llama in order to generate a short summary of the user\'s emotions during each question',
-                style: TextStyle(fontSize: 12)),
+            Text(controller.llamaResults[index],
+                style: const TextStyle(fontSize: 12)),
             const SizedBox(height: 10),
           ],
         ));
