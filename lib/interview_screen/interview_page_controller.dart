@@ -72,7 +72,8 @@ class InterviewPageController extends GetxController {
   bool isAnalysisDone = false;
 
   //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
-  bool getLlamaOutput = true;
+  //ALSO CHANGE IN THE INITIALIZE VARIABLES FUNCTION
+  bool getLlamaOutput = false;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -122,6 +123,7 @@ class InterviewPageController extends GetxController {
     questionTimes.value =
         List<int>.filled(questions.length, 0, growable: false);
     interviewName = 'Interview 1';
+    getLlamaOutput = false;
   }
 
   Future<void> pressRecord() async {
@@ -323,7 +325,7 @@ class InterviewPageController extends GetxController {
     }
 
     processingState.value = 'Creating Metadata';
-    final path = await createMetadata(jobIds);
+    final path = await createMetadata(jobIds, supabase);
     currentProcessingStep.value++;
 
     for (int i = 0; i < jobIds.length; i++) {
@@ -351,7 +353,8 @@ class InterviewPageController extends GetxController {
     ]);
   }
 
-  Future<String> createMetadata(List<String> jobIds) async {
+  Future<String> createMetadata(
+      List<String> jobIds, SupabaseClient supabase) async {
     final path = await _localPath;
     final file = File('$path/$interviewName.metadata');
     final thumbnailPath = await getThumbnailPath(videoPaths[0]);
@@ -368,7 +371,9 @@ class InterviewPageController extends GetxController {
       await file.writeAsString('${videoPaths[i]}\n',
           mode: FileMode.append); //Paths of video
     }
-    await file.writeAsString('96\n', mode: FileMode.append); //Rating out of 100
+    int rating = calculateOverallScore(jsonResults);
+    await file.writeAsString('$rating\n',
+        mode: FileMode.append); //Rating out of 100
     await file.writeAsString('$thumbnailPath\n',
         mode: FileMode.append); //Path of thumbnail file
     for (int i = 0; i < videoPaths.length; i++) {
@@ -384,16 +389,55 @@ class InterviewPageController extends GetxController {
             mode: FileMode.append);
       } //Scores for positive, negative, and filler words
     }
-
+    List<String>? llamaOutputs;
+    if (getLlamaOutput) {
+      llamaOutputs = await llamaOutput(jobIds, supabase);
+    }
     for (int i = 0; i < videoPaths.length; i++) {
-      await file.writeAsString(
-          'This is an example overview paragraph. In the actual app, we will use Llama in order to generate a short summary of the user\'s emotions during each question\n',
-          mode:
-              FileMode.append); // TEMPORARY until real llama output is working
-      //TODO: Add llama outputs to metadata file
+      if (getLlamaOutput) {
+        await file.writeAsString(llamaOutputs![i], mode: FileMode.append);
+      } else {
+        await file.writeAsString(
+            'This is an example overview paragraph. In the actual app, we will use Llama in order to generate a short summary of the user\'s emotions during each question\n',
+            mode: FileMode.append);
+      }
     } //Llama output
 
     return file.path;
+  }
+
+  Future<List<String>> llamaOutput(
+      List<String> jobIds, SupabaseClient supabase) async {
+    List<String> llamaOutputs = [];
+    for (int i = 0; i < jobIds.length; i++) {
+      final file = await supabase.storage.from('users').download(
+          '${supabase.auth.currentUser!.id}/llama-output/${jobIds[i]}.txt');
+      final llamaOutput = ascii.decode(file);
+      llamaOutputs.add(llamaOutput);
+    }
+
+    return llamaOutputs;
+  }
+
+  int calculateOverallScore(List<List<int>> jsonResults) {
+    double overallScore = 0;
+    List<int> questionScores = [];
+    for (int i = 0; i < jsonResults.length; i++) {
+      double questionScore = (jsonResults[i][0] * 0.6) +
+          ((100 - jsonResults[i][1]) * 0.2) +
+          ((100 - jsonResults[i][2]) * 0.2);
+      questionScore = questionScore / 2;
+      questionScore += 50;
+      questionScores.add(questionScore.round());
+    }
+
+    for (int i = 0; i < questionScores.length; i++) {
+      overallScore += questionScores[i];
+    }
+
+    overallScore /= questionScores.length;
+
+    return overallScore.round();
   }
 
   Future<List<List<int>>> parseJson(List<String> jobIds) async {
