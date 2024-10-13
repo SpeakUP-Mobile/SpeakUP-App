@@ -14,7 +14,7 @@ import 'dart:convert';
 
 Future<String?> analyzeUrl(String videoUrl) async {
   final url = Uri.parse(
-      'https://omotzypqzerrcymfovba.supabase.co/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
+      'https://2ac7-76-205-203-7.ngrok-free.app/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
 
   var requestBody = jsonEncode({'videoUrl': videoUrl});
 
@@ -36,6 +36,7 @@ Future<String?> analyzeUrl(String videoUrl) async {
   } catch (e) {
     print('Exception: $e');
   }
+  return null;
 }
 
 class InterviewPageController extends GetxController {
@@ -73,7 +74,7 @@ class InterviewPageController extends GetxController {
 
   //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
   //ALSO CHANGE IN THE INITIALIZE VARIABLES FUNCTION
-  bool getLlamaOutput = false;
+  bool getLlamaOutput = true;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -243,7 +244,7 @@ class InterviewPageController extends GetxController {
       final res = await analyzeUrl(compressedUrls[i]);
       final response = json.decode(res!);
       jobIds.add(response['data']['job_id']);
-      //await Future.delayed(const Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: 10));
 
       // final response = await supabase.functions
       //     .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
@@ -338,8 +339,8 @@ class InterviewPageController extends GetxController {
     final date = interviewInfo[2];
     final time = interviewInfo[3];
     final score = interviewInfo[6];
-    final questionResults = [9];
-    final llamaResults = [10];
+    final questionResults = interviewInfo[9];
+    final llamaResults = interviewInfo[10];
     Get.find<RecordingsController>().updateRecordings();
     Get.to(const InterviewResults(), arguments: [
       interviewName,
@@ -432,6 +433,7 @@ class InterviewPageController extends GetxController {
     }
 
     for (int i = 0; i < questionScores.length; i++) {
+      print(questionScores[i]);
       overallScore += questionScores[i];
     }
 
