@@ -28,16 +28,59 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
     required this.llamaResults,
   });
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return GestureDetector(
+  //       child: Container(
+  //           height: 115,
+  //           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
+  //           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
+  //           decoration: const BoxDecoration(
+  //               color: Colors.white,
+  //               borderRadius: BorderRadius.all(Radius.circular(30)),
+  //               boxShadow: [
+  //                 BoxShadow(
+  //                   color: Colors.grey,
+  //                   spreadRadius: 0,
+  //                   blurRadius: 2.5,
+  //                 )
+  //               ]),
+  //           child: Row(children: [
+  //             Container(
+  //                 width: 120,
+  //                 margin: const EdgeInsets.symmetric(vertical: 12),
+  //                 decoration: BoxDecoration(
+  //                   image: DecorationImage(
+  //                     image: thumbnailPath != ''
+  //                         ? AssetImage(thumbnailPath)
+  //                         : const AssetImage(
+  //                             'assets/placeholder_thumbnail.jpg'),
+  //                     fit: BoxFit.cover,
+  //                   ),
+  //                   color: Colors.grey,
+  //                   borderRadius: const BorderRadius.all(Radius.circular(15)),
+  //                 )),
+  //             const Spacer(),
+  //             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+  //               Text(name, style: const TextStyle(fontSize: 20)),
+  //               Text(date, style: const TextStyle(fontSize: 12)),
+  //               Text(time, style: const TextStyle(fontSize: 12)),
+  //               const Spacer(),
+  //               recordingTags()
+  //             ]),
+  //           ])),
+  //       onTap: () => controller.viewRecording(isInterview, name, date, time,
+  //           score, videoPaths, questions, questionResults, llamaResults));
+  // }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Container(
-            height: 115,
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
+            width: MediaQuery.of(context).size.width / 2,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey,
@@ -45,30 +88,35 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                     blurRadius: 2.5,
                   )
                 ]),
-            child: Row(children: [
-              Container(
-                  width: 120,
-                  margin: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: thumbnailPath != ''
-                          ? AssetImage(thumbnailPath)
-                          : const AssetImage(
-                              'assets/placeholder_thumbnail.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                    color: Colors.grey,
-                    borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  )),
-              const Spacer(),
-              Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                Text(name, style: const TextStyle(fontSize: 20)),
-                Text(date, style: const TextStyle(fontSize: 12)),
-                Text(time, style: const TextStyle(fontSize: 12)),
-                const Spacer(),
-                recordingTags()
-              ]),
-            ])),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(name,
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    const Icon(Icons.more_vert)
+                  ],
+                ),
+                Row(
+                  children: [Text(date), const Text('*'), Text(time)],
+                ),
+                Container(
+                    width: 120,
+                    margin: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: thumbnailPath != ''
+                            ? AssetImage(thumbnailPath)
+                            : const AssetImage(
+                                'assets/placeholder_thumbnail.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                      color: Colors.grey,
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    ))
+              ],
+            )),
         onTap: () => controller.viewRecording(isInterview, name, date, time,
             score, videoPaths, questions, questionResults, llamaResults));
   }
