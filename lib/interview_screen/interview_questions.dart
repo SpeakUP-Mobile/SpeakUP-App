@@ -1,104 +1,108 @@
 class InterviewQuestions {
-  List<String> questions = [
-    'Tell me about yourself.'
-        'Why do you want to work here?'
-        'What are your greatest strengths?'
-        'What are your weaknesses?'
-        'Why should we hire you?'
-        'What are your career goals?'
-        'Where do you see yourself in five years?'
-        'How did you hear about this position?'
-        'Why did you leave your last job?'
-        'Why do you want to change careers?'
-        'What can you contribute to our company?'
-        'Tell me about a time you made a mistake and how you handled it.'
-        'How do you handle stress and pressure?'
-        'Describe a difficult work situation and how you overcame it.'
-        'What motivates you to perform well?'
-        'What do you know about our company?'
-        'What is your greatest achievement?'
-        'How do you prioritize your work?'
-        'What do you like most about your current role?'
-        'What do you dislike about your current role?'
-        'How do you define success?'
-        'Do you prefer to work independently or in a team?'
-        'What are your salary expectations?'
-        'How do you handle feedback and criticism?'
-        'Can you describe your ideal work environment?'
-        'Tell me about a time when you worked on a team.'
-        'Tell me about a time when you had a conflict with a coworker.'
-        'Tell me about a time when you showed leadership.'
-        'Tell me about a time when you had to solve a problem under pressure.'
-        'Tell me about a time when you went above and beyond.'
-        'Tell me about a time you failed and how you learned from it.'
-        'Tell me about a time you had to adapt to change.'
-        'Describe a project you led and its outcome.'
-        'Tell me about a time when you worked with a difficult client.'
-        'How do you handle tight deadlines?'
-        'How do you stay organized when managing multiple projects?'
-        'Describe a time you had to manage conflicting priorities.'
-        'Tell me about a time when you had to make a difficult decision.'
-        'Tell me about a time when you disagreed with your manager.'
-        'Describe a time when you had to learn something new quickly.'
-        'How do you handle failure?'
-        'Tell me about a time when you mentored someone.'
-        'How do you manage stress during high-pressure situations?'
-        'Describe a time when you had to persuade others.'
-        'Tell me about a time when you showed initiative.'
-        'What specific skills make you qualified for this position?'
-        'Describe a time when you solved a challenging problem at work.'
-        'How do you stay updated with industry trends?'
-        'What technologies do you have experience with?'
-        'Can you walk me through a project you\'ve worked on from start to finish?'
-        'How do you ensure the quality of your work?'
-        'Tell me about a recent technical challenge you faced.'
-        'How do you prioritize technical tasks when under pressure?'
-        'How do you handle unexpected technical issues?'
-        'What tools do you use to manage your work?'
-        'Tell me about your experience working with [specific technology/tool].'
-        'What is your approach to debugging?'
-        'Describe your process for problem-solving.'
-        'How do you balance technical work with non-technical work?'
-        'How do you handle technical debt in your projects?'
-        'Tell me about a time you had to learn a new tool or language quickly.'
-        'What is your approach to testing and quality assurance?'
-        'How do you collaborate with non-technical team members?'
-        'Tell me about a technical decision you made that had a significant impact.'
-        'How do you approach continuous learning and skill development?'
-        'How do you align with our company values?'
-        'How do you handle diversity in the workplace?'
-        'Describe your work style.'
-        'What excites you about working at our company?'
-        'How would you fit into our company culture?'
-        'How do you handle working in a fast-paced environment?'
-        'How do you contribute to team morale?'
-        'How do you handle remote work or hybrid work environments?'
-        'How do you maintain a work-life balance?'
-        'How do you handle collaboration in a cross-functional team?'
-        'How do you stay motivated during repetitive tasks?'
-        'What do you expect from a manager?'
-        'How do you handle office politics?'
-        'How do you approach giving and receiving feedback?'
-        'What does teamwork mean to you?'
-        'How do you handle differences of opinion in a team?'
-        'What is your preferred communication style?'
-        'What do you like to do for fun outside of work?'
-        'What makes you excited to come to work each day?'
-        'How do you maintain productivity when working from home?'
-        'Can you tell me more about the day-to-day responsibilities of this role?'
-        'How do you measure success in this position?'
-        'What are the most important skills to succeed in this role?'
-        'What are the team dynamics like?'
-        'Can you describe the company’s culture?'
-        'What are the opportunities for growth within the company?'
-        'How does the company support work-life balance?'
-        'What challenges is the company currently facing?'
-        'What do you expect the successful candidate to achieve in the first 90 days?'
-        'What are the next steps in the interview process?'
-        'Can you tell me more about the team I would be working with?'
-        'What is the company’s approach to professional development?'
-        'What are the biggest challenges for someone in this role?'
-        'What’s the company’s stance on [specific issue relevant to the industry]?'
-        'How would you describe the company’s leadership style?'
+  static List<String> questions = [
+    'Tell me about yourself.',
+    'Why do you want to work here?',
+    'What are your greatest strengths?',
+    'What are your weaknesses?',
+    'Why should we hire you?',
+    'What are your career goals?',
+    'Where do you see yourself in five years?',
+    'How did you hear about this position?',
+    'Why did you leave your last job?',
+    'Why do you want to change careers?',
+    'What can you contribute to our company?',
+    'Tell me about a time you made a mistake and how you handled it.',
+    'How do you handle stress and pressure?',
+    'Describe a difficult work situation and how you overcame it.',
+    'What motivates you to perform well?',
+    'What do you know about our company?',
+    'What is your greatest achievement?',
+    'How do you prioritize your work?',
+    'What do you like most about your current role?',
+    'What do you dislike about your current role?',
+    'How do you define success?',
+    'Do you prefer to work independently or in a team?',
+    'What are your salary expectations?',
+    'How do you handle feedback and criticism?',
+    'Can you describe your ideal work environment?',
+    'Tell me about a time when you worked on a team.',
+    'Tell me about a time when you had a conflict with a coworker.',
+    'Tell me about a time when you showed leadership.',
+    'Tell me about a time when you had to solve a problem under pressure.',
+    'Tell me about a time when you went above and beyond.',
+    'Tell me about a time you failed and how you learned from it.',
+    'Tell me about a time you had to adapt to change.',
+    'Describe a project you led and its outcome.',
+    'Tell me about a time when you worked with a difficult client.',
+    'How do you handle tight deadlines?',
+    'How do you stay organized when managing multiple projects?',
+    'Describe a time you had to manage conflicting priorities.',
+    'Tell me about a time when you had to make a difficult decision.',
+    'Tell me about a time when you disagreed with your manager.',
+    'Describe a time when you had to learn something new quickly.',
+    'How do you handle failure?',
+    'Tell me about a time when you mentored someone.',
+    'How do you manage stress during high-pressure situations?',
+    'Describe a time when you had to persuade others.',
+    'Tell me about a time when you showed initiative.',
+    'What specific skills make you qualified for this position?',
+    'Describe a time when you solved a challenging problem at work.',
+    'How do you stay updated with industry trends?',
+    'What technologies do you have experience with?',
+    'Can you walk me through a project you\'ve worked on from start to finish?',
+    'How do you ensure the quality of your work?',
+    'Tell me about a recent technical challenge you faced.',
+    'How do you prioritize technical tasks when under pressure?',
+    'How do you handle unexpected technical issues?',
+    'What tools do you use to manage your work?',
+    'Tell me about your experience working with [specific technology/tool].',
+    'What is your approach to debugging?',
+    'Describe your process for problem-solving.',
+    'How do you balance technical work with non-technical work?',
+    'How do you handle technical debt in your projects?',
+    'Tell me about a time you had to learn a new tool or language quickly.',
+    'What is your approach to testing and quality assurance?',
+    'How do you collaborate with non-technical team members?',
+    'Tell me about a technical decision you made that had a significant impact.',
+    'How do you approach continuous learning and skill development?',
+    'How do you align with our company values?',
+    'How do you handle diversity in the workplace?',
+    'Describe your work style.',
+    'What excites you about working at our company?',
+    'How would you fit into our company culture?',
+    'How do you handle working in a fast-paced environment?',
+    'How do you contribute to team morale?',
+    'How do you handle remote work or hybrid work environments?',
+    'How do you maintain a work-life balance?',
+    'How do you handle collaboration in a cross-functional team?',
+    'How do you stay motivated during repetitive tasks?',
+    'What do you expect from a manager?',
+    'How do you handle office politics?',
+    'How do you approach giving and receiving feedback?',
+    'What does teamwork mean to you?',
+    'How do you handle differences of opinion in a team?',
+    'What is your preferred communication style?',
+    'What do you like to do for fun outside of work?',
+    'What makes you excited to come to work each day?',
+    'How do you maintain productivity when working from home?',
+    'Can you tell me more about the day-to-day responsibilities of this role?',
+    'How do you measure success in this position?',
+    'What are the most important skills to succeed in this role?',
+    'What are the team dynamics like?',
+    "Can you describe the company's culture?",
+    'What are the opportunities for growth within the company?',
+    'How does the company support work-life balance?',
+    'What challenges is the company currently facing?',
+    'What do you expect the successful candidate to achieve in the first 90 days?',
+    'What are the next steps in the interview process?',
+    'Can you tell me more about the team I would be working with?',
+    "What is the company's approach to professional development?",
+    'What are the biggest challenges for someone in this role?',
+    "What’s the company's stance on specific issue relevant to the industry?",
+    "How would you describe the company's leadership style?"
   ];
+
+  static List<String> getQuestions() {
+    return questions;
+  }
 }
