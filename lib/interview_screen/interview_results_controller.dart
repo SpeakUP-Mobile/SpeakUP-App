@@ -14,6 +14,9 @@ class InterviewResultsController extends GetxController {
 
   @override
   void onInit() {
+    for (int i = 0; i < Get.arguments.length; i++) {
+      print(Get.arguments[i]);
+    }
     recordingName = Get.arguments[0];
     date = Get.arguments[1];
     time = Get.arguments[2];

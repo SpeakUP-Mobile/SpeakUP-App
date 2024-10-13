@@ -236,11 +236,11 @@ class RecordingsController extends GetxController {
   deleteRecording(
       String name, List<String> videoPaths, String thumbnailPath) async {
     for (int i = 0; i < videoPaths.length; i++) {
-      await File(videoPaths[i]).delete();
+      //await File(videoPaths[i]).delete();
     }
     final localPath = await getApplicationDocumentsDirectory();
     await File('${localPath.path}/$name.metadata').delete();
-    await File(thumbnailPath).delete();
+    //await File(thumbnailPath).delete();
     updateRecordings();
   }
 
