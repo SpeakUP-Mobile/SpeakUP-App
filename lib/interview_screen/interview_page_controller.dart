@@ -106,18 +106,21 @@ class InterviewPageController extends GetxController {
   }
 
   void chooseQuestions() {
-    final interviewQuestions = new InterviewQuestions();
-    final allQuestions = interviewQuestions.questions;
+    final allQuestions = InterviewQuestions.getQuestions();
+    print(allQuestions.length);
     final random = Random();
     List<int> randomList = [];
     while (randomList.length < numQuestions) {
       int num = random.nextInt(allQuestions.length);
+      //print(num);
       if (!randomList.contains(num)) {
+        //print("adding ");
         randomList.add(num);
       }
+      //print("Running");
     }
     questions = randomList.map((int i) => allQuestions[i]).toList();
-    //print(questions);
+    print(questions);
   }
 
   Future<void> getPermissions() async {
@@ -132,13 +135,14 @@ class InterviewPageController extends GetxController {
   }
 
   void initializeVariables() {
+    chooseQuestions();
     currentQuestion.value = 0;
     isPreviewLoading.value = true;
     isCameraFront.value = true;
     questionTimes.value =
         List<int>.filled(questions.length, 0, growable: false);
     interviewName = 'Interview 1';
-    getLlamaOutput = false;
+    getLlamaOutput = true;
   }
 
   Future<void> pressRecord() async {
