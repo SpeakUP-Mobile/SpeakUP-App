@@ -11,6 +11,8 @@ import 'interview_results.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'interview_questions.dart';
+import 'dart:math';
 
 Future<String?> analyzeUrl(String videoUrl) async {
   final url = Uri.parse(
@@ -48,11 +50,7 @@ class InterviewPageController extends GetxController {
   RxInt totalProcessingSteps = 1.obs;
   RxInt currentProcessingStep = 0.obs;
 
-  List<String> questions = [
-    'Talk about a time where you demonstrated leadership qualities.',
-    'What is you ideal work environment?',
-    'Why did you decide to apply for a position at this company?'
-  ];
+  late List<String> questions;
   RxInt currentQuestion = 0.obs;
   int numQuestions = 3;
 
@@ -95,6 +93,7 @@ class InterviewPageController extends GetxController {
   }
 
   Future<void> initalizeCamera() async {
+    chooseQuestions();
     cameras = await availableCameras();
     cameraController = CameraController(cameras[1], ResolutionPreset.low);
     await cameraController.initialize();
@@ -103,6 +102,21 @@ class InterviewPageController extends GetxController {
     processingState.value = '';
     totalProcessingSteps.value = 1;
     currentProcessingStep.value = 0;
+  }
+
+  void chooseQuestions() {
+    final interviewQuestions = new InterviewQuestions();
+    final allQuestions = interviewQuestions.questions;
+    final random = Random();
+    List<int> randomList = [];
+    while (randomList.length < numQuestions) {
+      int num = random.nextInt(allQuestions.length);
+      if (!randomList.contains(num)) {
+        randomList.add(num);
+      }
+    }
+    questions = randomList.map((int i) => allQuestions[i]).toList();
+    //print(questions);
   }
 
   Future<void> getPermissions() async {
