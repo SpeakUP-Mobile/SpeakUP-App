@@ -22,7 +22,15 @@ class Dashboard extends GetView<DashboardController> {
     return GetBuilder<DashboardController>(builder: (controller) {
       return Scaffold(
         appBar: AppBar(
-          shadowColor: Colors.black,
+          shadowColor: const Color.fromARGB(102, 0, 0, 0),
+          surfaceTintColor: Colors.white,
+          elevation: 5,
+          toolbarHeight: 100,
+          title: const Text(
+            textAlign: TextAlign.right,
+            "Welcome Back",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         bottomNavigationBar: Container(
           height: 100,
