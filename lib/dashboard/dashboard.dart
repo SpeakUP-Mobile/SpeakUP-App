@@ -25,6 +25,7 @@ class Dashboard extends GetView<DashboardController> {
           shadowColor: const Color.fromARGB(70, 0, 0, 0),
           surfaceTintColor: Colors.white,
           elevation: 10,
+          scrolledUnderElevation: 10,
           toolbarHeight: 117,
           title: const Text(
             textAlign: TextAlign.right,

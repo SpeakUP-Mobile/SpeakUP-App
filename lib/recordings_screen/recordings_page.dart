@@ -11,28 +11,32 @@ class RecordingsPage extends GetView<RecordingsController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => RecordingsController());
     return Scaffold(
-      body: Column(children: [
-        Stack(children: [
-          Container(
-            padding: const EdgeInsets.only(top: 25),
-            alignment: AlignmentDirectional.topCenter,
-            margin: const EdgeInsets.only(bottom: 15),
-          ),
-        ]),
-        Obx(() {
-          return SingleChildScrollView(
-            child: Column(children: [
-              for (RecordingInfoWidget recording in controller.recordings)
-                if (controller.view.value == 0)
-                  recording
-                else if (controller.view.value == 1 && !recording.isInterview)
-                  recording
-                else if (controller.view.value == 2 && recording.isInterview)
-                  recording
-            ]),
-          );
-        })
-      ]),
+      body: SingleChildScrollView(
+        // Allow scrolling
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.only(top: 50), // Top padding
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Obx(() {
+                  return GridView.count(
+                    shrinkWrap:
+                        true, // Ensure GridView only takes the space it needs
+                    physics:
+                        const NeverScrollableScrollPhysics(), // Disable GridView scrolling
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                    childAspectRatio: 1 / 0.9, // Adjust aspect ratio as needed
+                    children: controller.recordings,
+                  );
+                }),
+              ),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 15, right: 15),
         child: SizedBox(

@@ -56,7 +56,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(
-                      width: 20,
+                      width: 11,
                     ),
                     const Icon(Icons.more_vert)
                   ],
@@ -70,7 +70,6 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                 ),
                 Container(
                     width: 120,
-                    margin: const EdgeInsets.symmetric(vertical: 12),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: thumbnailPath != ''
