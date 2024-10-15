@@ -10,7 +10,7 @@ void main() async {
   await Supabase.initialize(
     url: 'https://omotzypqzerrcymfovba.supabase.co',
     anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tb3R6eXBxemVycmN5bWZvdmJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUxMzY5NjIsImV4cCI6MjA0MDcxMjk2Mn0.Q8e_Q0h-P3FADJk6Izalu-n8-eQ0HGEBBIxLDEH9ur0',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tb3R6eXBxemVycmN5bWZvdmJhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyNTEzNjk2MiwiZXhwIjoyMDQwNzEyOTYyfQ.TCX8fX_56B2fjd1jLqLh_T01Q04gBsmN9fppbniwqkY',
   );
   runApp(const SpeakUP());
 }

@@ -48,9 +48,10 @@ class RecordingsController extends GetxController {
     final paths = await _metadataPaths;
     List<RecordingInfoWidget> recordingWidgets = [];
 
-    for (String path in paths) {
+    for (int i = 0; i < paths.length; i++) {
+      var path = paths[i];
       final info = await getInfoFromMetadata(path);
-      print('Hello world $info');
+      //print('$info');
       final uid = info[0];
       final name = info[1];
       final date = info[2];
@@ -97,6 +98,11 @@ class RecordingsController extends GetxController {
     for (int i = 0; i < numberOfFiles; i++) {
       videoPaths.add(contents[4 + i]);
     }
+
+    for (var i = 0; i < contents.length; i++) {
+      print(contents[i]);
+    }
+
     final score = int.parse(contents[4 + int.parse(contents[3].trim())].trim());
     final thumbnailPath = contents[5 + int.parse(contents[3].trim())].trim();
     List<String> questions = [];
@@ -107,7 +113,7 @@ class RecordingsController extends GetxController {
       for (int i = 0; i < numberOfFiles; i++) {
         String question = contents[i + 6 + 2 * numberOfFiles].trim();
         questions.add(question);
-
+        /*
         final temp = contents[3 +
                 numberOfFiles +
                 2 +
@@ -118,7 +124,7 @@ class RecordingsController extends GetxController {
             .trim();
         print(temp);
         print(int.parse(temp));
-
+      */
         int positiveScore = int.parse(contents[3 +
                 numberOfFiles +
                 2 +
@@ -145,14 +151,8 @@ class RecordingsController extends GetxController {
             .trim());
         List<int> questionScores = [positiveScore, negativeScore, fillerScore];
         scores.add(questionScores);
-        String llamaResult = contents[3 +
-            numberOfFiles +
-            2 +
-            numberOfFiles +
-            numberOfFiles +
-            3 * numberOfFiles +
-            1 +
-            i];
+        String llamaResult = contents[contents.length - numberOfFiles + i];
+        //print('Print ${llamaResult}');
         llamaResults.add(llamaResult);
       }
     }
@@ -236,7 +236,7 @@ class RecordingsController extends GetxController {
   deleteRecording(
       String name, List<String> videoPaths, String thumbnailPath) async {
     for (int i = 0; i < videoPaths.length; i++) {
-      //await File(videoPaths[i]).delete();
+      await File(videoPaths[i]).delete();
     }
     final localPath = await getApplicationDocumentsDirectory();
     await File('${localPath.path}/$name.metadata').delete();
@@ -266,7 +266,7 @@ class RecordingsController extends GetxController {
         llamaResults
       ]);
     } else {
-      print('No speeches yet');
+      //print('No speeches yet');
     }
   }
 }

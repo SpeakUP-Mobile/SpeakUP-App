@@ -16,7 +16,7 @@ import 'dart:math';
 
 Future<String?> analyzeUrl(String videoUrl) async {
   final url = Uri.parse(
-      'https://2ac7-76-205-203-7.ngrok-free.app/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
+      'https://1b8f-76-205-203-7.ngrok-free.app/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
 
   var requestBody = jsonEncode({'videoUrl': videoUrl});
 
@@ -33,10 +33,10 @@ Future<String?> analyzeUrl(String videoUrl) async {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      print('Error: ${response.statusCode}');
+      //print('Error: ${response.statusCode}');
     }
   } catch (e) {
-    print('Exception: $e');
+    //print('Exception: $e');
   }
   return null;
 }
@@ -107,7 +107,7 @@ class InterviewPageController extends GetxController {
 
   void chooseQuestions() {
     final allQuestions = InterviewQuestions.getQuestions();
-    print(allQuestions.length);
+    //print(allQuestions.length);
     final random = Random();
     List<int> randomList = [];
     while (randomList.length < numQuestions) {
@@ -120,7 +120,7 @@ class InterviewPageController extends GetxController {
       //print("Running");
     }
     questions = randomList.map((int i) => allQuestions[i]).toList();
-    print(questions);
+    //print(questions);
   }
 
   Future<void> getPermissions() async {
@@ -142,7 +142,6 @@ class InterviewPageController extends GetxController {
     questionTimes.value =
         List<int>.filled(questions.length, 0, growable: false);
     interviewName = 'Interview 1';
-    getLlamaOutput = true;
   }
 
   Future<void> pressRecord() async {
@@ -226,6 +225,7 @@ class InterviewPageController extends GetxController {
     List<String> compressedUrls = [];
     List<String> jobIds = [];
     totalProcessingSteps.value = videoPaths.length * 5 + 2;
+    cameraController.dispose();
 
     if (getLlamaOutput) {
       totalProcessingSteps.value++;
@@ -262,12 +262,10 @@ class InterviewPageController extends GetxController {
       final res = await analyzeUrl(compressedUrls[i]);
       final response = json.decode(res!);
       jobIds.add(response['data']['job_id']);
-      await Future.delayed(const Duration(seconds: 10));
-
+      await Future.delayed(const Duration(seconds: 15));
       // final response = await supabase.functions
       //     .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
       // jobIds.add(response.data['data']['job_id']);
-
       currentProcessingStep.value++;
     }
 
@@ -413,15 +411,17 @@ class InterviewPageController extends GetxController {
       llamaOutputs = await llamaOutput(jobIds, supabase);
     }
     for (int i = 0; i < videoPaths.length; i++) {
+      //print('interview_page_controller.fart, ln 415 ${llamaOutputs![i]}');
       if (getLlamaOutput) {
-        await file.writeAsString(llamaOutputs![i], mode: FileMode.append);
+        await file.writeAsString('${llamaOutputs![i]}\n',
+            mode: FileMode.append);
       } else {
         await file.writeAsString(
             'This is an example overview paragraph. In the actual app, we will use Llama in order to generate a short summary of the user\'s emotions during each question\n',
             mode: FileMode.append);
       }
-    } //Llama output
-
+    } //Llama
+    print(file.toString());
     return file.path;
   }
 
@@ -429,9 +429,9 @@ class InterviewPageController extends GetxController {
       List<String> jobIds, SupabaseClient supabase) async {
     List<String> llamaOutputs = [];
     for (int i = 0; i < jobIds.length; i++) {
-      final file = await supabase.storage.from('users').download(
+      var file = await supabase.storage.from('users').download(
           '${supabase.auth.currentUser!.id}/llama-output/${jobIds[i]}.txt');
-      final llamaOutput = ascii.decode(file);
+      var llamaOutput = ascii.decode(file);
       llamaOutputs.add(llamaOutput);
     }
 
@@ -451,7 +451,7 @@ class InterviewPageController extends GetxController {
     }
 
     for (int i = 0; i < questionScores.length; i++) {
-      print(questionScores[i]);
+      //print(questionScores[i]);
       overallScore += questionScores[i];
     }
 
