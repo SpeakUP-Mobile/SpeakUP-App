@@ -30,17 +30,21 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle reg = const TextStyle(fontSize: 11, fontWeight: FontWeight.bold);
+
     return GestureDetector(
         child: Container(
-            width: MediaQuery.of(context).size.width / 2,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            width: MediaQuery.of(context).size.width / 2 - 20,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            height: 145,
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey,
+                    color: Color.fromARGB(50, 0, 0, 0),
                     spreadRadius: 0,
-                    blurRadius: 2.5,
+                    blurRadius: 4,
                   )
                 ]),
             child: Column(
@@ -48,13 +52,21 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                 Row(
                   children: [
                     Text(name,
+                        softWrap: true,
                         style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                    const SizedBox(
+                      width: 20,
+                    ),
                     const Icon(Icons.more_vert)
                   ],
                 ),
                 Row(
-                  children: [Text(date), const Text(' '), Text(time)],
+                  children: [
+                    Text(style: reg, date),
+                    Text(style: reg, ' '),
+                    Text(style: reg, time)
+                  ],
                 ),
                 Container(
                     width: 120,

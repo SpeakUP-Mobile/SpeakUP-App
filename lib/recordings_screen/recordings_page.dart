@@ -14,7 +14,7 @@ class RecordingsPage extends GetView<RecordingsController> {
       body: Column(children: [
         Stack(children: [
           Container(
-            padding: const EdgeInsets.only(top: 70),
+            padding: const EdgeInsets.only(top: 25),
             alignment: AlignmentDirectional.topCenter,
             margin: const EdgeInsets.only(bottom: 15),
           ),
