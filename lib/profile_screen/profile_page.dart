@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../custom_global_widgets/user_info_widget.dart';
 import 'package:get/get.dart';
 import 'profile_controller.dart';
 
@@ -17,10 +16,6 @@ class ProfilePage extends GetView<ProfileController> {
             padding: const EdgeInsets.only(top: 70),
             alignment: AlignmentDirectional.topCenter,
             margin: const EdgeInsets.only(bottom: 13),
-            child: const UserInfoWidget(
-              text: 'Profile',
-              fontSize: 25,
-            ),
           ),
           Container(
             margin: const EdgeInsets.only(

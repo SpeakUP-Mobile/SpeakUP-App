@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dashboard_controller.dart';
 import '../recordings_screen/recordings_page.dart';
-import '../speech_screen/speech_page.dart';
 import '../interview_screen/interview_hub.dart';
 import '../profile_screen/profile_page.dart';
 
@@ -22,6 +21,9 @@ class Dashboard extends GetView<DashboardController> {
     Get.lazyPut(() => DashboardController());
     return GetBuilder<DashboardController>(builder: (controller) {
       return Scaffold(
+        appBar: AppBar(
+          shadowColor: Colors.black,
+        ),
         bottomNavigationBar: Container(
           height: 100,
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
@@ -76,34 +78,6 @@ class Dashboard extends GetView<DashboardController> {
                   ),
                 ),
                 InkWell(
-                  onTap: () => controller.changeTabIndex(1),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 30,
-                        margin: const EdgeInsets.only(bottom: 5),
-                        child: ImageIcon(
-                          AssetImage(
-                            controller.tabIndex == 1
-                                ? "assets/icons/podium/podium_selected_icon.png"
-                                : "assets/icons/podium/podium_icon.png",
-                          ),
-                          size: 30.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'Speeches',
-                        style: labelStyle.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                InkWell(
                   onTap: () => controller.changeTabIndex(2),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -131,34 +105,6 @@ class Dashboard extends GetView<DashboardController> {
                     ],
                   ),
                 ),
-                InkWell(
-                  onTap: () => controller.changeTabIndex(3),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 30,
-                        margin: const EdgeInsets.only(bottom: 5),
-                        child: ImageIcon(
-                          AssetImage(
-                            controller.tabIndex == 3
-                                ? "assets/icons/home/home_selected_icon.png"
-                                : "assets/icons/home/home_icon.png",
-                          ),
-                          size: 30.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'Profile',
-                        style: labelStyle.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
@@ -167,7 +113,6 @@ class Dashboard extends GetView<DashboardController> {
           index: controller.tabIndex,
           children: const [
             RecordingsPage(),
-            SpeechPage(),
             InterviewHub(),
             ProfilePage(),
           ],
