@@ -154,6 +154,7 @@ class InterviewPageController extends GetxController {
         isRecording.value = true;
       } else if (isRecording.value) {
         final videoPath = (await cameraController.stopVideoRecording()).path;
+        print(videoPath);
         videoPaths.insert(currentQuestion.value, videoPath);
         endTimer = true;
       }
@@ -552,6 +553,7 @@ class InterviewPageController extends GetxController {
       maxHeight: 100,
       quality: 500,
     );
+    print('Path: $fileName');
     return fileName!;
   }
 

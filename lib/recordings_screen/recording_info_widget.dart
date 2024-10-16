@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'recordings_controller.dart';
+import 'dart:io';
 
 class RecordingInfoWidget extends GetView<RecordingsController> {
   final String name;
@@ -31,11 +32,11 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
   @override
   Widget build(BuildContext context) {
     TextStyle reg = const TextStyle(fontSize: 11, fontWeight: FontWeight.bold);
-
+    print(thumbnailPath);
     return GestureDetector(
         child: Container(
             width: MediaQuery.of(context).size.width / 2 - 20,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
             height: 145,
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -58,7 +59,13 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                     const SizedBox(
                       width: 11,
                     ),
-                    const Icon(Icons.more_vert)
+                    InkWell(
+                      onTap: () {
+                        controller.deleteRecording(
+                            name, videoPaths, thumbnailPath);
+                      },
+                      child: const Icon(Icons.more_vert),
+                    )
                   ],
                 ),
                 Row(
@@ -69,16 +76,15 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                   ],
                 ),
                 Container(
-                    width: 120,
+                    width: 16 * 8.5,
+                    height: 9 * 8.5,
+                    margin: const EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: thumbnailPath != ''
-                            ? AssetImage(thumbnailPath)
-                            : const AssetImage(
-                                'assets/placeholder_thumbnail.jpg'),
+                        image: FileImage(File(thumbnailPath)),
                         fit: BoxFit.cover,
                       ),
-                      color: Colors.grey,
+                      color: const Color.fromARGB(28, 158, 158, 158),
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                     ))
               ],

@@ -2,7 +2,7 @@ name: speakup
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.4 <4.0.0'
+  sdk: ">=3.4.4 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -65,7 +64,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  assets: 
+  assets:
     - assets/icons/home/home_icon.png
     - assets/icons/home/home_selected_icon.png
     - assets/icons/podium/podium_icon.png
@@ -77,12 +76,13 @@ flutter:
     - assets/login_screen/apple_icon.png
     - assets/login_screen/google_icon.png
     - assets/speakup_logo.png
+    - assets/placeholder_thumbnail.jpg
   fonts:
-  - family: Poppins
-    fonts: 
-      - asset: assets/fonts/poppins/Poppins-Regular.ttf
-      - asset: assets/fonts/poppins/Poppins-Italic.ttf
-        style: italic
-      - asset: assets/fonts/poppins/Poppins-Bold.ttf
-        weight: 700
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/poppins/Poppins-Italic.ttf
+          style: italic
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+          weight: 700
   uses-material-design: true
