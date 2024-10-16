@@ -99,10 +99,6 @@ class RecordingsController extends GetxController {
       videoPaths.add(contents[4 + i]);
     }
 
-    for (var i = 0; i < contents.length; i++) {
-      print(contents[i]);
-    }
-
     final score = int.parse(contents[4 + int.parse(contents[3].trim())].trim());
     final thumbnailPath = contents[5 + int.parse(contents[3].trim())].trim();
     List<String> questions = [];

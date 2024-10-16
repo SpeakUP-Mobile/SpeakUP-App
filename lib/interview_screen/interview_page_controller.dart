@@ -16,7 +16,7 @@ import 'dart:math';
 
 Future<String?> analyzeUrl(String videoUrl) async {
   final url = Uri.parse(
-      'https://1b8f-76-205-203-7.ngrok-free.app/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
+      'http://notes-ti.gl.at.ply.gg:23944/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
 
   var requestBody = jsonEncode({'videoUrl': videoUrl});
 
@@ -421,7 +421,6 @@ class InterviewPageController extends GetxController {
             mode: FileMode.append);
       }
     } //Llama
-    print(file.toString());
     return file.path;
   }
 
