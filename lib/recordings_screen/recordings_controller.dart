@@ -85,6 +85,9 @@ class RecordingsController extends GetxController {
   Future<List<dynamic>> getInfoFromMetadata(String path) async {
     final file = File(path);
     final contents = await file.readAsLines();
+    for (int i = 0; i < contents.length; i++) {
+      print(contents[i]);
+    }
     final uid = contents[0].trim();
     final name = contents[1].trim();
     final modifiedDate = await file.lastModified();
@@ -97,10 +100,6 @@ class RecordingsController extends GetxController {
     List<String> videoPaths = [];
     for (int i = 0; i < numberOfFiles; i++) {
       videoPaths.add(contents[4 + i]);
-    }
-
-    for (var i = 0; i < contents.length; i++) {
-      print(contents[i]);
     }
 
     final score = int.parse(contents[4 + int.parse(contents[3].trim())].trim());
@@ -240,7 +239,7 @@ class RecordingsController extends GetxController {
     }
     final localPath = await getApplicationDocumentsDirectory();
     await File('${localPath.path}/$name.metadata').delete();
-    //await File(thumbnailPath).delete();
+    await File(thumbnailPath).delete();
     updateRecordings();
   }
 
