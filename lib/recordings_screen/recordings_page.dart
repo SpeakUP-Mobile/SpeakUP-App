@@ -25,7 +25,7 @@ class RecordingsPage extends GetView<RecordingsController> {
                     physics:
                         const NeverScrollableScrollPhysics(), // Disable GridView scrolling
                     crossAxisCount: 2,
-                    crossAxisSpacing: 20,
+                    crossAxisSpacing: 8,
                     mainAxisSpacing: 20,
                     childAspectRatio: 1 / 0.9, // Adjust aspect ratio as needed
                     children: controller.recordings,

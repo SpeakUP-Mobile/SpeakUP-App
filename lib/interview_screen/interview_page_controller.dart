@@ -12,11 +12,11 @@ import 'package:video_compress/video_compress.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'interview_questions.dart';
-import 'dart:math';
+import 'dart:math' as math;
 
 Future<String?> analyzeUrl(String videoUrl) async {
   final url = Uri.parse(
-      'http://notes-ti.gl.at.ply.gg:23944/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
+      'https://omotzypqzerrcymfovba.supabase.co/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
 
   var requestBody = jsonEncode({'videoUrl': videoUrl});
 
@@ -33,10 +33,10 @@ Future<String?> analyzeUrl(String videoUrl) async {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      //print('Error: ${response.statusCode}');
+      print('Error: ${response.statusCode}');
     }
   } catch (e) {
-    //print('Exception: $e');
+    print('Exception: $e');
   }
   return null;
 }
@@ -72,7 +72,7 @@ class InterviewPageController extends GetxController {
 
   //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
   //ALSO CHANGE IN THE INITIALIZE VARIABLES FUNCTION
-  bool getLlamaOutput = true;
+  bool getLlamaOutput = false;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -108,7 +108,7 @@ class InterviewPageController extends GetxController {
   void chooseQuestions() {
     final allQuestions = InterviewQuestions.getQuestions();
     //print(allQuestions.length);
-    final random = Random();
+    final random = math.Random();
     List<int> randomList = [];
     while (randomList.length < numQuestions) {
       int num = random.nextInt(allQuestions.length);
@@ -260,13 +260,17 @@ class InterviewPageController extends GetxController {
 
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value = 'Starting Analysis ${i + 1}/${videoPaths.length}';
-      final res = await analyzeUrl(compressedUrls[i]);
-      final response = json.decode(res!);
-      jobIds.add(response['data']['job_id']);
-      await Future.delayed(const Duration(seconds: 15));
-      // final response = await supabase.functions
-      //     .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
-      // jobIds.add(response.data['data']['job_id']);
+
+      //THESE LINES ARE FOR TESTING WITH NISH'S PC (COMMENT WHEN TESTING REMOTELY)
+      //final res = await analyzeUrl(compressedUrls[i]);
+      //final response = json.decode(res!);
+      //jobIds.add(response['data']['job_id']);
+      //await Future.delayed(const Duration(seconds: 15));
+
+      //THESE LINES ARE FOR TESTING USING SUPABSE HOSTING (COMMENT WHEN TESTING LOCALLY)
+      final response = await supabase.functions
+          .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
+      jobIds.add(response.data['data']['job_id']);
       currentProcessingStep.value++;
     }
 
@@ -336,9 +340,9 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoPaths.length; i++) {
       processingState.value =
           'Deleting Cloud Files ${i + 1}/${videoPaths.length}';
-      await supabase.storage.from('users').remove([
-        '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4'
-      ]);
+      // await supabase.storage.from('users').remove([
+      //   '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4'
+      // ]);
       currentProcessingStep.value++;
     }
 
@@ -468,8 +472,10 @@ class InterviewPageController extends GetxController {
       final file = await supabase.storage.from('users').download(
           '${supabase.auth.currentUser!.id}/analyzed-json/${jobIds[i]}.json');
       final jsonData = json.decode(ascii.decode(file));
-      final faceData = jsonData['predictions'][0]['results']['predictions'][0]
-          ['models']['face']['grouped_predictions'][0]['predictions'];
+
+      final models =
+          jsonData['predictions'][0]['results']['predictions'][0]['models'];
+      final faceData = models['face']['grouped_predictions'][0]['predictions'];
 
       const numPositiveEmotions = 11;
       const numNegativeEmotions = 13;
@@ -503,11 +509,31 @@ class InterviewPageController extends GetxController {
       final totalNegativeScore =
           ((totalNegativeSum / faceData.length) * 100).round();
 
-      //TODO: Caluculate filler word usage
+      int fillerWordScore = 0;
+
+      if (models['prosody'] != null) {
+        String transcription = '';
+        final prosodyData =
+            models['prosody']['grouped_predictions'][0]['predictions'];
+        for (int i = 0; i < prosodyData.length; i++) {
+          transcription += prosodyData[i]['text'] + ' ';
+        }
+        int wordCount = transcription.split(' ').length;
+        int fillerWordCount = 0;
+
+        final burstData = models['burst']['grouped_predictions'];
+        fillerWordCount += int.parse(burstData.length);
+
+        fillerWordScore = (100 /
+                (1 +
+                    math.pow(math.e,
+                        (-1 * ((-30 * (fillerWordCount / wordCount)) - 5)))))
+            .round();
+      }
 
       questionResults.add(totalPositiveScore);
       questionResults.add(totalNegativeScore);
-      questionResults.add(42); //Placeholder for filler word score
+      questionResults.add(fillerWordScore); //Placeholder for filler word score
       results.add(questionResults);
     }
     return results;
