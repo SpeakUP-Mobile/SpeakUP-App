@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../interview_screen/interview_page.dart';
 import 'dashboard_controller.dart';
 import '../recordings_screen/recordings_page.dart';
-import '../interview_screen/interview_hub.dart';
 import '../profile_screen/profile_page.dart';
 
 class Dashboard extends GetView<DashboardController> {
@@ -27,10 +28,10 @@ class Dashboard extends GetView<DashboardController> {
           elevation: 10,
           scrolledUnderElevation: 10,
           toolbarHeight: 117,
-          title: const Text(
+          title: Text(
             textAlign: TextAlign.right,
-            "Welcome Back",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            "Welcome Back ${Supabase.instance.client.auth.currentUser!.userMetadata!['username']}",
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         bottomNavigationBar: Container(
@@ -58,62 +59,110 @@ class Dashboard extends GetView<DashboardController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                InkWell(
-                  onTap: () => controller.changeTabIndex(0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 30,
-                        margin: const EdgeInsets.only(bottom: 5),
-                        child: ImageIcon(
-                          AssetImage(
-                            controller.tabIndex == 0
-                                ? "assets/icons/home/home_selected_icon.png"
-                                : "assets/icons/home/home_icon.png",
+                const Spacer(),
+                Container(
+                    width: MediaQuery.of(context).size.width / 4,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () => controller.changeTabIndex(0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 30,
+                              margin: const EdgeInsets.only(bottom: 5),
+                              child: ImageIcon(
+                                AssetImage(
+                                  controller.tabIndex == 0
+                                      ? "assets/icons/home/home_selected_icon.png"
+                                      : "assets/icons/home/home_icon.png",
+                                ),
+                                size: 30.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              'Home',
+                              style: labelStyle.copyWith(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+                const Spacer(flex: 3),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 15, right: 15),
+                      child: InkWell(
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Color(0xFF865BCE),
+                                  Color(0xFF7D40FF),
+                                  Color(0xFF7D40FF)
+                                ],
+                              )),
+                          child: const Center(
+                            child: Icon(
+                              color: Colors.white,
+                              Icons.add,
+                              size: 45,
+                            ),
                           ),
-                          size: 30.0,
-                          color: Colors.black,
                         ),
+                        onTap: () => Get.to(const InterviewPage()),
                       ),
-                      Text(
-                        'Home',
-                        style: labelStyle.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-                InkWell(
-                  onTap: () => controller.changeTabIndex(2),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 35,
-                        margin: const EdgeInsets.only(bottom: 5),
-                        child: ImageIcon(
-                          AssetImage(
-                            controller.tabIndex == 2
-                                ? "assets/icons/briefcase/briefcase_selected_icon.png"
-                                : "assets/icons/briefcase/briefcase_icon.png",
+                const Spacer(),
+                Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  child: Center(
+                    child: InkWell(
+                      onTap: () => controller.changeTabIndex(1),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 35,
+                            margin: const EdgeInsets.only(bottom: 5),
+                            child: ImageIcon(
+                              AssetImage(
+                                controller.tabIndex == 1
+                                    ? "assets/icons/briefcase/briefcase_selected_icon.png"
+                                    : "assets/icons/briefcase/briefcase_icon.png",
+                              ),
+                              size: 30.0,
+                              color: Colors.black,
+                            ),
                           ),
-                          size: 30.0,
-                          color: Colors.black,
-                        ),
+                          Text(
+                            Supabase.instance.client.auth.currentUser!
+                                .userMetadata!['username'],
+                            style: labelStyle.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Interviews',
-                        style: labelStyle.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
+                const Spacer(),
               ],
             ),
           ),
@@ -122,7 +171,6 @@ class Dashboard extends GetView<DashboardController> {
           index: controller.tabIndex,
           children: const [
             RecordingsPage(),
-            InterviewHub(),
             ProfilePage(),
           ],
         ),

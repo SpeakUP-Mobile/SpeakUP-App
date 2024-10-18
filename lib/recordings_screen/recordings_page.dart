@@ -36,24 +36,24 @@ class RecordingsPage extends GetView<RecordingsController> {
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 15, right: 15),
-        child: SizedBox(
-          height: 70,
-          width: 70,
-          child: FittedBox(
-            child: FloatingActionButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(360)),
-              onPressed: () => Get.to(const InterviewPage()),
-              child: const Icon(
-                Icons.add,
-                size: 30,
-              ),
-            ),
-          ),
-        ),
-      ),
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(bottom: 15, right: 15),
+      //   child: SizedBox(
+      //     height: 70,
+      //     width: 70,
+      //     child: FittedBox(
+      //       child: FloatingActionButton(
+      //         shape: RoundedRectangleBorder(
+      //             borderRadius: BorderRadius.circular(360)),
+      //         onPressed: () => Get.to(const InterviewPage()),
+      //         child: const Icon(
+      //           Icons.add,
+      //           size: 30,
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
