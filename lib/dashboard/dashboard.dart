@@ -28,10 +28,29 @@ class Dashboard extends GetView<DashboardController> {
           elevation: 10,
           scrolledUnderElevation: 10,
           toolbarHeight: 117,
-          title: Text(
-            textAlign: TextAlign.right,
-            "Welcome Back ${Supabase.instance.client.auth.currentUser!.userMetadata!['username']}",
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          title: Row(
+            children: [
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const Text(
+                    textAlign: TextAlign.right,
+                    "Welcome back,",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    textAlign: TextAlign.right,
+                    Supabase.instance.client.auth.currentUser!
+                        .userMetadata!['username'],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 20),
+            ],
           ),
         ),
         bottomNavigationBar: Container(
@@ -60,7 +79,7 @@ class Dashboard extends GetView<DashboardController> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Spacer(),
-                Container(
+                SizedBox(
                     width: MediaQuery.of(context).size.width / 4,
                     child: Center(
                       child: InkWell(
@@ -92,43 +111,50 @@ class Dashboard extends GetView<DashboardController> {
                         ),
                       ),
                     )),
-                const Spacer(flex: 3),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 15, right: 15),
-                      child: InkWell(
-                        child: Container(
-                          height: 70,
-                          width: 70,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                colors: [
-                                  Color(0xFF865BCE),
-                                  Color(0xFF7D40FF),
-                                  Color(0xFF7D40FF)
-                                ],
-                              )),
-                          child: const Center(
-                            child: Icon(
-                              color: Colors.white,
-                              Icons.add,
-                              size: 45,
+                const Spacer(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 4,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 10),
+                      const Spacer(),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 15, right: 15),
+                          child: InkWell(
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    colors: [
+                                      Color(0xFF865BCE),
+                                      Color(0xFF7D40FF),
+                                      Color(0xFF7D40FF)
+                                    ],
+                                  )),
+                              child: const Center(
+                                child: Icon(
+                                  color: Colors.white,
+                                  Icons.add,
+                                  size: 45,
+                                ),
+                              ),
                             ),
+                            onTap: () => Get.to(const InterviewPage()),
                           ),
                         ),
-                        onTap: () => Get.to(const InterviewPage()),
                       ),
-                    ),
+                      const Spacer(),
+                    ],
                   ),
                 ),
                 const Spacer(),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width / 4,
                   child: Center(
                     child: InkWell(

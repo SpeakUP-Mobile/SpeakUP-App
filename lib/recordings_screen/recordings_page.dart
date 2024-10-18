@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'recordings_controller.dart';
-import '../interview_screen/interview_page.dart';
 
 class RecordingsPage extends GetView<RecordingsController> {
   const RecordingsPage({super.key});
@@ -17,7 +16,7 @@ class RecordingsPage extends GetView<RecordingsController> {
             Container(
               padding: const EdgeInsets.only(top: 50), // Top padding
               child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+                padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Obx(() {
                   return GridView.count(
                     shrinkWrap:
