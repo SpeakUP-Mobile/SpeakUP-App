@@ -32,7 +32,6 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
   @override
   Widget build(BuildContext context) {
     TextStyle reg = const TextStyle(fontSize: 11, fontWeight: FontWeight.bold);
-    print(thumbnailPath);
     return GestureDetector(
         child: Container(
             width: MediaQuery.of(context).size.width / 2 - 20,

@@ -60,7 +60,7 @@ class Dashboard extends GetView<DashboardController> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Spacer(),
-                Container(
+                SizedBox(
                     width: MediaQuery.of(context).size.width / 4,
                     child: Center(
                       child: InkWell(
@@ -93,7 +93,7 @@ class Dashboard extends GetView<DashboardController> {
                       ),
                     )),
                 const Spacer(flex: 3),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width / 3,
                   child: Center(
                     child: Padding(
@@ -128,7 +128,7 @@ class Dashboard extends GetView<DashboardController> {
                   ),
                 ),
                 const Spacer(),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width / 4,
                   child: Center(
                     child: InkWell(

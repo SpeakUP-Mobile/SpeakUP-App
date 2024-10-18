@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'recordings_controller.dart';
-import '../interview_screen/interview_page.dart';
 
 class RecordingsPage extends GetView<RecordingsController> {
   const RecordingsPage({super.key});

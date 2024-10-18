@@ -10,6 +10,11 @@ class RecordingsController extends GetxController {
   RxInt view = 0.obs;
   RxList<RecordingInfoWidget> recordings = <RecordingInfoWidget>[].obs;
 
+  Future<String?> getFullVideoDir() async {
+    Directory path = await getApplicationDocumentsDirectory();
+    return '${path.path}/camera/videos/';
+  }
+
   @override
   void onInit() async {
     final currentUser = Supabase.instance.client.auth.currentUser;
@@ -85,9 +90,6 @@ class RecordingsController extends GetxController {
   Future<List<dynamic>> getInfoFromMetadata(String path) async {
     final file = File(path);
     final contents = await file.readAsLines();
-    for (int i = 0; i < contents.length; i++) {
-      print(contents[i]);
-    }
     final uid = contents[0].trim();
     final name = contents[1].trim();
     final modifiedDate = await file.lastModified();
@@ -99,11 +101,13 @@ class RecordingsController extends GetxController {
     final numberOfFiles = int.parse(contents[3].trim());
     List<String> videoPaths = [];
     for (int i = 0; i < numberOfFiles; i++) {
-      videoPaths.add(contents[4 + i]);
+      videoPaths.add(
+          '${await getFullVideoDir()}${contents[4 + i]}'); // videoPaths important
     }
 
     final score = int.parse(contents[4 + int.parse(contents[3].trim())].trim());
-    final thumbnailPath = contents[5 + int.parse(contents[3].trim())].trim();
+    final thumbnailPath =
+        '${await getFullVideoDir()}${contents[5 + int.parse(contents[3].trim())].trim()}';
     List<String> questions = [];
     List<List<int>> scores = [];
     List<String> llamaResults = [];
