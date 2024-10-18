@@ -55,6 +55,7 @@ class RecordingsController extends GetxController {
 
     for (int i = 0; i < paths.length; i++) {
       var path = paths[i];
+      print(path);
       final info = await getInfoFromMetadata(path);
       //print('$info');
       final uid = info[0];
@@ -244,6 +245,15 @@ class RecordingsController extends GetxController {
     final localPath = await getApplicationDocumentsDirectory();
     await File('${localPath.path}/$name.metadata').delete();
     await File(thumbnailPath).delete();
+    updateRecordings();
+  }
+
+  renameRecording(String name, String newName) async {
+    print('Hello');
+    final localPath = await getApplicationDocumentsDirectory();
+    await File('${localPath.path}/$name.metadata')
+        .rename('${localPath.path}/$newName.metadata');
+    print('Hi');
     updateRecordings();
   }
 

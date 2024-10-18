@@ -28,10 +28,29 @@ class Dashboard extends GetView<DashboardController> {
           elevation: 10,
           scrolledUnderElevation: 10,
           toolbarHeight: 117,
-          title: Text(
-            textAlign: TextAlign.right,
-            "Welcome Back ${Supabase.instance.client.auth.currentUser!.userMetadata!['username']}",
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          title: Row(
+            children: [
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const Text(
+                    textAlign: TextAlign.right,
+                    "Welcome back,",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    textAlign: TextAlign.right,
+                    Supabase.instance.client.auth.currentUser!
+                        .userMetadata!['username'],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 20),
+            ],
           ),
         ),
         bottomNavigationBar: Container(
@@ -93,7 +112,7 @@ class Dashboard extends GetView<DashboardController> {
                       ),
                     )),
                 const Spacer(flex: 3),
-                SizedBox(
+                Container(
                   width: MediaQuery.of(context).size.width / 3,
                   child: Center(
                     child: Padding(

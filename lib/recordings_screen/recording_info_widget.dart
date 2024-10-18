@@ -55,15 +55,51 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                         softWrap: true,
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(
-                      width: 11,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        controller.deleteRecording(
-                            name, videoPaths, thumbnailPath);
-                      },
-                      child: const Icon(Icons.more_vert),
+                    const Spacer(),
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                          bottomLeft: Radius.circular(30)),
+                      child: MenuAnchor(
+                        menuChildren: <Widget>[
+                          MenuItemButton(
+                            onPressed: () {
+                              controller.renameRecording(
+                                  name, 'Renamed Recording');
+                            },
+                            child: const Row(
+                              children: [
+                                Icon(Icons.drive_file_rename_outline_rounded),
+                                SizedBox(width: 10),
+                                Text('Rename'),
+                              ],
+                            ),
+                          ),
+                          MenuItemButton(
+                            onPressed: () => controller.deleteRecording(
+                                name, videoPaths, thumbnailPath),
+                            child: const Row(
+                              children: [
+                                Icon(Icons.delete),
+                                SizedBox(width: 10),
+                                Text('Delete'),
+                              ],
+                            ),
+                          ),
+                        ],
+                        builder: (_, MenuController controller, Widget? child) {
+                          return InkWell(
+                              onTap: () {
+                                if (controller.isOpen) {
+                                  controller.close();
+                                } else {
+                                  controller.open();
+                                }
+                              },
+                              child: const Icon(Icons.more_vert, size: 30));
+                        },
+                      ),
                     )
                   ],
                 ),
