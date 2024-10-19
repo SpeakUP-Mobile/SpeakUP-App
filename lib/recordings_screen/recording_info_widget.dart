@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../custom_global_widgets/custom_dialog_button.dart';
 import 'recordings_controller.dart';
 import 'dart:io';
 
@@ -65,8 +66,8 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                         menuChildren: <Widget>[
                           MenuItemButton(
                             onPressed: () {
-                              controller.renameRecording(
-                                  name, 'Renamed Recording');
+                              controller.currentInterview = name;
+                              Get.dialog(renameDialog(context));
                             },
                             child: const Row(
                               children: [
@@ -126,5 +127,80 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
             )),
         onTap: () => controller.viewRecording(isInterview, name, date, time,
             score, videoPaths, questions, questionResults, llamaResults));
+  }
+
+  renameDialog(BuildContext context) {
+    return Dialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+      child: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.22,
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Text('Rename "$name"',
+                  style: const TextStyle(
+                      fontSize: 14.0, fontWeight: FontWeight.w900)),
+              const SizedBox(height: 20),
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.09,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFFE8E8E8),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0))),
+                  padding: const EdgeInsets.only(left: 15, right: 30, top: 7),
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Name',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Color.fromARGB(117, 0, 0, 0),
+                              fontWeight: FontWeight.w900)),
+                      const SizedBox(height: 10),
+                      TextField(
+                        maxLines: 1,
+                        maxLength: 30,
+                        style: const TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w900),
+                        decoration: const InputDecoration(
+                          counterText: '',
+                          isDense: true,
+                          border: InputBorder.none,
+                          hintText: 'Interview 1',
+                          hintStyle: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.w900),
+                        ),
+                        onChanged: (newName) =>
+                            controller.newInterviewName = newName,
+                      ),
+                    ],
+                  )),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                      onTap: () => Get.back(),
+                      child: const Text('Cancel',
+                          style: TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.w900))),
+                  const SizedBox(width: 20),
+                  InkWell(
+                      onTap: () => controller.renameRecording(),
+                      child: const Text('Rename',
+                          style: TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.w900))),
+                  const SizedBox(width: 20),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

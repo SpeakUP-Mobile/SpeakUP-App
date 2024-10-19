@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:speakup/recordings_screen/recordings_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../interview_screen/interview_page.dart';
 import 'dashboard_controller.dart';
@@ -34,10 +35,15 @@ class Dashboard extends GetView<DashboardController> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
-                    textAlign: TextAlign.right,
-                    "Welcome back,",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                  InkWell(
+                    onTap: () =>
+                        Get.find<RecordingsController>().clearMetadata(),
+                    child: const Text(
+                      textAlign: TextAlign.right,
+                      "Welcome back,",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Text(

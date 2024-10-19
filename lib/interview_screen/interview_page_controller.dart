@@ -107,20 +107,15 @@ class InterviewPageController extends GetxController {
 
   void chooseQuestions() {
     final allQuestions = InterviewQuestions.getQuestions();
-    //print(allQuestions.length);
     final random = math.Random();
     List<int> randomList = [];
     while (randomList.length < numQuestions) {
       int num = random.nextInt(allQuestions.length);
-      //print(num);
       if (!randomList.contains(num)) {
-        //print("adding ");
         randomList.add(num);
       }
-      //print("Running");
     }
     questions = randomList.map((int i) => allQuestions[i]).toList();
-    //print(questions);
   }
 
   Future<void> getPermissions() async {
@@ -154,7 +149,6 @@ class InterviewPageController extends GetxController {
         isRecording.value = true;
       } else if (isRecording.value) {
         final videoPath = (await cameraController.stopVideoRecording()).path;
-        print(videoPath);
         videoPaths.insert(currentQuestion.value, videoPath);
         endTimer = true;
       }
@@ -579,7 +573,6 @@ class InterviewPageController extends GetxController {
       maxHeight: 100,
       quality: 500,
     );
-    print('Path: $fileName');
     return fileName!;
   }
 

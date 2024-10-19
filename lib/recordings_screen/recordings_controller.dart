@@ -10,6 +10,9 @@ class RecordingsController extends GetxController {
   RxInt view = 0.obs;
   RxList<RecordingInfoWidget> recordings = <RecordingInfoWidget>[].obs;
 
+  String currentInterview = '';
+  String newInterviewName = 'Interview 1';
+
   @override
   void onInit() async {
     final currentUser = Supabase.instance.client.auth.currentUser;
@@ -50,7 +53,6 @@ class RecordingsController extends GetxController {
 
     for (int i = 0; i < paths.length; i++) {
       var path = paths[i];
-      print(path);
       final info = await getInfoFromMetadata(path);
       //print('$info');
       final uid = info[0];
@@ -86,9 +88,6 @@ class RecordingsController extends GetxController {
   Future<List<dynamic>> getInfoFromMetadata(String path) async {
     final file = File(path);
     final contents = await file.readAsLines();
-    for (int i = 0; i < contents.length; i++) {
-      print(contents[i]);
-    }
     final uid = contents[0].trim();
     final name = contents[1].trim();
     final modifiedDate = await file.lastModified();
@@ -113,18 +112,6 @@ class RecordingsController extends GetxController {
       for (int i = 0; i < numberOfFiles; i++) {
         String question = contents[i + 6 + 2 * numberOfFiles].trim();
         questions.add(question);
-        /*
-        final temp = contents[3 +
-                numberOfFiles +
-                2 +
-                numberOfFiles +
-                numberOfFiles +
-                3 * i +
-                1]
-            .trim();
-        print(temp);
-        print(int.parse(temp));
-      */
         int positiveScore = int.parse(contents[3 +
                 numberOfFiles +
                 2 +
@@ -244,13 +231,29 @@ class RecordingsController extends GetxController {
     updateRecordings();
   }
 
-  renameRecording(String name, String newName) async {
-    print('Hello');
-    final localPath = await getApplicationDocumentsDirectory();
-    await File('${localPath.path}/$name.metadata')
-        .rename('${localPath.path}/$newName.metadata');
-    print('Hi');
-    updateRecordings();
+  renameRecording() async {
+    if (currentInterview != '') {
+      final localPath = await getApplicationDocumentsDirectory();
+      await File('${localPath.path}/$currentInterview.metadata')
+          .rename('${localPath.path}/$newInterviewName.metadata');
+
+      final file = File('${localPath.path}/$newInterviewName.metadata');
+
+      // Read all lines from the file
+      List<String> lines = await file.readAsLines();
+      // Modify the third line (index 2)
+      lines[1] = newInterviewName;
+
+      // Write all the lines back to the file
+      await file.writeAsString(lines.join());
+      await file.writeAsString('');
+      for (int i = 0; i < lines.length; i++) {
+        await file.writeAsString('${lines[i]}\n', mode: FileMode.append);
+      }
+      await updateRecordings();
+      newInterviewName = 'Interview 1';
+      Get.back();
+    }
   }
 
   viewRecording(
