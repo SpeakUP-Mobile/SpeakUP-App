@@ -54,7 +54,7 @@ class Dashboard extends GetView<DashboardController> {
           ),
         ),
         bottomNavigationBar: Container(
-          height: 100,
+          height: 130,
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -112,17 +112,23 @@ class Dashboard extends GetView<DashboardController> {
                       ),
                     )),
                 const Spacer(flex: 3),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width / 3,
                   child: Center(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 15, right: 15),
                       child: InkWell(
                         child: Container(
-                          height: 70,
-                          width: 70,
+                          height: 75,
+                          width: 75,
                           alignment: Alignment.center,
                           decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 4,
+                                    color: Color.fromARGB(105, 0, 0, 0),
+                                    spreadRadius: 0)
+                              ],
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
                                 begin: Alignment.topRight,

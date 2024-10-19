@@ -83,6 +83,7 @@ class InterviewRecordingsController extends GetxController {
 
   Future<void> resetVideoController() async {
     videoController.value.dispose();
+    print(videoPaths[currentQuestion.value - 1]);
     videoController.value = VideoPlayerController.file(File(videoPaths[
         currentQuestion.value -
             1])); // TODO: fix not working when recording first finishes

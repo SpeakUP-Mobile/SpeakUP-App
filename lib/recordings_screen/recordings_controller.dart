@@ -240,7 +240,11 @@ class RecordingsController extends GetxController {
   deleteRecording(
       String name, List<String> videoPaths, String thumbnailPath) async {
     for (int i = 0; i < videoPaths.length; i++) {
-      await File(videoPaths[i]).delete();
+      try {
+        await File(videoPaths[i]).delete();
+      } catch (Exception) {
+        print("Hello");
+      }
     }
     final localPath = await getApplicationDocumentsDirectory();
     await File('${localPath.path}/$name.metadata').delete();
@@ -251,7 +255,7 @@ class RecordingsController extends GetxController {
   renameRecording(String name, String newName) async {
     print('Hello');
     final localPath = await getApplicationDocumentsDirectory();
-    await File('${localPath.path}/$name.metadata')
+    await File('${localPath.path}/ $name.metadata')
         .rename('${localPath.path}/$newName.metadata');
     print('Hi');
     updateRecordings();
