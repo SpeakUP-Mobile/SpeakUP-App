@@ -13,6 +13,11 @@ class RecordingsController extends GetxController {
   String currentInterview = '';
   String newInterviewName = 'Interview 1';
 
+  Future<String?> getFullVideoDir() async {
+    Directory path = await getApplicationDocumentsDirectory();
+    return '${path.path}/camera/videos/';
+  }
+
   @override
   void onInit() async {
     final currentUser = Supabase.instance.client.auth.currentUser;
@@ -54,7 +59,6 @@ class RecordingsController extends GetxController {
     for (int i = 0; i < paths.length; i++) {
       var path = paths[i];
       final info = await getInfoFromMetadata(path);
-      //print('$info');
       final uid = info[0];
       final name = info[1];
       final date = info[2];
@@ -99,11 +103,13 @@ class RecordingsController extends GetxController {
     final numberOfFiles = int.parse(contents[3].trim());
     List<String> videoPaths = [];
     for (int i = 0; i < numberOfFiles; i++) {
-      videoPaths.add(contents[4 + i]);
+      videoPaths.add(
+          '${await getFullVideoDir()}${contents[4 + i]}'); // videoPaths important
     }
 
     final score = int.parse(contents[4 + int.parse(contents[3].trim())].trim());
-    final thumbnailPath = contents[5 + int.parse(contents[3].trim())].trim();
+    final thumbnailPath =
+        '${await getFullVideoDir()}${contents[5 + int.parse(contents[3].trim())].trim()}';
     List<String> questions = [];
     List<List<int>> scores = [];
     List<String> llamaResults = [];

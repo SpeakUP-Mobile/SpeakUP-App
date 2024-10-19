@@ -16,7 +16,7 @@ import 'dart:math' as math;
 
 Future<String?> analyzeUrl(String videoUrl) async {
   final url = Uri.parse(
-      'https://omotzypqzerrcymfovba.supabase.co/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
+      'http://notes-ti.gl.at.ply.gg:23944/functions/v1/analyze-url'); // The URL of the Supabase function [CHANGE WHEN TESTING]
 
   var requestBody = jsonEncode({'videoUrl': videoUrl});
 
@@ -32,11 +32,10 @@ Future<String?> analyzeUrl(String videoUrl) async {
 
     if (response.statusCode == 200) {
       return response.body;
-    } else {
-      print('Error: ${response.statusCode}');
-    }
+    } else {}
   } catch (e) {
-    print('Exception: $e');
+    //ignore:avoid_print
+    print(e);
   }
   return null;
 }
@@ -64,7 +63,7 @@ class InterviewPageController extends GetxController {
 
   RxBool isCameraFront = true.obs;
 
-  List<String> videoPaths = [];
+  List<String> videoNames = [];
 
   String interviewName = 'UNTITLED 1';
 
@@ -72,7 +71,7 @@ class InterviewPageController extends GetxController {
 
   //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
   //ALSO CHANGE IN THE INITIALIZE VARIABLES FUNCTION
-  bool getLlamaOutput = false;
+  bool getLlamaOutput = true;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -82,6 +81,7 @@ class InterviewPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+
     initializeVariables();
     await getPermissions();
     await initalizeCamera();
@@ -91,6 +91,11 @@ class InterviewPageController extends GetxController {
   void onClose() {
     cameraController.dispose();
     super.onClose();
+  }
+
+  Future<String?> getFullVideoDir() async {
+    Directory path = await getApplicationDocumentsDirectory();
+    return '${path.path}/camera/videos/';
   }
 
   Future<void> initalizeCamera() async {
@@ -148,8 +153,9 @@ class InterviewPageController extends GetxController {
         Timer.periodic(const Duration(seconds: 1), (Timer t) => timer(t));
         isRecording.value = true;
       } else if (isRecording.value) {
-        final videoPath = (await cameraController.stopVideoRecording()).path;
-        videoPaths.insert(currentQuestion.value, videoPath);
+        final videoName =
+            (await cameraController.stopVideoRecording()).path.split('/').last;
+        videoNames.insert(currentQuestion.value, videoName);
         endTimer = true;
       }
     }
@@ -169,8 +175,9 @@ class InterviewPageController extends GetxController {
   }
 
   void retakeRecording() async {
-    await File(videoPaths[currentQuestion.value]).delete();
-    videoPaths.removeAt(currentQuestion.value);
+    await File('${await getFullVideoDir()}${videoNames[currentQuestion.value]}')
+        .delete();
+    videoNames.removeAt(currentQuestion.value);
     questionTimes[currentQuestion.value] = 0;
     isDoneRecording.value = false;
     Get.back();
@@ -198,14 +205,14 @@ class InterviewPageController extends GetxController {
     if (isDoneRecording.value) {
       if (currentQuestion.value != questions.length - 1) {
         currentQuestion++;
-        isDoneRecording.value = videoPaths.length > currentQuestion.value;
+        isDoneRecording.value = videoNames.length > currentQuestion.value;
       }
     }
   }
 
   void exitInterview() async {
-    for (String path in videoPaths) {
-      await File(path).delete();
+    for (String name in videoNames) {
+      await File('${await getFullVideoDir()}$name').delete();
     }
     Get.back();
     Get.back();
@@ -219,23 +226,23 @@ class InterviewPageController extends GetxController {
     List<String> compressedFiles = [];
     List<String> compressedUrls = [];
     List<String> jobIds = [];
-    totalProcessingSteps.value = videoPaths.length * 5 + 2;
+    totalProcessingSteps.value = videoNames.length * 5 + 2;
     cameraController.dispose();
 
     if (getLlamaOutput) {
       totalProcessingSteps.value++;
     }
 
-    for (int i = 0; i < videoPaths.length; i++) {
-      processingState.value = 'Compressing Files ${i + 1}/${videoPaths.length}';
-      MediaInfo? compressedFile =
-          await VideoCompress.compressVideo(videoPaths[i]);
+    for (int i = 0; i < videoNames.length; i++) {
+      processingState.value = 'Compressing Files ${i + 1}/${videoNames.length}';
+      MediaInfo? compressedFile = await VideoCompress.compressVideo(
+          '${await getFullVideoDir()}${videoNames[i]}');
       compressedFiles.add(compressedFile!.path!);
       currentProcessingStep.value++;
     }
 
-    for (int i = 0; i < videoPaths.length; i++) {
-      processingState.value = 'Uploading Files ${i + 1}/${videoPaths.length}';
+    for (int i = 0; i < videoNames.length; i++) {
+      processingState.value = 'Uploading Files ${i + 1}/${videoNames.length}';
       await supabase.storage.from('users').upload(
           '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4',
           File(compressedFiles[i]));
@@ -245,27 +252,29 @@ class InterviewPageController extends GetxController {
       currentProcessingStep.value++;
     }
 
-    for (int i = 0; i < videoPaths.length; i++) {
+    for (int i = 0; i < videoNames.length; i++) {
       processingState.value =
-          'Deleting Compressed Files ${i + 1}/${videoPaths.length}';
+          'Deleting Compressed Files ${i + 1}/${videoNames.length}';
       await File(compressedFiles[i]).delete();
       currentProcessingStep.value++;
     }
 
-    for (int i = 0; i < videoPaths.length; i++) {
-      processingState.value = 'Starting Analysis ${i + 1}/${videoPaths.length}';
+    for (int i = 0; i < videoNames.length; i++) {
+      processingState.value = 'Starting Analysis ${i + 1}/${videoNames.length}';
 
       //THESE LINES ARE FOR TESTING WITH NISH'S PC (COMMENT WHEN TESTING REMOTELY)
-      //final res = await analyzeUrl(compressedUrls[i]);
-      //final response = json.decode(res!);
-      //jobIds.add(response['data']['job_id']);
-      //await Future.delayed(const Duration(seconds: 15));
+      final res = await analyzeUrl(compressedUrls[i]);
+      final response = json.decode(res!);
+      jobIds.add(response['data']['job_id']);
+      await Future.delayed(const Duration(seconds: 15));
 
+      /*
       //THESE LINES ARE FOR TESTING USING SUPABSE HOSTING (COMMENT WHEN TESTING LOCALLY)
       final response = await supabase.functions
           .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
       jobIds.add(response.data['data']['job_id']);
       currentProcessingStep.value++;
+      */
     }
 
     processingState.value =
@@ -331,9 +340,9 @@ class InterviewPageController extends GetxController {
       List<String> jobIds, SupabaseClient supabase) async {
     currentProcessingStep.value++;
 
-    for (int i = 0; i < videoPaths.length; i++) {
+    for (int i = 0; i < videoNames.length; i++) {
       processingState.value =
-          'Deleting Cloud Files ${i + 1}/${videoPaths.length}';
+          'Deleting Cloud Files ${i + 1}/${videoNames.length}';
       // await supabase.storage.from('users').remove([
       //   '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4'
       // ]);
@@ -357,6 +366,10 @@ class InterviewPageController extends GetxController {
     final questionResults = interviewInfo[9];
     final llamaResults = interviewInfo[10];
     Get.find<RecordingsController>().updateRecordings();
+    List<String> videoPaths = List.filled(3, "Fake Path");
+    for (int i = 0; i < videoNames.length; i++) {
+      videoPaths[i] = '${await getFullVideoDir()}${videoNames[i]}';
+    }
     Get.to(const InterviewResults(), arguments: [
       interviewName,
       date,
@@ -372,8 +385,9 @@ class InterviewPageController extends GetxController {
   Future<String> createMetadata(
       List<String> jobIds, SupabaseClient supabase) async {
     final path = await _localPath;
-    final file = File('$path/$interviewName.metadata');
-    final thumbnailPath = await getThumbnailPath(videoPaths[0]);
+    final file = File('$path/${interviewName.trim()}.metadata');
+    final thumbnailName =
+        await getThumbnailName('${await getFullVideoDir()}${videoNames[0]}');
     final jsonResults = await parseJson(jobIds);
     await file.writeAsString(
         '${Supabase.instance.client.auth.currentUser!.id}\n',
@@ -381,25 +395,25 @@ class InterviewPageController extends GetxController {
     await file.writeAsString('$interviewName\n',
         mode: FileMode.append); //Interview name
     await file.writeAsString('interview\n', mode: FileMode.append); //Interview
-    await file.writeAsString('${videoPaths.length}\n',
+    await file.writeAsString('${videoNames.length}\n',
         mode: FileMode.append); //Number of files
-    for (int i = 0; i < videoPaths.length; i++) {
-      await file.writeAsString('${videoPaths[i]}\n',
-          mode: FileMode.append); //Paths of video
+    for (int i = 0; i < videoNames.length; i++) {
+      await file.writeAsString('${videoNames[i]}\n',
+          mode: FileMode.append); //Names of video
     }
     int rating = calculateOverallScore(jsonResults);
     await file.writeAsString('$rating\n',
         mode: FileMode.append); //Rating out of 100
-    await file.writeAsString('$thumbnailPath\n',
+    await file.writeAsString('$thumbnailName\n',
         mode: FileMode.append); //Path of thumbnail file
-    for (int i = 0; i < videoPaths.length; i++) {
+    for (int i = 0; i < videoNames.length; i++) {
       await file.writeAsString('${jobIds[i]}\n', mode: FileMode.append);
     } //Job IDs
-    for (int i = 0; i < videoPaths.length; i++) {
+    for (int i = 0; i < videoNames.length; i++) {
       await file.writeAsString('${questions[i]}\n', mode: FileMode.append);
     } //Interview Questions
 
-    for (int i = 0; i < videoPaths.length; i++) {
+    for (int i = 0; i < videoNames.length; i++) {
       for (int j = 0; j < 3; j++) {
         await file.writeAsString('${jsonResults[i][j]}\n',
             mode: FileMode.append);
@@ -409,7 +423,7 @@ class InterviewPageController extends GetxController {
     if (getLlamaOutput) {
       llamaOutputs = await llamaOutput(jobIds, supabase);
     }
-    for (int i = 0; i < videoPaths.length; i++) {
+    for (int i = 0; i < videoNames.length; i++) {
       //print('interview_page_controller.fart, ln 415 ${llamaOutputs![i]}');
       if (getLlamaOutput) {
         await file.writeAsString('${llamaOutputs![i]}\n',
@@ -566,14 +580,19 @@ class InterviewPageController extends GetxController {
         emotion == 'Tiredness';
   }
 
-  Future<String> getThumbnailPath(String videoPath) async {
+  Future<String> getThumbnailName(String videoPath) async {
     final fileName = await VideoThumbnail.thumbnailFile(
       video: videoPath,
       imageFormat: ImageFormat.PNG,
       maxHeight: 100,
       quality: 500,
     );
-    return fileName!;
+    // u have to implement a null check, prob for the better lol
+    String name = '';
+    if (fileName != null) name = fileName.split('/').last;
+    //ignore: avoid_print
+    print('name: $name');
+    return name;
   }
 
   void updateName(String name) {

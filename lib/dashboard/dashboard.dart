@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:speakup/recordings_screen/recordings_controller.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../interview_screen/interview_page.dart';
 import 'dashboard_controller.dart';
@@ -45,13 +46,14 @@ class Dashboard extends GetView<DashboardController> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 1),
+                  GradientText(
                     textAlign: TextAlign.right,
                     Supabase.instance.client.auth.currentUser!
                         .userMetadata!['username'],
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 24),
+                        fontWeight: FontWeight.bold, fontSize: 36),
+                    colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
                   ),
                 ],
               ),
@@ -60,7 +62,7 @@ class Dashboard extends GetView<DashboardController> {
           ),
         ),
         bottomNavigationBar: Container(
-          height: 100,
+          height: 130,
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -117,46 +119,45 @@ class Dashboard extends GetView<DashboardController> {
                         ),
                       ),
                     )),
-                const Spacer(),
+                const Spacer(flex: 3),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 4,
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 10),
-                      const Spacer(),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 15, right: 15),
-                          child: InkWell(
-                            child: Container(
-                              height: 70,
-                              width: 70,
-                              alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topRight,
-                                    end: Alignment.bottomLeft,
-                                    colors: [
-                                      Color(0xFF865BCE),
-                                      Color(0xFF7D40FF),
-                                      Color(0xFF7D40FF)
-                                    ],
-                                  )),
-                              child: const Center(
-                                child: Icon(
-                                  color: Colors.white,
-                                  Icons.add,
-                                  size: 45,
-                                ),
-                              ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 15, right: 15),
+                      child: InkWell(
+                        child: Container(
+                          height: 75,
+                          width: 75,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 4,
+                                    color: Color.fromARGB(105, 0, 0, 0),
+                                    spreadRadius: 0)
+                              ],
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Color(0xFF865BCE),
+                                  Color(0xFF7D40FF),
+                                  Color(0xFF7D40FF)
+                                ],
+                              )),
+                          child: const Center(
+                            child: Icon(
+                              color: Colors.white,
+                              Icons.add,
+                              size: 45,
                             ),
-                            onTap: () => Get.to(const InterviewPage()),
                           ),
                         ),
+                        onTap: () => Get.to(const InterviewPage()),
                       ),
-                      const Spacer(),
-                    ],
+                    ),
                   ),
                 ),
                 const Spacer(),
