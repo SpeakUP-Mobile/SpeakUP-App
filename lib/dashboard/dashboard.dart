@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../interview_screen/interview_page.dart';
 import 'dashboard_controller.dart';
@@ -37,15 +38,16 @@ class Dashboard extends GetView<DashboardController> {
                   const Text(
                     textAlign: TextAlign.right,
                     "Welcome back,",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 1),
+                  GradientText(
                     textAlign: TextAlign.right,
                     Supabase.instance.client.auth.currentUser!
                         .userMetadata!['username'],
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 24),
+                        fontWeight: FontWeight.bold, fontSize: 36),
+                    colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
                   ),
                 ],
               ),
@@ -113,7 +115,7 @@ class Dashboard extends GetView<DashboardController> {
                     )),
                 const Spacer(flex: 3),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 3,
+                  width: MediaQuery.of(context).size.width / 4,
                   child: Center(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 15, right: 15),

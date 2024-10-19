@@ -371,13 +371,16 @@ class InterviewPageController extends GetxController {
     final questionResults = interviewInfo[9];
     final llamaResults = interviewInfo[10];
     Get.find<RecordingsController>().updateRecordings();
+    List<String> videoPaths = List.filled(3, "Fake Path");
+    for (int i = 0; i < videoNames.length; i++) {
+      videoPaths[i] = '${await getFullVideoDir()}${videoNames[i]}';
+    }
     Get.to(const InterviewResults(), arguments: [
-      //TODO: bookmark
       interviewName,
       date,
       time,
       score,
-      videoNames,
+      videoPaths,
       questions,
       questionResults,
       llamaResults
@@ -387,7 +390,7 @@ class InterviewPageController extends GetxController {
   Future<String> createMetadata(
       List<String> jobIds, SupabaseClient supabase) async {
     final path = await _localPath;
-    final file = File('$path/$interviewName.metadata');
+    final file = File('$path/${interviewName.trim()}.metadata');
     final thumbnailName =
         await getThumbnailName('${await getFullVideoDir()}${videoNames[0]}');
     final jsonResults = await parseJson(jobIds);
