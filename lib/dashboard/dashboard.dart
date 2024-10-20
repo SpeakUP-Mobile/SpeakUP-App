@@ -101,7 +101,7 @@ class Dashboard extends GetView<DashboardController> {
                               margin: const EdgeInsets.only(bottom: 5),
                               child: ImageIcon(
                                 const AssetImage(
-                                  "assets/icons/home/home_selected_icon.png",
+                                  "assets/icons/explore/explore.png",
                                 ),
                                 size: 30.0,
                                 color: controller.tabIndex == 1
@@ -110,7 +110,7 @@ class Dashboard extends GetView<DashboardController> {
                               ),
                             ),
                             Text(
-                              'Home',
+                              'Explore',
                               style: labelStyle.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: controller.tabIndex == 1

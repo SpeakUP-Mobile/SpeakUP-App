@@ -77,6 +77,7 @@ flutter:
     - assets/login_screen/google_icon.png
     - assets/speakup_logo.png
     - assets/placeholder_thumbnail.jpg
+    - assets/icons/explore/explore.png
   fonts:
     - family: Poppins
       fonts:
