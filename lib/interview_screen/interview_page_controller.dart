@@ -73,7 +73,7 @@ class InterviewPageController extends GetxController {
 
   //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
   //ALSO CHANGE IN THE INITIALIZE VARIABLES FUNCTION
-  bool getLlamaOutput = false;
+  bool getLlamaOutput = true;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -291,16 +291,16 @@ class InterviewPageController extends GetxController {
       processingState.value = 'Starting Analysis ${i + 1}/${videoNames.length}';
 
       //THESE LINES ARE FOR TESTING WITH NISH'S PC (COMMENT WHEN TESTING REMOTELY)
-      // final res = await analyzeUrl(compressedUrls[i]);
-      // final response = json.decode(res!);
-      // jobIds.add(response['data']['job_id']);
-      // await Future.delayed(const Duration(seconds: 15));
+      final res = await analyzeUrl(compressedUrls[i]);
+      final response = json.decode(res!);
+      jobIds.add(response['data']['job_id']);
+      await Future.delayed(const Duration(seconds: 15));
 
       //THESE LINES ARE FOR TESTING USING SUPABSE HOSTING (COMMENT WHEN TESTING LOCALLY)
-      final response = await supabase.functions
-          .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
-      jobIds.add(response.data['data']['job_id']);
-      currentProcessingStep.value++;
+      // final response = await supabase.functions
+      //     .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
+      // jobIds.add(response.data['data']['job_id']);
+      // currentProcessingStep.value++;
     }
 
     processingState.value =
