@@ -4,11 +4,14 @@ import 'package:speakup/explore_screen/explore_controller.dart';
 
 class ArticleWidget extends GetView<ExploreController> {
   final String name;
-  final String imgURI =
-      "https://static.jobscan.co/blog/uploads/Job-interview-tips-1.jpg";
+  final String imgURI;
   final String content;
 
-  const ArticleWidget({super.key, required this.name, required this.content});
+  const ArticleWidget(
+      {super.key,
+      required this.name,
+      required this.content,
+      required this.imgURI});
 
   @override
   Widget build(BuildContext context) {
