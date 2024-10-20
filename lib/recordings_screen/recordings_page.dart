@@ -14,9 +14,9 @@ class RecordingsPage extends GetView<RecordingsController> {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.only(top: 50), // Top padding
+              padding: const EdgeInsets.only(top: 30), // Top padding
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
+                padding: const EdgeInsets.only(left: 25, right: 25),
                 child: Obx(() {
                   return GridView.count(
                     shrinkWrap:
@@ -24,9 +24,10 @@ class RecordingsPage extends GetView<RecordingsController> {
                     physics:
                         const NeverScrollableScrollPhysics(), // Disable GridView scrolling
                     crossAxisCount: 2,
-                    crossAxisSpacing: 8,
+                    crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
-                    childAspectRatio: 1 / 0.9, // Adjust aspect ratio as needed
+                    childAspectRatio:
+                        1.07954545 / 1, // Adjust aspect ratio as needed
                     children: controller.recordings,
                   );
                 }),
