@@ -35,8 +35,8 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
     return GestureDetector(
         child: Container(
             width: MediaQuery.of(context).size.width / 2 - 20,
+            height: (MediaQuery.of(context).size.width / 2 - 20) * 0.92631579,
             padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            height: 145,
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 color: Colors.white,
@@ -52,10 +52,12 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                 Row(
                   children: [
                     Text(
-                        name.length < 10 ? name : '${name.substring(0, 11)}...',
+                        name.length <= 11
+                            ? name
+                            : '${name.substring(0, 11)}...',
                         softWrap: true,
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                            fontSize: 18, fontWeight: FontWeight.w900)),
                     const Spacer(),
                     ClipRRect(
                       borderRadius: const BorderRadius.only(
@@ -98,7 +100,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                                   controller.open();
                                 }
                               },
-                              child: const Icon(Icons.more_vert, size: 30));
+                              child: const Icon(Icons.more_vert, size: 24));
                         },
                       ),
                     )
@@ -112,9 +114,10 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                   ],
                 ),
                 Container(
-                    width: 16 * 9.5,
-                    height: 9 * 9.5,
-                    margin: const EdgeInsets.only(top: 12),
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height:
+                        MediaQuery.of(context).size.width * 0.3 * 0.56333333,
+                    margin: const EdgeInsets.symmetric(vertical: 15),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: FileImage(File(thumbnailPath)),
@@ -122,7 +125,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                       ),
                       color: const Color.fromARGB(28, 158, 158, 158),
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
-                    ))
+                    )),
               ],
             )),
         onTap: () => controller.viewRecording(isInterview, name, date, time,

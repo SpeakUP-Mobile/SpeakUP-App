@@ -554,10 +554,10 @@ class InterviewPageController extends GetxController {
           transcription += prosodyData[i]['text'] + ' ';
         }
         int wordCount = transcription.split(' ').length;
-        int fillerWordCount = 0;
+        var fillerWordCount = 0;
 
-        final burstData = models['burst']['grouped_predictions'];
-        fillerWordCount += int.parse(burstData.length);
+        List<dynamic> burstData = models['burst']['grouped_predictions'];
+        fillerWordCount += burstData.length;
 
         fillerWordScore = (100 /
                 (1 +
