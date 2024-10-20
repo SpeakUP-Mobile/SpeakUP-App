@@ -12,6 +12,7 @@ class RecordingsController extends GetxController {
 
   String currentInterview = '';
   String newInterviewName = 'Interview 1';
+  RxString renameError = ''.obs;
 
   Future<String?> getFullVideoDir() async {
     Directory path = await getApplicationDocumentsDirectory();
@@ -235,6 +236,43 @@ class RecordingsController extends GetxController {
     await File('${localPath.path}/$name.metadata').delete();
     await File(thumbnailPath).delete();
     updateRecordings();
+  }
+
+  Future<void> checkName() async {
+    if (newInterviewName.isEmpty) {
+      renameError.value = 'Please enter a name';
+      return;
+    }
+    if (newInterviewName.length > 30) {
+      renameError.value = 'Name is too long';
+      return;
+    }
+    if (newInterviewName == currentInterview) {
+      Get.back();
+      return;
+    }
+    final localPath = await getApplicationDocumentsDirectory();
+    List<String> metadataPaths = [];
+    List<String> names = [];
+    await for (var file in localPath.list(followLinks: false)) {
+      if (file.path.substring(file.path.length - 8) == "metadata") {
+        metadataPaths.add(file.path);
+      }
+    }
+
+    for (String path in metadataPaths) {
+      final contents = await File(path).readAsLines();
+      names.add(contents[1].trim());
+    }
+
+    print(names);
+
+    if (!names.contains(newInterviewName)) {
+      renameError.value = '';
+      renameRecording();
+    } else {
+      renameError.value = 'Name is already used';
+    }
   }
 
   renameRecording() async {

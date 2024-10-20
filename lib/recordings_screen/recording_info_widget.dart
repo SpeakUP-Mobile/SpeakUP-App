@@ -135,7 +135,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.22,
+          height: MediaQuery.of(context).size.height * 0.23,
           child: Column(
             children: [
               const SizedBox(height: 20),
@@ -180,6 +180,9 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                     ],
                   )),
               const SizedBox(height: 10),
+              Text(controller.renameError.value,
+                  style: const TextStyle(color: Colors.red, fontSize: 3)),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -190,7 +193,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                               fontSize: 16.0, fontWeight: FontWeight.w900))),
                   const SizedBox(width: 20),
                   InkWell(
-                      onTap: () => controller.renameRecording(),
+                      onTap: () => controller.checkName(),
                       child: const Text('Rename',
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.w900))),

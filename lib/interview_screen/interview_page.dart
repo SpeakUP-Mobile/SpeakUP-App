@@ -329,23 +329,29 @@ class InterviewPage extends GetView<InterviewPageController> {
   }
 
   Dialog viewResultsDialog(BuildContext context) {
+    controller.resetErrorText();
     return Dialog(
         child: SingleChildScrollView(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.25,
+          height: MediaQuery.of(context).size.height * 0.3,
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          hintText: 'Interview 1'),
-                      onChanged: (name) => controller.updateName(name))),
+              Obx(
+                () => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: TextField(
+                        textAlign: TextAlign.center,
+                        maxLength: 30,
+                        decoration: InputDecoration(
+                            counterText: '',
+                            border: const UnderlineInputBorder(),
+                            errorText: controller.errorText.value,
+                            hintText: 'Interview 1'),
+                        onChanged: (name) => controller.updateName(name))),
+              ),
               const SizedBox(height: 10),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -369,7 +375,7 @@ class InterviewPage extends GetView<InterviewPageController> {
                     text: 'Finish',
                     primaryColor: const Color(0xFF1C217F),
                     secondaryColor: const Color.fromARGB(255, 20, 24, 92),
-                    onPressed: () => controller.endInterview()),
+                    onPressed: () => controller.checkName()),
               ])
             ],
           ),

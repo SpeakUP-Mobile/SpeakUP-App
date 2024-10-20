@@ -69,9 +69,11 @@ class InterviewPageController extends GetxController {
 
   bool isAnalysisDone = false;
 
+  RxString errorText = ''.obs;
+
   //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
   //ALSO CHANGE IN THE INITIALIZE VARIABLES FUNCTION
-  bool getLlamaOutput = true;
+  bool getLlamaOutput = false;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -219,6 +221,32 @@ class InterviewPageController extends GetxController {
     Get.back();
   }
 
+  Future<void> checkName() async {
+    final localPath = await getApplicationDocumentsDirectory();
+    List<String> metadataPaths = [];
+    List<String> names = [];
+    await for (var file in localPath.list(followLinks: false)) {
+      if (file.path.substring(file.path.length - 8) == "metadata") {
+        metadataPaths.add(file.path);
+      }
+    }
+
+    for (String path in metadataPaths) {
+      final contents = await File(path).readAsLines();
+      names.add(contents[1].trim());
+    }
+
+    print(names);
+
+    if (!names.contains(interviewName)) {
+      errorText.value = '';
+      endInterview();
+    } else {
+      errorText.value = 'Name is already used';
+      print('Hello');
+    }
+  }
+
   Future<void> endInterview() async {
     Get.back();
     final supabase = Supabase.instance.client;
@@ -263,18 +291,16 @@ class InterviewPageController extends GetxController {
       processingState.value = 'Starting Analysis ${i + 1}/${videoNames.length}';
 
       //THESE LINES ARE FOR TESTING WITH NISH'S PC (COMMENT WHEN TESTING REMOTELY)
-      final res = await analyzeUrl(compressedUrls[i]);
-      final response = json.decode(res!);
-      jobIds.add(response['data']['job_id']);
-      await Future.delayed(const Duration(seconds: 15));
+      // final res = await analyzeUrl(compressedUrls[i]);
+      // final response = json.decode(res!);
+      // jobIds.add(response['data']['job_id']);
+      // await Future.delayed(const Duration(seconds: 15));
 
-      /*
       //THESE LINES ARE FOR TESTING USING SUPABSE HOSTING (COMMENT WHEN TESTING LOCALLY)
       final response = await supabase.functions
           .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
       jobIds.add(response.data['data']['job_id']);
       currentProcessingStep.value++;
-      */
     }
 
     processingState.value =
@@ -343,9 +369,9 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoNames.length; i++) {
       processingState.value =
           'Deleting Cloud Files ${i + 1}/${videoNames.length}';
-      // await supabase.storage.from('users').remove([
-      //   '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4'
-      // ]);
+      await supabase.storage.from('users').remove([
+        '${Supabase.instance.client.auth.currentUser!.id}/recordings/$interviewName/$i.mp4'
+      ]);
       currentProcessingStep.value++;
     }
 
@@ -370,6 +396,7 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoNames.length; i++) {
       videoPaths[i] = '${await getFullVideoDir()}${videoNames[i]}';
     }
+
     Get.to(const InterviewResults(), arguments: [
       interviewName,
       date,
@@ -597,5 +624,9 @@ class InterviewPageController extends GetxController {
 
   void updateName(String name) {
     interviewName = name;
+  }
+
+  void resetErrorText() {
+    errorText.value = '';
   }
 }
