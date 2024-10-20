@@ -30,9 +30,9 @@ class LoginPage extends GetView<LoginController> {
             welcomeTo(),
             const SizedBox(height: 20),
             speakup(screenWidth),
-            SizedBox(height: screenHeight * 0.035),
+            SizedBox(height: screenHeight * 0.075),
             description(),
-            SizedBox(height: screenHeight * 0.08),
+            SizedBox(height: screenHeight * 0.06),
             registerButton(context),
             const SizedBox(height: 15),
             loginButton(context),
@@ -81,15 +81,8 @@ class LoginPage extends GetView<LoginController> {
     return const Column(
       children: [
         Text(
-          'You AI-enhanced',
+          'Your AI-enhanced Interview Coach',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          'Public Speaking & Interview Coach',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
         ),
       ],
     );
