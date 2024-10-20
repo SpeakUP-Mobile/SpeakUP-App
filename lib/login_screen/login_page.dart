@@ -16,6 +16,7 @@ class LoginPage extends GetView<LoginController> {
 
     return Scaffold(
       body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Stack(alignment: AlignmentDirectional.topCenter, children: [
           Container(
               width: MediaQuery.of(context).size.width,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:speakup/profile_screen/profile_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../interview_screen/interview_page.dart';
 import 'dashboard_controller.dart';
 import '../recordings_screen/recordings_page.dart';
-import '../profile_screen/profile_page.dart';
-import 'package:speakup/recordings_screen/recordings_controller.dart';
+import '../explore_screen/explore_page.dart';
 
 class Dashboard extends GetView<DashboardController> {
   const Dashboard({super.key});
@@ -24,43 +24,66 @@ class Dashboard extends GetView<DashboardController> {
     Get.lazyPut(() => DashboardController());
     return GetBuilder<DashboardController>(builder: (controller) {
       return Scaffold(
-        appBar: AppBar(
-          shadowColor: const Color.fromARGB(70, 0, 0, 0),
-          surfaceTintColor: Colors.white,
-          elevation: 10,
-          scrolledUnderElevation: 10,
-          toolbarHeight: 117,
-          title: Row(
-            children: [
-              const Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: () =>
-                        {Get.find<RecordingsController>().clearMetadata()},
-                    child: const Text(
-                      textAlign: TextAlign.right,
-                      "Welcome back,",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+        appBar: controller.tabIndex == 0
+            ? AppBar(
+                shadowColor: const Color.fromARGB(70, 0, 0, 0),
+                surfaceTintColor: Colors.white,
+                elevation: 10,
+                scrolledUnderElevation: 10,
+                toolbarHeight: 117,
+                title: Row(
+                  children: [
+                    const Spacer(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const Text(
+                          textAlign: TextAlign.right,
+                          "Welcome back,",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 32),
+                        ),
+                        const SizedBox(height: 1),
+                        InkWell(
+                          onTap: () =>
+                              {Get.find<ProfileController>().signOutUser()},
+                          child: GradientText(
+                            textAlign: TextAlign.right,
+                            Supabase.instance.client.auth.currentUser!
+                                .userMetadata!['username'],
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 36),
+                            colors: const [
+                              Color(0xff8710D0),
+                              Color(0xffFF18BE)
+                            ],
+                          ),
+                        )
+                      ],
                     ),
+                    const SizedBox(width: 20),
+                  ],
+                ),
+              )
+            : AppBar(
+                shadowColor: const Color.fromARGB(70, 0, 0, 0),
+                surfaceTintColor: Colors.white,
+                elevation: 10,
+                scrolledUnderElevation: 10,
+                toolbarHeight: 117,
+                title: Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  child: const Text(
+                    softWrap: true,
+                    "find advice for your next interview...",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 32,
+                        color: Color(0xFF401274)),
+                    overflow: TextOverflow.visible,
                   ),
-                  const SizedBox(height: 1),
-                  GradientText(
-                    textAlign: TextAlign.right,
-                    Supabase.instance.client.auth.currentUser!
-                        .userMetadata!['username'],
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 36),
-                    colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
-                  ),
-                ],
+                ),
               ),
-              const SizedBox(width: 20),
-            ],
-          ),
-        ),
         bottomNavigationBar: Container(
           height: 130,
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
@@ -72,7 +95,7 @@ class Dashboard extends GetView<DashboardController> {
             ),
             boxShadow: const [
               BoxShadow(
-                color: Color.fromARGB(255, 226, 220, 220),
+                color: Color.fromARGB(30, 0, 0, 0),
                 blurRadius: 50,
                 spreadRadius: .2,
               ),
@@ -110,7 +133,7 @@ class Dashboard extends GetView<DashboardController> {
                               ),
                             ),
                             Text(
-                              'Explore',
+                              'explore',
                               style: labelStyle.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: controller.tabIndex == 1
@@ -186,8 +209,11 @@ class Dashboard extends GetView<DashboardController> {
                             ),
                           ),
                           Text(
-                            Supabase.instance.client.auth.currentUser!
-                                .userMetadata!['username'],
+                            /*Supabase.instance.client.auth.currentUser!
+                                .userMetadata!['username']
+                                .toString()
+                                .toLowerCase()*/
+                            "profile",
                             style: labelStyle.copyWith(
                               fontWeight: FontWeight.bold,
                               color: controller.tabIndex == 0
@@ -209,7 +235,7 @@ class Dashboard extends GetView<DashboardController> {
           index: controller.tabIndex,
           children: const [
             RecordingsPage(),
-            ProfilePage(),
+            ExplorePage(),
           ],
         ),
       );
