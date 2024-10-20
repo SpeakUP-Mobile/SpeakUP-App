@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:speakup/recordings_screen/recordings_controller.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../interview_screen/interview_page.dart';
 import 'dashboard_controller.dart';
 import '../recordings_screen/recordings_page.dart';
 import '../profile_screen/profile_page.dart';
+import 'package:speakup/recordings_screen/recordings_controller.dart';
 
 class Dashboard extends GetView<DashboardController> {
   const Dashboard({super.key});
@@ -38,7 +38,7 @@ class Dashboard extends GetView<DashboardController> {
                 children: [
                   InkWell(
                     onTap: () =>
-                        Get.find<RecordingsController>().clearMetadata(),
+                        {Get.find<RecordingsController>().clearMetadata()},
                     child: const Text(
                       textAlign: TextAlign.right,
                       "Welcome back,",
@@ -91,7 +91,7 @@ class Dashboard extends GetView<DashboardController> {
                     width: MediaQuery.of(context).size.width / 4,
                     child: Center(
                       child: InkWell(
-                        onTap: () => controller.changeTabIndex(0),
+                        onTap: () => controller.changeTabIndex(1),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -100,19 +100,22 @@ class Dashboard extends GetView<DashboardController> {
                               width: 30,
                               margin: const EdgeInsets.only(bottom: 5),
                               child: ImageIcon(
-                                AssetImage(
-                                  controller.tabIndex == 0
-                                      ? "assets/icons/home/home_selected_icon.png"
-                                      : "assets/icons/home/home_icon.png",
+                                const AssetImage(
+                                  "assets/icons/home/home_selected_icon.png",
                                 ),
                                 size: 30.0,
-                                color: Colors.black,
+                                color: controller.tabIndex == 1
+                                    ? Colors.black
+                                    : Colors.grey,
                               ),
                             ),
                             Text(
                               'Home',
                               style: labelStyle.copyWith(
-                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                color: controller.tabIndex == 1
+                                    ? Colors.black
+                                    : Colors.grey,
                               ),
                             ),
                           ],
@@ -165,7 +168,7 @@ class Dashboard extends GetView<DashboardController> {
                   width: MediaQuery.of(context).size.width / 4,
                   child: Center(
                     child: InkWell(
-                      onTap: () => controller.changeTabIndex(1),
+                      onTap: () => controller.changeTabIndex(0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -174,20 +177,22 @@ class Dashboard extends GetView<DashboardController> {
                             width: 35,
                             margin: const EdgeInsets.only(bottom: 5),
                             child: ImageIcon(
-                              AssetImage(
-                                controller.tabIndex == 1
-                                    ? "assets/icons/briefcase/briefcase_selected_icon.png"
-                                    : "assets/icons/briefcase/briefcase_icon.png",
-                              ),
+                              const AssetImage(
+                                  "assets/icons/profile/profile_selected.png"),
+                              color: controller.tabIndex == 0
+                                  ? Colors.black
+                                  : Colors.grey,
                               size: 30.0,
-                              color: Colors.black,
                             ),
                           ),
                           Text(
                             Supabase.instance.client.auth.currentUser!
                                 .userMetadata!['username'],
                             style: labelStyle.copyWith(
-                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              color: controller.tabIndex == 0
+                                  ? Colors.black
+                                  : Colors.grey,
                             ),
                           ),
                         ],

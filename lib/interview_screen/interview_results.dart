@@ -132,48 +132,35 @@ class InterviewResults extends GetView<InterviewResultsController> {
     return Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width - 30,
-        height: 170,
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        height: 130,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 0,
-                blurRadius: 2.5,
+                color: Color.fromARGB(69, 158, 158, 158),
+                spreadRadius: 2,
+                blurRadius: 3,
               )
             ]),
         child: Row(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Spacer(),
-            Text(controller.recordingName,
-                style: const TextStyle(
-                  fontSize: 22,
-                )),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.4,
+              width: 230,
+              child: Text(controller.recordingName,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold)),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .5,
               child: Text(controller.dateTime, //'18:35 on April 1st, 2022'
                   style: const TextStyle(
                     fontSize: 14,
                   )),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Color(0xFF4F23FF), Color(0xFF8F00FF)]),
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
-                  ]),
-              child: const Text("Interview",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold)),
             ),
             const Spacer(),
           ]),
@@ -185,8 +172,8 @@ class InterviewResults extends GetView<InterviewResultsController> {
   Stack circularResults() {
     return const Stack(children: [
       SizedBox(
-        width: 125,
-        height: 125,
+        width: 80,
+        height: 80,
         child: CircularProgressIndicator(
           value: 0.96,
           color: Color(0xFF8F00FF),
@@ -194,17 +181,17 @@ class InterviewResults extends GetView<InterviewResultsController> {
         ),
       ),
       Positioned(
-          left: 16,
-          top: 25,
+          left: 12,
+          top: 21,
           child: Row(
             children: [
               Text('96',
                   style: TextStyle(
-                      fontSize: 52,
+                      fontSize: 28,
                       color: Color(0xFF8F00FF),
                       fontWeight: FontWeight.bold)),
               Text('%',
-                  style: TextStyle(fontSize: 32, color: Color(0xFF8F00FF)))
+                  style: TextStyle(fontSize: 28, color: Color(0xFF8F00FF)))
             ],
           ))
     ]);
@@ -218,7 +205,11 @@ class InterviewResults extends GetView<InterviewResultsController> {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
             boxShadow: [
-              BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 2.5)
+              BoxShadow(
+                color: Color.fromARGB(69, 158, 158, 158),
+                spreadRadius: 2,
+                blurRadius: 3,
+              )
             ]),
         child: Column(
           children: [

@@ -67,10 +67,10 @@ flutter:
   assets:
     - assets/icons/home/home_icon.png
     - assets/icons/home/home_selected_icon.png
-    - assets/icons/podium/podium_icon.png
-    - assets/icons/podium/podium_selected_icon.png
     - assets/icons/briefcase/briefcase_icon.png
     - assets/icons/briefcase/briefcase_selected_icon.png
+    - assets/icons/profile/profile_selected.png
+    - assets/icons/profile/profile.png
     - assets/login_temp_background.jpeg
     - assets/login_screen/facebook_icon.png
     - assets/login_screen/apple_icon.png

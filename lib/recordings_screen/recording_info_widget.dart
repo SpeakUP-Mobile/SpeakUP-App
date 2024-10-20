@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../custom_global_widgets/custom_dialog_button.dart';
 import 'recordings_controller.dart';
 import 'dart:io';
 
@@ -52,7 +51,8 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
               children: [
                 Row(
                   children: [
-                    Text(name,
+                    Text(
+                        name.length < 10 ? name : '${name.substring(0, 11)}...',
                         softWrap: true,
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
@@ -112,9 +112,9 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                   ],
                 ),
                 Container(
-                    width: 16 * 8.5,
-                    height: 9 * 8.5,
-                    margin: const EdgeInsets.only(top: 10),
+                    width: 16 * 9.5,
+                    height: 9 * 9.5,
+                    margin: const EdgeInsets.only(top: 12),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: FileImage(File(thumbnailPath)),
