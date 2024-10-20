@@ -5,6 +5,10 @@ import 'profile_controller.dart';
 class ProfilePage extends GetView<ProfileController> {
   const ProfilePage({super.key});
 
+  signOut() {
+    controller.signOutUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ProfileController());
@@ -23,7 +27,7 @@ class ProfilePage extends GetView<ProfileController> {
             child: Column(
               children: [
                 InkWell(
-                  onTap: () => controller.signOutUser(),
+                  onTap: () => signOut,
                   child: Container(
                       height: 85,
                       width: double.infinity,

@@ -93,7 +93,6 @@ class InterviewRecordingsController extends GetxController {
   }
 
   Future<void> resetVideoController() async {
-    // TODO: fix some issue with disposing the video controller, dont have time to look into rn
     videoController.value.dispose();
     videoController.value =
         VideoPlayerController.file(File(videoPaths[currentQuestion.value - 1]));
