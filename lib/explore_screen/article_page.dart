@@ -11,6 +11,9 @@ class ArticlePage extends GetView<ExploreController> {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 100,
+          elevation: 5,
+          shadowColor: const Color.fromARGB(33, 0, 0, 0),
+          surfaceTintColor: Colors.white,
           title: Container(
             margin: const EdgeInsets.only(right: 45),
             child: Text(
@@ -35,7 +38,7 @@ class ArticlePage extends GetView<ExploreController> {
                     height: 20,
                   ),
                   Text(
-                    Get.arguments[1],
+                    Get.arguments[1] + " •",
                     textAlign: TextAlign.left,
                     style: const TextStyle(fontSize: 16),
                   ),
@@ -69,7 +72,7 @@ class ArticlePage extends GetView<ExploreController> {
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 50,
                   ),
                 ],
               ),

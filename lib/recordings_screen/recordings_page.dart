@@ -18,18 +18,50 @@ class RecordingsPage extends GetView<RecordingsController> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 25, right: 25),
                 child: Obx(() {
-                  return GridView.count(
-                    shrinkWrap:
-                        true, // Ensure GridView only takes the space it needs
-                    physics:
-                        const NeverScrollableScrollPhysics(), // Disable GridView scrolling
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    childAspectRatio:
-                        1.07954545 / 1, // Adjust aspect ratio as needed
-                    children: controller.recordings,
-                  );
+                  return controller.recordings.isNotEmpty
+                      ? GridView.count(
+                          shrinkWrap:
+                              true, // Ensure GridView only takes the space it needs
+                          physics:
+                              const NeverScrollableScrollPhysics(), // Disable GridView scrolling
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                          childAspectRatio:
+                              1.07954545 / 1, // Adjust aspect ratio as needed
+                          children: controller.recordings)
+                      : Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.28,
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "Hey there!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "Start your first practice interview!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Image(
+                              image: AssetImage("assets/DoodleArrow.png"),
+                              width: 80,
+                            )
+                          ],
+                        );
                 }),
               ),
             ),

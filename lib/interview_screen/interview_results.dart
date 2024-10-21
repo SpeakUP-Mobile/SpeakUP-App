@@ -10,6 +10,18 @@ class InterviewResults extends GetView<InterviewResultsController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => InterviewResultsController());
     return Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 117,
+          surfaceTintColor: Colors.white,
+          elevation: 5,
+          shadowColor: const Color.fromARGB(38, 0, 0, 0),
+          title: GradientText(
+            'Results',
+            textAlign: TextAlign.center,
+            colors: const [Color(0xff8710d0), Color(0xff8710d0)],
+            style: const TextStyle(fontSize: 56, fontWeight: FontWeight.bold),
+          ),
+        ),
         body: SafeArea(
             bottom: false,
             child: Center(
@@ -18,13 +30,8 @@ class InterviewResults extends GetView<InterviewResultsController> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 30),
-                      GradientText(
-                        'Results',
-                        textAlign: TextAlign.center,
-                        colors: const [Color(0xff8710d0), Color(0xffff18be)],
-                        style: const TextStyle(
-                            fontSize: 56, fontWeight: FontWeight.bold),
+                      const SizedBox(
+                        height: 10,
                       ),
                       // recordingsButton(context),
                       // const SizedBox(height: 5),
@@ -45,10 +52,9 @@ class InterviewResults extends GetView<InterviewResultsController> {
                                   ],
                                 );
                               } else if (index == 1) {
-                                return Column(
+                                return const Column(
                                   children: [
-                                    backButton(context),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10),
                                   ],
                                 );
                               } else if (index == 2) {
@@ -60,11 +66,6 @@ class InterviewResults extends GetView<InterviewResultsController> {
                                 );
                               } else if (index ==
                                   controller.questions.length + 3) {
-                                return Column(
-                                  children: [
-                                    backButton(context),
-                                  ],
-                                );
                               } else {
                                 return Column(
                                   children: [
@@ -104,6 +105,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
         onTap: () => controller.viewRecordings());
   }
 
+/*
   InkWell backButton(BuildContext context) {
     return InkWell(
         child: Container(
@@ -127,6 +129,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
             )),
         onTap: () => controller.backToHome());
   }
+*/
 
   Container resultsOverview(BuildContext context) {
     return Container(
@@ -249,11 +252,11 @@ class InterviewResults extends GetView<InterviewResultsController> {
             child: MenuAnchor(
               menuChildren: <Widget>[
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.45,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                    child: MenuItemButton(
-                      onPressed: () {},
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
                       child: Text(
                         number == 1
                             ? 'A higher subscore in the positive emotions category increases your overall score. The postive emotions subscore is calculated by averaging your scores for the following emotions: Calmness, Concentration, Contemplation, Contentment, Determination, Excitement, Interest, Joy, Realization, Surprise (positive), and Triumph.'
@@ -263,6 +266,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
                                     ? 'A higher subscore in the use of filler words category decreases your overall score. The filler words subscore is calculated based on the ratio of filler words used to total words used. Examples of filler words include: Ah, Aha, Argh, Eek, Eww, Gasp, Groan, Grunt, Ha, Hmm,Huh, Mhm, Mmm, Oh, Ooh, Ooph, Pff, Phew, Sigh, Tsk, Ugh, Uh, Umm, Whew, Yawn, and Yuck.'
                                     : 'Error gathering information',
                         softWrap: true,
+                        overflow: TextOverflow.visible,
                       ),
                     ),
                   ),

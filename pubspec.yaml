@@ -78,6 +78,7 @@ flutter:
     - assets/speakup_logo.png
     - assets/placeholder_thumbnail.jpg
     - assets/icons/explore/explore.png
+    - assets/DoodleArrow.png
   fonts:
     - family: Poppins
       fonts:

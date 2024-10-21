@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../profile_screen/profile_controller.dart';
-
 class LoginController extends GetxController {
   RxString warningText = ''.obs;
 

@@ -21,7 +21,27 @@ class Articles {
 
 Remember, the key to mastering interview questions is preparation, practice, and authenticity. Tailor your responses to highlight your unique experiences and skills, and always relate them back to the requirements of the position you're applying for. Practice your answers out loud, either alone or with a friend, to become more comfortable with your responses. Be prepared to elaborate on any point you make, as interviewers may ask follow-up questions. It's also important to be concise in your answers - aim for responses that are detailed enough to be substantive, but brief enough to maintain the interviewer's interest. Lastly, remember that an interview is a two-way street. While you're answering questions, you should also be evaluating whether the company and role are a good fit for you. Good luck with your interview preparation!""",
         imgURI:
-            "https://static.jobscan.co/blog/uploads/Job-interview-tips-1.jpg")
+            "https://static.jobscan.co/blog/uploads/Job-interview-tips-1.jpg"),
+    ArticleWidget(
+        name: "Overcoming Anxiety in Interviews",
+        content:
+            """Overcoming anxiety with practical techniques can help you stay calm and focused in high-pressure situations like interviews, presentations, or important conversations. While anxiety is a natural response to stress, learning to manage it can make a big difference in how you perform and feel in these moments. Here are some tips and tricks you can use to ease your anxiety and take control of your emotions.
+
+First, focus on your breathing. When anxiety strikes, one of the most effective ways to calm your body is to control your breath. Deep breathing techniques can slow down your heart rate and send signals to your brain that you're safe and relaxed. Try a simple technique like inhaling deeply for a count of four, holding the breath for a count of four, and then exhaling slowly for another count of four. Repeat this for a few cycles until you start to feel more centered and calm. This method also helps redirect your focus from anxious thoughts to something physical and controllable.
+
+Next, practice grounding techniques. Grounding is a useful trick to bring yourself back into the present moment when anxiety causes your mind to race. One common grounding technique is the 5-4-3-2-1 exercise, where you focus on five things you can see, four things you can touch, three things you can hear, two things you can smell, and one thing you can taste. This method engages your senses, helping you feel more connected to your environment and less trapped in anxious thoughts.
+
+Another helpful tip is to visualize success. Before entering an anxiety-inducing situation, take a moment to close your eyes and imagine yourself handling the situation confidently and calmly. Picture yourself succeeding and achieving the outcome you desire. This mental rehearsal can reduce anxiety by creating a positive association with the event. Rather than focusing on what could go wrong, focus on what could go right. Visualization works well alongside affirmations, such as repeating phrases like "I am prepared," "I am calm," or "I am in control" to build your confidence.
+
+Preparation is key to reducing anxiety. The more prepared you are for a stressful event, the less likely you are to feel overwhelmed. If you're worried about an interview, practice answering common questions beforehand or review the material thoroughly if it's a presentation. This not only helps you feel more confident but also reduces the uncertainty that fuels anxiety. Another trick is to write down your concerns about the situation and address each one logically. For example, if you're afraid of forgetting what to say, you can create an outline or notes to refer to. This allows you to have a plan for worst-case scenarios, which can ease your mind.
+
+Physical activity is another powerful tool for overcoming anxiety. Exercising before a big event can burn off excess energy and reduce feelings of nervousness. Even a quick walk or stretch can help release tension and clear your mind.
+
+Lastly, practice mindfulness and self-compassion. Mindfulness is the practice of staying present and non-judgmental about your thoughts and feelings. When anxiety arises, instead of fighting it or getting frustrated, acknowledge it without judgment. Remind yourself that it's okay to feel anxious and that it will pass. Being kind to yourself during moments of stress can help reduce the intensity of your anxiety.
+
+In conclusion, overcoming anxiety involves a combination of practical techniques like deep breathing, grounding, visualization, preparation, physical activity, and mindfulness. By incorporating these strategies into your routine, you can better manage your anxiety and perform more confidently in high-pressure situations. Remember that anxiety is a normal experience, and with the right tools, you can reduce its impact on your performance.""",
+        imgURI:
+            "https://www.trustinsoda.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNUhTS3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--9686b73be174aaccf4554306aeb44223fafd8974/Beat%20the%20In-Person%20Interview%20Anxiety%20with%20these%20Ten%20Tips.jpg")
   ];
 
   static List<ArticleWidget> getFullArticles() {
