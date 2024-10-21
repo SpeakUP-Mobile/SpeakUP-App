@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:speakup/explore_screen/explore_controller.dart';
 
 class ArticlePage extends GetView<ExploreController> {
@@ -63,7 +61,7 @@ class ArticlePage extends GetView<ExploreController> {
                           ]),
                       child: const Text(
                         textAlign: TextAlign.center,
-                        "i'm done reading",
+                        "I'm done reading",
                         style: TextStyle(
                             color: Color(0xFF3A0E67),
                             fontWeight: FontWeight.bold),

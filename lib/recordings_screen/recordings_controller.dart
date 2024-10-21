@@ -268,8 +268,6 @@ class RecordingsController extends GetxController {
       names.add(contents[1].trim());
     }
 
-    print(names);
-
     if (!names.contains(newInterviewName)) {
       renameError.value = '';
       renameRecording();

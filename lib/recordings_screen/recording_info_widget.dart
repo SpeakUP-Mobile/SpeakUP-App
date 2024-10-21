@@ -57,7 +57,7 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                             : '${name.substring(0, 11)}...',
                         softWrap: true,
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w900)),
+                            fontSize: 16.5, fontWeight: FontWeight.w900)),
                     const Spacer(),
                     ClipRRect(
                       borderRadius: const BorderRadius.only(

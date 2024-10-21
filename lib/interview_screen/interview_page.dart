@@ -34,7 +34,7 @@ class InterviewPage extends GetView<InterviewPageController> {
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(
-                            'The anlysis of your interview will be available shortly...',
+                            'The analysis of your interview will be available shortly...',
                             style: TextStyle(fontSize: 24),
                             textAlign: TextAlign.center,
                           ),

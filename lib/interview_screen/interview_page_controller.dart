@@ -236,14 +236,11 @@ class InterviewPageController extends GetxController {
       names.add(contents[1].trim());
     }
 
-    print(names);
-
     if (!names.contains(interviewName)) {
       errorText.value = '';
       endInterview();
     } else {
       errorText.value = 'Name is already used';
-      print('Hello');
     }
   }
 

@@ -170,13 +170,13 @@ class InterviewResults extends GetView<InterviewResultsController> {
   }
 
   Stack circularResults() {
-    return const Stack(children: [
+    return Stack(children: [
       SizedBox(
         width: 80,
         height: 80,
         child: CircularProgressIndicator(
-          value: 0.96,
-          color: Color(0xFF8F00FF),
+          value: controller.score / 100,
+          color: const Color(0xFF8F00FF),
           strokeWidth: 6,
         ),
       ),
@@ -185,12 +185,12 @@ class InterviewResults extends GetView<InterviewResultsController> {
           top: 21,
           child: Row(
             children: [
-              Text('96',
-                  style: TextStyle(
+              Text('${controller.score}',
+                  style: const TextStyle(
                       fontSize: 28,
                       color: Color(0xFF8F00FF),
                       fontWeight: FontWeight.bold)),
-              Text('%',
+              const Text('%',
                   style: TextStyle(fontSize: 28, color: Color(0xFF8F00FF)))
             ],
           ))

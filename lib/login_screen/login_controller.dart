@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../profile_screen/profile_controller.dart';
+
 class LoginController extends GetxController {
   RxString warningText = ''.obs;
 
@@ -15,6 +17,10 @@ class LoginController extends GetxController {
       email: email,
       password: password,
       data: {'username': username},
+    );
+    await supabase.auth.signInWithPassword(
+      email: email.trim(),
+      password: password,
     );
   }
 
