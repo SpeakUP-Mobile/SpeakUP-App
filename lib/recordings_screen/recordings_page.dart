@@ -38,7 +38,7 @@ class RecordingsPage extends GetView<RecordingsController> {
                             Container(
                               alignment: Alignment.center,
                               child: const Text(
-                                "Hey there!",
+                                "hey there!",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
@@ -47,7 +47,7 @@ class RecordingsPage extends GetView<RecordingsController> {
                             Container(
                               alignment: Alignment.center,
                               child: const Text(
-                                "Start your first practice interview!",
+                                "start your first practice interview!",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:speakup/interview_screen/interview_page.dart';
+import 'package:speakup/recordings_screen/recordings_page.dart';
 import 'interview_results_controller.dart';
 
 class InterviewResults extends GetView<InterviewResultsController> {
@@ -9,76 +11,86 @@ class InterviewResults extends GetView<InterviewResultsController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => InterviewResultsController());
-    return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 117,
-          surfaceTintColor: Colors.white,
-          elevation: 5,
-          shadowColor: const Color.fromARGB(38, 0, 0, 0),
-          title: GradientText(
-            'Results',
-            textAlign: TextAlign.center,
-            colors: const [Color(0xff8710d0), Color(0xff8710d0)],
-            style: const TextStyle(fontSize: 56, fontWeight: FontWeight.bold),
+    //ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 117,
+            surfaceTintColor: Colors.white,
+            elevation: 5,
+            leading: BackButton(
+              onPressed: () => {
+                Get.back(),
+                Get.back(),
+              },
+            ),
+            shadowColor: const Color.fromARGB(38, 0, 0, 0),
+            title: GradientText(
+              'Results',
+              textAlign: TextAlign.center,
+              colors: const [Color(0xff8710d0), Color(0xff8710d0)],
+              style: const TextStyle(fontSize: 56, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        body: SafeArea(
-            bottom: false,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      // recordingsButton(context),
-                      // const SizedBox(height: 5),
-                      // backButton(context),
-                      // const SizedBox(height: 15),
-                      // resultsOverview(context),
-                      // const SizedBox(height: 10),
-                      Expanded(
-                        child: ListView.builder(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount: controller.questions.length + 4,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (index == 0) {
-                                return Column(
-                                  children: [
-                                    recordingsButton(context),
-                                    const SizedBox(height: 5),
-                                  ],
-                                );
-                              } else if (index == 1) {
-                                return const Column(
-                                  children: [
-                                    SizedBox(height: 10),
-                                  ],
-                                );
-                              } else if (index == 2) {
-                                return Column(
-                                  children: [
-                                    resultsOverview(context),
-                                    const SizedBox(height: 25),
-                                  ],
-                                );
-                              } else if (index ==
-                                  controller.questions.length + 3) {
-                              } else {
-                                return Column(
-                                  children: [
-                                    questionResult(context, index - 3),
-                                    const SizedBox(height: 10),
-                                  ],
-                                );
-                              }
-                            }),
-                      ),
-                    ]),
-              ),
-            )));
+          body: SafeArea(
+              bottom: false,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        // recordingsButton(context),
+                        // const SizedBox(height: 5),
+                        // backButton(context),
+                        // const SizedBox(height: 15),
+                        // resultsOverview(context),
+                        // const SizedBox(height: 10),
+                        Expanded(
+                          child: ListView.builder(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              itemCount: controller.questions.length + 4,
+                              itemBuilder: (BuildContext context, int index) {
+                                if (index == 0) {
+                                  return Column(
+                                    children: [
+                                      recordingsButton(context),
+                                      const SizedBox(height: 5),
+                                    ],
+                                  );
+                                } else if (index == 1) {
+                                  return const Column(
+                                    children: [
+                                      SizedBox(height: 10),
+                                    ],
+                                  );
+                                } else if (index == 2) {
+                                  return Column(
+                                    children: [
+                                      resultsOverview(context),
+                                      const SizedBox(height: 25),
+                                    ],
+                                  );
+                                } else if (index ==
+                                    controller.questions.length + 3) {
+                                } else {
+                                  return Column(
+                                    children: [
+                                      questionResult(context, index - 3),
+                                      const SizedBox(height: 10),
+                                    ],
+                                  );
+                                }
+                              }),
+                        ),
+                      ]),
+                ),
+              ))),
+    );
   }
 
   InkWell recordingsButton(BuildContext context) {

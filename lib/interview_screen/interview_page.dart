@@ -12,72 +12,76 @@ class InterviewPage extends GetView<InterviewPageController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => InterviewPageController());
     final screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-            bottom: false,
-            child: Column(children: [
-              const SizedBox(height: 10),
-              Center(
-                child: GradientText(
-                  'Interview',
-                  colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
-                  style: const TextStyle(
-                      fontSize: 58, fontWeight: FontWeight.bold),
+    //ignore: deprecated_member_use kkj
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+              bottom: false,
+              child: Column(children: [
+                const SizedBox(height: 10),
+                Center(
+                  child: GradientText(
+                    'Interview',
+                    colors: const [Color(0xff8710D0), Color(0xffFF18BE)],
+                    style: const TextStyle(
+                        fontSize: 58, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              Obx(() => controller.isProcessingFiles.value
-                  ? Center(
-                      child: Column(children: [
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.3),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Text(
-                            'The analysis of your interview will be available shortly...',
-                            style: TextStyle(fontSize: 24),
-                            textAlign: TextAlign.center,
+                Obx(() => controller.isProcessingFiles.value
+                    ? Center(
+                        child: Column(children: [
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Text(
+                              'The analysis of your interview will be available shortly...',
+                              style: TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 40),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          child: LinearProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              value: controller.currentProcessingStep.value /
-                                  controller.totalProcessingSteps.value,
-                              minHeight: 15,
-                              color: const Color(0xFF8F00FF),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(12.0))),
-                        ),
-                        Text(controller.processingState.value),
-                      ]),
-                    )
-                  : SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: Column(children: [
-                        const SizedBox(height: 30),
-                        cameraPreview(screenWidth),
-                        const Spacer(),
-                        Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                                color: Colors.white),
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 35),
-                                recordingInfo(),
-                                questionText(screenWidth),
-                                const Spacer(),
-                                interviewControls(context),
-                                const Spacer(),
-                              ],
-                            ))
-                      ]))),
-            ])));
+                          const SizedBox(height: 40),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: LinearProgressIndicator(
+                                backgroundColor: Colors.grey,
+                                value: controller.currentProcessingStep.value /
+                                    controller.totalProcessingSteps.value,
+                                minHeight: 15,
+                                color: const Color(0xFF8F00FF),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(12.0))),
+                          ),
+                          Text(controller.processingState.value),
+                        ]),
+                      )
+                    : SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: Column(children: [
+                          const SizedBox(height: 30),
+                          cameraPreview(screenWidth),
+                          const Spacer(),
+                          Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
+                                  color: Colors.white),
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 35),
+                                  recordingInfo(),
+                                  questionText(screenWidth),
+                                  const Spacer(),
+                                  interviewControls(context),
+                                  const Spacer(),
+                                ],
+                              ))
+                        ]))),
+              ]))),
+    );
   }
 
   SizedBox cameraPreview(double screenWidth) {

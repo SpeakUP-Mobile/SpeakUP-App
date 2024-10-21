@@ -39,7 +39,7 @@ class Dashboard extends GetView<DashboardController> {
                       children: [
                         const Text(
                           textAlign: TextAlign.right,
-                          "Welcome back,",
+                          "Glad to see you",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 32),
                         ),
