@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'package:speakup/interview_screen/interview_page.dart';
-import 'package:speakup/recordings_screen/recordings_page.dart';
 import 'interview_results_controller.dart';
 
 class InterviewResults extends GetView<InterviewResultsController> {
@@ -85,6 +83,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
                                     ],
                                   );
                                 }
+                                return null;
                               }),
                         ),
                       ]),
