@@ -4,6 +4,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:speakup/profile_screen/profile_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../interview_screen/interview_page.dart';
+import '../interview_screen/interview_page_controller.dart';
 import 'dashboard_controller.dart';
 import '../recordings_screen/recordings_page.dart';
 import '../explore_screen/explore_page.dart';

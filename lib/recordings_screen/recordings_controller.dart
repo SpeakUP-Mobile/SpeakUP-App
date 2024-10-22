@@ -138,48 +138,25 @@ class RecordingsController extends GetxController {
                 3 * i +
                 2]
             .trim());
-        int fillerScore = int.parse(contents[3 +
+        String fillerWords = contents[3 +
                 numberOfFiles +
                 2 +
                 numberOfFiles +
                 numberOfFiles +
                 3 * i +
                 3]
-            .trim()
-            .substring(
-                0,
-                contents[3 +
-                        numberOfFiles +
-                        2 +
-                        numberOfFiles +
-                        numberOfFiles +
-                        3 * i +
-                        3]
-                    .trim()
-                    .indexOf('/')));
-        int totalWords = int.parse(contents[3 +
-                numberOfFiles +
-                2 +
-                numberOfFiles +
-                numberOfFiles +
-                3 * i +
-                3]
-            .trim()
-            .substring(
-                0,
-                contents[3 +
-                        numberOfFiles +
-                        2 +
-                        numberOfFiles +
-                        numberOfFiles +
-                        3 * i +
-                        3]
-                    .trim()
-                    .indexOf('/')));
+            .trim();
+        print(fillerWords);
+
+        int fillerWordCount =
+            int.parse(fillerWords.substring(0, fillerWords.indexOf('/')));
+        int totalWords =
+            int.parse(fillerWords.substring(fillerWords.indexOf('/') + 1));
+
         List<int> questionScores = [
           positiveScore,
           negativeScore,
-          fillerScore,
+          fillerWordCount,
           totalWords,
         ];
         scores.add(questionScores);
