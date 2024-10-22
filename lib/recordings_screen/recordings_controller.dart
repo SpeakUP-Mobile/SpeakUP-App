@@ -324,6 +324,7 @@ class RecordingsController extends GetxController {
       List<List<int>> questionResults,
       List<String> llamaResults) async {
     if (isInterview) {
+      print(questionResults);
       Get.to(const InterviewResults(), arguments: [
         name,
         date,

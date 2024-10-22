@@ -72,7 +72,7 @@ class InterviewPageController extends GetxController {
   RxString errorText = ''.obs;
 
   //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
-  bool getLlamaOutput = true;
+  bool getLlamaOutput = false;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -287,18 +287,16 @@ class InterviewPageController extends GetxController {
       processingState.value = 'Starting Analysis ${i + 1}/${videoNames.length}';
 
       //THESE LINES ARE FOR TESTING WITH NISH'S PC (COMMENT WHEN TESTING REMOTELY)
-      final res = await analyzeUrl(compressedUrls[i]);
-      final response = json.decode(res!);
-      jobIds.add(response['data']['job_id']);
-      await Future.delayed(const Duration(seconds: 15));
+      // final res = await analyzeUrl(compressedUrls[i]);
+      // final response = json.decode(res!);
+      // jobIds.add(response['data']['job_id']);
+      // await Future.delayed(const Duration(seconds: 15));
 
       //THESE LINES ARE FOR TESTING USING SUPABSE HOSTING (COMMENT WHEN TESTING LOCALLY)
-      /*
       final response = await supabase.functions
           .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
       jobIds.add(response.data['data']['job_id']);
       currentProcessingStep.value++;
-      */
     }
 
     processingState.value =
@@ -394,7 +392,6 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoNames.length; i++) {
       videoPaths[i] = '${await getFullVideoDir()}${videoNames[i]}';
     }
-
     Get.to(const InterviewResults(), arguments: [
       interviewName,
       date,
@@ -414,6 +411,7 @@ class InterviewPageController extends GetxController {
     final thumbnailName =
         await getThumbnailName('${await getFullVideoDir()}${videoNames[0]}');
     final jsonResults = await parseJson(jobIds);
+    print(jsonResults);
     await file.writeAsString(
         '${Supabase.instance.client.auth.currentUser!.id}\n',
         mode: FileMode.append); //User ID
@@ -548,9 +546,9 @@ class InterviewPageController extends GetxController {
       }
 
       final totalPositiveScore =
-          ((totalPositiveSum / faceData.length - 1) * 100).round();
+          ((totalPositiveSum / (faceData.length - 1)) * 100).round();
       final totalNegativeScore =
-          ((totalNegativeSum / faceData.length - 1) * 100).round();
+          ((totalNegativeSum / (faceData.length - 1)) * 100).round();
 
       int fillerWordScore = 0;
       int fillerWordCount = 0;
@@ -574,8 +572,8 @@ class InterviewPageController extends GetxController {
         //     .round();
       }
 
-      questionResults.add(totalPositiveScore);
-      questionResults.add(totalNegativeScore);
+      questionResults.add((totalPositiveScore / 2 + 50).round());
+      questionResults.add((totalNegativeScore / 2 + 50).round());
       questionResults.add(fillerWordCount);
       questionResults.add(wordCount);
       results.add(questionResults);
