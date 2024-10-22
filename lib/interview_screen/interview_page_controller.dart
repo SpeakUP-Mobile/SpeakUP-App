@@ -411,7 +411,6 @@ class InterviewPageController extends GetxController {
     final thumbnailName =
         await getThumbnailName('${await getFullVideoDir()}${videoNames[0]}');
     final jsonResults = await parseJson(jobIds);
-    print(jsonResults);
     await file.writeAsString(
         '${Supabase.instance.client.auth.currentUser!.id}\n',
         mode: FileMode.append); //User ID
@@ -550,7 +549,6 @@ class InterviewPageController extends GetxController {
       final totalNegativeScore =
           ((totalNegativeSum / (faceData.length - 1)) * 100).round();
 
-      int fillerWordScore = 0;
       int fillerWordCount = 0;
       int wordCount = 1;
       if (models['prosody'] != null) {
