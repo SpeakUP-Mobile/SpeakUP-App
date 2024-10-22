@@ -145,8 +145,43 @@ class RecordingsController extends GetxController {
                 numberOfFiles +
                 3 * i +
                 3]
-            .trim());
-        List<int> questionScores = [positiveScore, negativeScore, fillerScore];
+            .trim()
+            .substring(
+                0,
+                contents[3 +
+                        numberOfFiles +
+                        2 +
+                        numberOfFiles +
+                        numberOfFiles +
+                        3 * i +
+                        3]
+                    .trim()
+                    .indexOf('/')));
+        int totalWords = int.parse(contents[3 +
+                numberOfFiles +
+                2 +
+                numberOfFiles +
+                numberOfFiles +
+                3 * i +
+                3]
+            .trim()
+            .substring(
+                0,
+                contents[3 +
+                        numberOfFiles +
+                        2 +
+                        numberOfFiles +
+                        numberOfFiles +
+                        3 * i +
+                        3]
+                    .trim()
+                    .indexOf('/')));
+        List<int> questionScores = [
+          positiveScore,
+          negativeScore,
+          fillerScore,
+          totalWords,
+        ];
         scores.add(questionScores);
         String llamaResult = contents[contents.length - numberOfFiles + i];
         //print('Print ${llamaResult}');

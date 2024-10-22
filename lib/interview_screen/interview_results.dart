@@ -236,7 +236,8 @@ class InterviewResults extends GetView<InterviewResultsController> {
                 controller.questionResults[index][1]),
             const SizedBox(height: 5),
             emotionScore(context, 3, 'Use of Filler Words',
-                controller.questionResults[index][2]),
+                controller.questionResults[index][2],
+                total: controller.questionResults[index][2]),
             const SizedBox(height: 15),
             Text(controller.llamaResults[index],
                 style: const TextStyle(fontSize: 12)),
@@ -245,8 +246,8 @@ class InterviewResults extends GetView<InterviewResultsController> {
         ));
   }
 
-  Column emotionScore(
-      BuildContext context, int number, String title, int score) {
+  Column emotionScore(BuildContext context, int number, String title, int score,
+      {int total = 100}) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         children: [
@@ -312,7 +313,7 @@ class InterviewResults extends GetView<InterviewResultsController> {
               child: LinearProgressIndicator(
                   borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                   minHeight: 18,
-                  value: score / 100,
+                  value: score / total,
                   backgroundColor: const Color(0xFFD9D9D9),
                   color: const Color(0xFF8F00FF)))
         ],

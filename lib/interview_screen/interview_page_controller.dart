@@ -439,8 +439,14 @@ class InterviewPageController extends GetxController {
 
     for (int i = 0; i < videoNames.length; i++) {
       for (int j = 0; j < 3; j++) {
-        await file.writeAsString('${jsonResults[i][j]}\n',
-            mode: FileMode.append);
+        if (j == 2) {
+          await file.writeAsString(
+              '${jsonResults[i][j]}/${jsonResults[i][j + 1]}\n',
+              mode: FileMode.append);
+        } else {
+          await file.writeAsString('${jsonResults[i][j]}\n',
+              mode: FileMode.append);
+        }
       } //Scores for positive, negative, and filler words
     }
     List<String>? llamaOutputs;
@@ -480,7 +486,7 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < jsonResults.length; i++) {
       double questionScore = (jsonResults[i][0] * 0.6) +
           ((100 - jsonResults[i][1]) * 0.2) +
-          ((100 - jsonResults[i][2]) * 0.2);
+          ((100 - (jsonResults[i][2] / jsonResults[i][3])) * 0.2);
       questionScore = questionScore / 2;
       questionScore += 50;
       questionScores.add(questionScore.round());
@@ -514,13 +520,17 @@ class InterviewPageController extends GetxController {
       List<double> framePositiveScores = [];
       List<double> frameNegativeScores = [];
 
-      for (int j = 0; j < faceData.length; j++) {
+      for (int j = 0; j < faceData.length - 1; j++) {
         final emotions = faceData[j]['emotions'];
         double framePositiveSum = 0;
         double frameNegativeSum = 0;
         for (int k = 0; k < emotions.length; k++) {
           if (isPositiveEmotion(emotions[k]['name'])) {
-            framePositiveSum += emotions[k]['score'];
+            if (emotions[k]['score'] <= 0.2) {
+              framePositiveSum += emotions[k]['score'] + 0.2;
+            } else {
+              framePositiveSum += emotions[k]['score'];
+            }
           } else if (isNegativeEmotion(emotions[k]['name'])) {
             frameNegativeSum += emotions[k]['score'];
           }
@@ -531,18 +541,19 @@ class InterviewPageController extends GetxController {
 
       double totalPositiveSum = 0;
       double totalNegativeSum = 0;
-      for (int j = 0; j < faceData.length; j++) {
+      for (int j = 0; j < faceData.length - 1; j++) {
         totalPositiveSum += framePositiveScores[j];
         totalNegativeSum += frameNegativeScores[j];
       }
 
       final totalPositiveScore =
-          ((totalPositiveSum / faceData.length) * 100).round();
+          ((totalPositiveSum / faceData.length - 1) * 100).round();
       final totalNegativeScore =
-          ((totalNegativeSum / faceData.length) * 100).round();
+          ((totalNegativeSum / faceData.length - 1) * 100).round();
 
       int fillerWordScore = 0;
-
+      int fillerWordCount = 0;
+      int wordCount = 1;
       if (models['prosody'] != null) {
         String transcription = '';
         final prosodyData =
@@ -550,22 +561,22 @@ class InterviewPageController extends GetxController {
         for (int i = 0; i < prosodyData.length; i++) {
           transcription += prosodyData[i]['text'] + ' ';
         }
-        int wordCount = transcription.split(' ').length;
-        var fillerWordCount = 0;
+        wordCount = transcription.split(' ').length;
 
         List<dynamic> burstData = models['burst']['grouped_predictions'];
         fillerWordCount += burstData.length;
 
-        fillerWordScore = (100 /
-                (1 +
-                    math.pow(math.e,
-                        (-1 * ((-30 * (fillerWordCount / wordCount)) - 5)))))
-            .round();
+        // fillerWordScore = (100 /
+        //         (1 +
+        //             math.pow(math.e,
+        //                 (-1 * ((-30 * (fillerWordCount / wordCount)) - 5)))))
+        //     .round();
       }
 
       questionResults.add(totalPositiveScore);
       questionResults.add(totalNegativeScore);
-      questionResults.add(fillerWordScore); //Placeholder for filler word score
+      questionResults.add(fillerWordCount);
+      questionResults.add(wordCount);
       results.add(questionResults);
     }
     return results;
@@ -577,30 +588,21 @@ class InterviewPageController extends GetxController {
   bool isPositiveEmotion(String emotion) {
     return emotion == 'Calmness' ||
         emotion == 'Concentration' ||
-        emotion == 'Contemplation' ||
         emotion == 'Contentment' ||
         emotion == 'Determination' ||
         emotion == 'Excitement' ||
         emotion == 'Interest' ||
-        emotion == 'Joy' ||
-        emotion == 'Realization' ||
-        emotion == 'Surprise (positive)' ||
-        emotion == 'Triumph';
+        emotion == 'Joy';
   }
 
   bool isNegativeEmotion(String emotion) {
-    return emotion == 'Anger' ||
-        emotion == 'Anxiety' ||
+    return emotion == 'Anxiety' ||
         emotion == 'Awkwardness' ||
         emotion == 'Boredom' ||
         emotion == 'Confusion' ||
-        emotion == 'Contempt' ||
         emotion == 'Distress' ||
         emotion == 'Doubt' ||
-        emotion == 'Embarrassment' ||
         emotion == 'Fear' ||
-        emotion == 'Pride' ||
-        emotion == 'Surprise (negative)' ||
         emotion == 'Tiredness';
   }
 
