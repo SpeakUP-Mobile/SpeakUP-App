@@ -52,9 +52,11 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                 Row(
                   children: [
                     Text(
-                        name.length <= 11
+                        calcTextSize(name, const TextStyle(fontSize: 16.5))
+                                    .width <=
+                                9
                             ? name
-                            : '${name.substring(0, 11)}...',
+                            : '${name.substring(0, 9)}...',
                         softWrap: true,
                         style: const TextStyle(
                             fontSize: 16.5, fontWeight: FontWeight.w900)),
@@ -130,6 +132,16 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
             )),
         onTap: () => controller.viewRecording(isInterview, name, date, time,
             score, videoPaths, questions, questionResults, llamaResults));
+  }
+
+  Size calcTextSize(String text, TextStyle style) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+      //ignore: deprecated_member_use
+      textScaleFactor: WidgetsBinding.instance.window.textScaleFactor,
+    )..layout();
+    return textPainter.size;
   }
 
   renameDialog(BuildContext context) {

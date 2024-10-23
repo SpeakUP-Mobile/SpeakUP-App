@@ -55,7 +55,7 @@ class ArticleWidget extends GetView<ExploreController> {
                 child: Text(
                   type,
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
               const Spacer(
