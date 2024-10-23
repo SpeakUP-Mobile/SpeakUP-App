@@ -234,10 +234,12 @@ class InterviewResults extends GetView<InterviewResultsController> {
             const SizedBox(height: 5),
             emotionScore(context, 2, 'Negative Emotions',
                 controller.questionResults[index][1]),
+            /*
             const SizedBox(height: 5),
             emotionScore(context, 3, 'Use of Filler Words',
                 controller.questionResults[index][2],
                 total: controller.questionResults[index][3]),
+                */
             const SizedBox(height: 15),
             Text(controller.llamaResults[index],
                 style: const TextStyle(fontSize: 12)),

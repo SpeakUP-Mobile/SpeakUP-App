@@ -57,7 +57,7 @@ In conclusion, overcoming anxiety involves a combination of practical techniques
       imgURI: "assets/article_bg/4.png",
     ),
     ArticleWidget(
-      name: "Company Research for an nterview",
+      name: "Company Research for an Interview",
       content: "",
       type: "Detailed Guide",
       imgURI: "assets/article_bg/5.png",

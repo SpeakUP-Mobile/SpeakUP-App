@@ -471,7 +471,7 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < jobIds.length; i++) {
       var file = await supabase.storage.from('users').download(
           '${supabase.auth.currentUser!.id}/llama-output/${jobIds[i]}.txt');
-      var llamaOutput = ascii.decode(file);
+      String llamaOutput = ascii.decode(file);
       llamaOutputs.add(llamaOutput);
     }
 
@@ -595,8 +595,18 @@ class InterviewPageController extends GetxController {
         print('$i transcription: $transcription');
         int likeCount = transcription.split('like').length - 1;
         print(likeCount);
+        int umCount = transcription.split('um').length - 1;
+        int soCount = transcription.split('so').length - 1;
+        int uhCount = transcription.split('uh').length - 1;
+        int ahCount = transcription.split('ah').length - 1;
+
         List<dynamic> burstData = models['burst']['grouped_predictions'];
-        fillerWordCount += burstData.length + likeCount;
+        fillerWordCount += burstData.length +
+            likeCount +
+            umCount +
+            soCount +
+            uhCount +
+            ahCount;
       }
       questionResults.add(positiveResult);
       questionResults.add(negativeResult);
