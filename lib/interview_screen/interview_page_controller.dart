@@ -483,8 +483,8 @@ class InterviewPageController extends GetxController {
     List<int> questionScores = [];
     for (int i = 0; i < jsonResults.length; i++) {
       double questionScore = (jsonResults[i][0] * 0.6) +
-          ((100 - jsonResults[i][1]) * 0.2) +
-          ((100 - (jsonResults[i][2] / jsonResults[i][3])) * 0.2);
+          ((100 - jsonResults[i][1]) * 0.3) +
+          ((100 - (jsonResults[i][2] / jsonResults[i][3])) * 0.1);
       questionScore = questionScore / 2;
       questionScore += 50;
       questionScores.add(questionScore.round());
@@ -546,8 +546,10 @@ class InterviewPageController extends GetxController {
 
       final totalPositiveScore =
           ((totalPositiveSum / (faceData.length - 1)) * 100).round();
+      print('Total positive score: $totalPositiveScore');
       final totalNegativeScore =
           ((totalNegativeSum / (faceData.length - 1)) * 100).round();
+      print('Total negative score: $totalNegativeScore');
 
       int fillerWordCount = 0;
       int wordCount = 1;
@@ -569,9 +571,16 @@ class InterviewPageController extends GetxController {
         //                 (-1 * ((-30 * (fillerWordCount / wordCount)) - 5)))))
         //     .round();
       }
-
-      questionResults.add((totalPositiveScore / 2 + 50).round());
-      questionResults.add((totalNegativeScore / 2 + 50).round());
+      int positiveResult =
+          (0.148 * (totalPositiveScore * totalPositiveScore) - (100 / 3))
+              .round()
+              .clamp(0, 100);
+      int negativeResult =
+          (0.24 * (totalNegativeScore * totalNegativeScore) - 6.01)
+              .round()
+              .clamp(0, 100);
+      questionResults.add(positiveResult);
+      questionResults.add(negativeResult);
       questionResults.add(fillerWordCount);
       questionResults.add(wordCount);
       results.add(questionResults);
