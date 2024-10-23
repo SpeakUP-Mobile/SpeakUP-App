@@ -72,7 +72,7 @@ class InterviewPageController extends GetxController {
   RxString errorText = ''.obs;
 
   //NOTE: SET THIS TO TRUE WHEN TESTING WITH LLAMA OUTPUT AND FALSE WHEN ONLY TESTING HUME JSON OUTPUT
-  bool getLlamaOutput = false;
+  bool getLlamaOutput = true;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -287,16 +287,16 @@ class InterviewPageController extends GetxController {
       processingState.value = 'Starting Analysis ${i + 1}/${videoNames.length}';
 
       //THESE LINES ARE FOR TESTING WITH NISH'S PC (COMMENT WHEN TESTING REMOTELY)
-      // final res = await analyzeUrl(compressedUrls[i]);
-      // final response = json.decode(res!);
-      // jobIds.add(response['data']['job_id']);
-      // await Future.delayed(const Duration(seconds: 15));
+      final res = await analyzeUrl(compressedUrls[i]);
+      final response = json.decode(res!);
+      jobIds.add(response['data']['job_id']);
+      await Future.delayed(const Duration(seconds: 15));
 
       //THESE LINES ARE FOR TESTING USING SUPABSE HOSTING (COMMENT WHEN TESTING LOCALLY)
-      final response = await supabase.functions
-          .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
-      jobIds.add(response.data['data']['job_id']);
-      currentProcessingStep.value++;
+      // final response = await supabase.functions
+      //     .invoke('analyze-url', body: {'videoUrl': compressedUrls[i]});
+      // jobIds.add(response.data['data']['job_id']);
+      // currentProcessingStep.value++;
     }
 
     processingState.value =
@@ -454,7 +454,7 @@ class InterviewPageController extends GetxController {
     for (int i = 0; i < videoNames.length; i++) {
       //print('interview_page_controller.fart, ln 415 ${llamaOutputs![i]}');
       if (getLlamaOutput) {
-        await file.writeAsString('${llamaOutputs![i]}\n',
+        await file.writeAsString('${llamaOutputs![i].split('\n').join(' ')}\n',
             mode: FileMode.append);
       } else {
         await file.writeAsString(
@@ -571,20 +571,16 @@ class InterviewPageController extends GetxController {
             frameScore -= frameEmotions[k]['score'] * 1.4;
           }
         }
-        print('$i $j $frameScore');
         if (frameScore > 0) {
           positiveFrameCount++;
         } else {
           negativeFrameCount++;
         }
       }
-      print('Face data length: ${faceData.length}');
-      print('$i $positiveFrameCount $negativeFrameCount');
       int positiveResult =
           (100 * (positiveFrameCount / faceData.length)).round();
       int negativeResult =
           (100 * (negativeFrameCount / faceData.length)).round();
-      print('Check: ${positiveResult + negativeResult}');
 
       int fillerWordCount = 0;
       int wordCount = 1;
@@ -596,11 +592,9 @@ class InterviewPageController extends GetxController {
           transcription += prosodyData[i]['text'] + ' ';
         }
         wordCount = transcription.split(' ').length;
-
-        int likeCount = RegExp(transcription, caseSensitive: false)
-            .allMatches('like')
-            .length;
-
+        print('$i transcription: $transcription');
+        int likeCount = transcription.split('like').length - 1;
+        print(likeCount);
         List<dynamic> burstData = models['burst']['grouped_predictions'];
         fillerWordCount += burstData.length + likeCount;
       }
