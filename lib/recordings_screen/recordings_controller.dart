@@ -104,7 +104,6 @@ class RecordingsController extends GetxController {
     final date = '$month ${modifiedDate.day}$dayEnding, ${modifiedDate.year}';
     final time = '${modifiedDate.hour}:${modifiedDate.minute}';
     final isInterview = contents[2] == 'interview' ? true : false;
-    print('number of files ${contents[3].trim()}');
     final numberOfFiles = int.parse(contents[3].trim());
     List<String> videoPaths = [];
     for (int i = 0; i < numberOfFiles; i++) {
@@ -147,7 +146,6 @@ class RecordingsController extends GetxController {
                 3 * i +
                 3]
             .trim();
-        print(fillerWords);
 
         int fillerWordCount =
             int.parse(fillerWords.substring(0, fillerWords.indexOf('/')));
@@ -325,7 +323,6 @@ class RecordingsController extends GetxController {
       List<List<int>> questionResults,
       List<String> llamaResults) async {
     if (isInterview) {
-      print(questionResults);
       Get.to(const InterviewResults(), arguments: [
         name,
         date,
