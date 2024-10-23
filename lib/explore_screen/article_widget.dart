@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:speakup/explore_screen/explore_controller.dart';
 
@@ -6,12 +7,14 @@ class ArticleWidget extends GetView<ExploreController> {
   final String name;
   final String imgURI;
   final String content;
+  final String type;
 
   const ArticleWidget(
       {super.key,
       required this.name,
       required this.content,
-      required this.imgURI});
+      required this.imgURI,
+      required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +47,54 @@ class ArticleWidget extends GetView<ExploreController> {
                   blurRadius: 4,
                 )
               ]),
-          child: Container(
-              margin: const EdgeInsets.only(bottom: 10, left: 10, right: 20),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                name,
-                style: const TextStyle(
-                    color: Colors.white,
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                margin: const EdgeInsets.only(left: 10, top: 5),
+                child: Text(
+                  type,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              const Spacer(
+                flex: 1,
+              ),
+              Container(
+                  margin:
+                      const EdgeInsets.only(bottom: 10, left: 10, right: 20),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    name,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24),
+                  )),
+              const Spacer(
+                flex: 1,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(right: 230, bottom: 10, left: 12),
+                height: 30,
+                width: 100,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                ),
+                child: const Text(
+                  "Read Now",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Color(0xFF3E0E72),
                     fontWeight: FontWeight.bold,
-                    fontSize: 24),
-              )),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 }
