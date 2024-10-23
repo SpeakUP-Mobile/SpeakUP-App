@@ -20,11 +20,12 @@ class Articles {
 "Do you have any questions for us?" This is your chance to demonstrate your interest and gain valuable insights. Prepare thoughtful questions about the role, team, and company culture. You might ask: "Can you tell me more about the team I'd be working with? I'm particularly interested in understanding the collaborative dynamics and how different departments interact on projects."
 
 Remember, the key to mastering interview questions is preparation, practice, and authenticity. Tailor your responses to highlight your unique experiences and skills, and always relate them back to the requirements of the position you're applying for. Practice your answers out loud, either alone or with a friend, to become more comfortable with your responses. Be prepared to elaborate on any point you make, as interviewers may ask follow-up questions. It's also important to be concise in your answers - aim for responses that are detailed enough to be substantive, but brief enough to maintain the interviewer's interest. Lastly, remember that an interview is a two-way street. While you're answering questions, you should also be evaluating whether the company and role are a good fit for you. Good luck with your interview preparation!""",
-        imgURI: "assets/article_bg/1.png"),
+        imgURI: "assets/article_bg/1.png",
+        type: "Detailed Guide"),
     ArticleWidget(
-        name: "Overcoming Anxiety in Interviews",
-        content:
-            """Overcoming anxiety with practical techniques can help you stay calm and focused in high-pressure situations like interviews, presentations, or important conversations. While anxiety is a natural response to stress, learning to manage it can make a big difference in how you perform and feel in these moments. Here are some tips and tricks you can use to ease your anxiety and take control of your emotions.
+      name: "Overcoming Anxiety in Interviews",
+      content:
+          """Overcoming anxiety with practical techniques can help you stay calm and focused in high-pressure situations like interviews, presentations, or important conversations. While anxiety is a natural response to stress, learning to manage it can make a big difference in how you perform and feel in these moments. Here are some tips and tricks you can use to ease your anxiety and take control of your emotions.
 
 First, focus on your breathing. When anxiety strikes, one of the most effective ways to calm your body is to control your breath. Deep breathing techniques can slow down your heart rate and send signals to your brain that you're safe and relaxed. Try a simple technique like inhaling deeply for a count of four, holding the breath for a count of four, and then exhaling slowly for another count of four. Repeat this for a few cycles until you start to feel more centered and calm. This method also helps redirect your focus from anxious thoughts to something physical and controllable.
 
@@ -39,7 +40,9 @@ Physical activity is another powerful tool for overcoming anxiety. Exercising be
 Lastly, practice mindfulness and self-compassion. Mindfulness is the practice of staying present and non-judgmental about your thoughts and feelings. When anxiety arises, instead of fighting it or getting frustrated, acknowledge it without judgment. Remind yourself that it's okay to feel anxious and that it will pass. Being kind to yourself during moments of stress can help reduce the intensity of your anxiety.
 
 In conclusion, overcoming anxiety involves a combination of practical techniques like deep breathing, grounding, visualization, preparation, physical activity, and mindfulness. By incorporating these strategies into your routine, you can better manage your anxiety and perform more confidently in high-pressure situations. Remember that anxiety is a normal experience, and with the right tools, you can reduce its impact on your performance.""",
-        imgURI: "assets/article_bg/2.png")
+      imgURI: "assets/article_bg/2.png",
+      type: "Detailed Guide",
+    )
   ];
 
   static List<ArticleWidget> getFullArticles() {
