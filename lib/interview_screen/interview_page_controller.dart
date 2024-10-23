@@ -576,7 +576,7 @@ class InterviewPageController extends GetxController {
               .round()
               .clamp(0, 100);
       int negativeResult =
-          (0.24 * (totalNegativeScore * totalNegativeScore) - 6.01)
+          (0.229 * (totalNegativeScore * totalNegativeScore) - 0.915)
               .round()
               .clamp(0, 100);
       questionResults.add(positiveResult);
