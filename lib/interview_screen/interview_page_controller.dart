@@ -482,9 +482,8 @@ class InterviewPageController extends GetxController {
     double overallScore = 0;
     List<int> questionScores = [];
     for (int i = 0; i < jsonResults.length; i++) {
-      double questionScore = (jsonResults[i][0] * 0.6) +
-          ((100 - jsonResults[i][1]) * 0.3) +
-          ((100 - (jsonResults[i][2] / jsonResults[i][3])) * 0.1);
+      double questionScore = (jsonResults[i][0] * 0.8) +
+          ((1 - (jsonResults[i][2] / jsonResults[i][3])) * 20);
       questionScore = questionScore / 2;
       questionScore += 50;
       questionScores.add(questionScore.round());
@@ -513,43 +512,79 @@ class InterviewPageController extends GetxController {
           jsonData['predictions'][0]['results']['predictions'][0]['models'];
       final faceData = models['face']['grouped_predictions'][0]['predictions'];
 
-      const numPositiveEmotions = 11;
-      const numNegativeEmotions = 13;
-      List<double> framePositiveScores = [];
-      List<double> frameNegativeScores = [];
+      // const numPositiveEmotions = 11;
+      // const numNegativeEmotions = 13;
+      // List<double> framePositiveScores = [];
+      // List<double> frameNegativeScores = [];
+      // for (int j = 0; j < faceData.length - 1; j++) {
+      //   final emotions = faceData[j]['emotions'];
+      //   double framePositiveSum = 0;
+      //   double frameNegativeSum = 0;
+      //   for (int k = 0; k < emotions.length; k++) {
+      //     if (isPositiveEmotion(emotions[k]['name'])) {
+      //       if (emotions[k]['score'] <= 0.2) {
+      //         framePositiveSum += emotions[k]['score'] + 0.2;
+      //       } else {
+      //         framePositiveSum += emotions[k]['score'];
+      //       }
+      //     } else if (isNegativeEmotion(emotions[k]['name'])) {
+      //       frameNegativeSum += emotions[k]['score'];
+      //     }
+      //   }
+      //   framePositiveScores.add(framePositiveSum / numPositiveEmotions);
+      //   frameNegativeScores.add(frameNegativeSum / numNegativeEmotions);
+      // }
 
-      for (int j = 0; j < faceData.length - 1; j++) {
-        final emotions = faceData[j]['emotions'];
-        double framePositiveSum = 0;
-        double frameNegativeSum = 0;
-        for (int k = 0; k < emotions.length; k++) {
-          if (isPositiveEmotion(emotions[k]['name'])) {
-            if (emotions[k]['score'] <= 0.2) {
-              framePositiveSum += emotions[k]['score'] + 0.2;
-            } else {
-              framePositiveSum += emotions[k]['score'];
-            }
-          } else if (isNegativeEmotion(emotions[k]['name'])) {
-            frameNegativeSum += emotions[k]['score'];
+      // double totalPositiveSum = 0;
+      // double totalNegativeSum = 0;
+      // for (int j = 0; j < faceData.length - 1; j++) {
+      //   totalPositiveSum += framePositiveScores[j];
+      //   totalNegativeSum += frameNegativeScores[j];
+      // }
+
+      // final totalPositiveScore =
+      //     ((totalPositiveSum / (faceData.length - 1)) * 100).round();
+      // print('Total positive score: $totalPositiveScore');
+      // final totalNegativeScore =
+      //     ((totalNegativeSum / (faceData.length - 1)) * 100).round();
+      // print('Total negative score: $totalNegativeScore');
+
+      //int positiveResult =
+      // (0.148 * (totalPositiveScore * totalPositiveScore) - (100 / 3))
+      //     .round()
+      //     .clamp(0, 100);
+      // int negativeResult =
+      // (0.229 * (totalNegativeScore * totalNegativeScore) - 0.915)
+      //     .round()
+      //     .clamp(0, 100);
+
+      int positiveFrameCount = 0;
+      int negativeFrameCount = 0;
+
+      for (int j = 0; j < faceData.length; j++) {
+        final frameEmotions = faceData[j]['emotions'];
+        double frameScore = 0;
+        for (int k = 0; k < frameEmotions.length; k++) {
+          if (isPositiveEmotion(frameEmotions[k]['name'])) {
+            frameScore += frameEmotions[k]['score'];
+          } else if (isNegativeEmotion(frameEmotions[k]['name'])) {
+            frameScore -= frameEmotions[k]['score'] * 1.4;
           }
         }
-        framePositiveScores.add(framePositiveSum / numPositiveEmotions);
-        frameNegativeScores.add(frameNegativeSum / numNegativeEmotions);
+        print('$i $j $frameScore');
+        if (frameScore > 0) {
+          positiveFrameCount++;
+        } else {
+          negativeFrameCount++;
+        }
       }
-
-      double totalPositiveSum = 0;
-      double totalNegativeSum = 0;
-      for (int j = 0; j < faceData.length - 1; j++) {
-        totalPositiveSum += framePositiveScores[j];
-        totalNegativeSum += frameNegativeScores[j];
-      }
-
-      final totalPositiveScore =
-          ((totalPositiveSum / (faceData.length - 1)) * 100).round();
-      print('Total positive score: $totalPositiveScore');
-      final totalNegativeScore =
-          ((totalNegativeSum / (faceData.length - 1)) * 100).round();
-      print('Total negative score: $totalNegativeScore');
+      print('Face data length: ${faceData.length}');
+      print('$i $positiveFrameCount $negativeFrameCount');
+      int positiveResult =
+          (100 * (positiveFrameCount / faceData.length)).round();
+      int negativeResult =
+          (100 * (negativeFrameCount / faceData.length)).round();
+      print('Check: ${positiveResult + negativeResult}');
 
       int fillerWordCount = 0;
       int wordCount = 1;
@@ -568,21 +603,7 @@ class InterviewPageController extends GetxController {
 
         List<dynamic> burstData = models['burst']['grouped_predictions'];
         fillerWordCount += burstData.length + likeCount;
-
-        // fillerWordScore = (100 /
-        //         (1 +
-        //             math.pow(math.e,
-        //                 (-1 * ((-30 * (fillerWordCount / wordCount)) - 5)))))
-        //     .round();
       }
-      int positiveResult =
-          (0.148 * (totalPositiveScore * totalPositiveScore) - (100 / 3))
-              .round()
-              .clamp(0, 100);
-      int negativeResult =
-          (0.229 * (totalNegativeScore * totalNegativeScore) - 0.915)
-              .round()
-              .clamp(0, 100);
       questionResults.add(positiveResult);
       questionResults.add(negativeResult);
       questionResults.add(fillerWordCount);

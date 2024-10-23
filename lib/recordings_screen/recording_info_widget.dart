@@ -56,7 +56,9 @@ class RecordingInfoWidget extends GetView<RecordingsController> {
                                     .width <=
                                 9
                             ? name
-                            : '${name.substring(0, 9)}...',
+                            : name.length >= 6
+                                ? '${name.substring(0, 6)}...'
+                                : name,
                         softWrap: true,
                         style: const TextStyle(
                             fontSize: 16.5, fontWeight: FontWeight.w900)),
