@@ -24,10 +24,10 @@ class ArticleWidget extends GetView<ExploreController> {
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
           padding: const EdgeInsets.only(left: 10, top: 10),
-          height: 145,
+          height: 120,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(imgURI),
+                image: AssetImage(imgURI),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.6), // Adjust the opacity to darken

@@ -20,8 +20,7 @@ class Articles {
 "Do you have any questions for us?" This is your chance to demonstrate your interest and gain valuable insights. Prepare thoughtful questions about the role, team, and company culture. You might ask: "Can you tell me more about the team I'd be working with? I'm particularly interested in understanding the collaborative dynamics and how different departments interact on projects."
 
 Remember, the key to mastering interview questions is preparation, practice, and authenticity. Tailor your responses to highlight your unique experiences and skills, and always relate them back to the requirements of the position you're applying for. Practice your answers out loud, either alone or with a friend, to become more comfortable with your responses. Be prepared to elaborate on any point you make, as interviewers may ask follow-up questions. It's also important to be concise in your answers - aim for responses that are detailed enough to be substantive, but brief enough to maintain the interviewer's interest. Lastly, remember that an interview is a two-way street. While you're answering questions, you should also be evaluating whether the company and role are a good fit for you. Good luck with your interview preparation!""",
-        imgURI:
-            "https://static.jobscan.co/blog/uploads/Job-interview-tips-1.jpg"),
+        imgURI: "assets/article_bg/1.png"),
     ArticleWidget(
         name: "Overcoming Anxiety in Interviews",
         content:
@@ -40,8 +39,7 @@ Physical activity is another powerful tool for overcoming anxiety. Exercising be
 Lastly, practice mindfulness and self-compassion. Mindfulness is the practice of staying present and non-judgmental about your thoughts and feelings. When anxiety arises, instead of fighting it or getting frustrated, acknowledge it without judgment. Remind yourself that it's okay to feel anxious and that it will pass. Being kind to yourself during moments of stress can help reduce the intensity of your anxiety.
 
 In conclusion, overcoming anxiety involves a combination of practical techniques like deep breathing, grounding, visualization, preparation, physical activity, and mindfulness. By incorporating these strategies into your routine, you can better manage your anxiety and perform more confidently in high-pressure situations. Remember that anxiety is a normal experience, and with the right tools, you can reduce its impact on your performance.""",
-        imgURI:
-            "https://www.trustinsoda.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNUhTS3c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--9686b73be174aaccf4554306aeb44223fafd8974/Beat%20the%20In-Person%20Interview%20Anxiety%20with%20these%20Ten%20Tips.jpg")
+        imgURI: "assets/article_bg/2.png")
   ];
 
   static List<ArticleWidget> getFullArticles() {
