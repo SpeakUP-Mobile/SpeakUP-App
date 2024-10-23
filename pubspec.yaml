@@ -79,6 +79,12 @@ flutter:
     - assets/placeholder_thumbnail.jpg
     - assets/icons/explore/explore.png
     - assets/DoodleArrow.png
+    - assets/article_bg/1.png
+    - assets/article_bg/2.png
+    - assets/article_bg/3.png
+    - assets/article_bg/4.png
+    - assets/article_bg/5.png
+
   fonts:
     - family: Poppins
       fonts:
