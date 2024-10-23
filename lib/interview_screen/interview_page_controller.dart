@@ -562,8 +562,12 @@ class InterviewPageController extends GetxController {
         }
         wordCount = transcription.split(' ').length;
 
+        int likeCount = RegExp(transcription, caseSensitive: false)
+            .allMatches('like')
+            .length;
+
         List<dynamic> burstData = models['burst']['grouped_predictions'];
-        fillerWordCount += burstData.length;
+        fillerWordCount += burstData.length + likeCount;
 
         // fillerWordScore = (100 /
         //         (1 +
