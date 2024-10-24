@@ -8,10 +8,9 @@ import 'login_screen/auth_gate.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: 'https://omotzypqzerrcymfovba.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tb3R6eXBxemVycmN5bWZvdmJhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyNTEzNjk2MiwiZXhwIjoyMDQwNzEyOTYyfQ.TCX8fX_56B2fjd1jLqLh_T01Q04gBsmN9fppbniwqkY',
-  );
+      url: 'https://omotzypqzerrcymfovba.supabase.co',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tb3R6eXBxemVycmN5bWZvdmJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk3MjgxOTcsImV4cCI6MjA0NTMwNDE5N30.E3BI24oqPeOENy8py9VhnbxEHWeLjyLbB88soBSIvtU');
   runApp(const SpeakUP());
 }
 
