@@ -1,3 +1,4 @@
+import 'package:speakup/explore_screen/article_page.dart';
 import 'package:speakup/explore_screen/article_widget.dart';
 
 class Articles {
@@ -42,6 +43,24 @@ Lastly, practice mindfulness and self-compassion. Mindfulness is the practice of
 In conclusion, overcoming anxiety involves a combination of practical techniques like deep breathing, grounding, visualization, preparation, physical activity, and mindfulness. By incorporating these strategies into your routine, you can better manage your anxiety and perform more confidently in high-pressure situations. Remember that anxiety is a normal experience, and with the right tools, you can reduce its impact on your performance.""",
       imgURI: "assets/article_bg/2.png",
       type: "Detailed Guide",
+    ),
+    ArticleWidget(
+      name: "Using the STAR Response Method",
+      content: "",
+      type: "Detailed Guide",
+      imgURI: "assets/article_bg/3.png",
+    ),
+    ArticleWidget(
+      name: "Video interview attire",
+      content: "",
+      type: "Important to Note",
+      imgURI: "assets/article_bg/4.png",
+    ),
+    ArticleWidget(
+      name: "Company Research for an Interview",
+      content: "",
+      type: "Detailed Guide",
+      imgURI: "assets/article_bg/5.png",
     )
   ];
 
